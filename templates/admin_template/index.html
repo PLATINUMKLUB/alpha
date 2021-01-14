@@ -1,0 +1,218 @@
+{% include "admin_template/header.html" %}
+{% load static %}
+
+<!--begin::Wrapper-->
+<div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
+    <!--begin::Header-->
+    {% include "admin_template/inner-header.html" %}
+    <!--end::Header-->
+
+    <!--begin::Content-->
+    <div class="content d-flex flex-column flex-column-fluid mb-5" id="kt_content">
+
+        <!--begin::Entry-->
+        <div class="d-flex flex-column-fluid">
+            <!--begin::Container-->
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <!--begin::Card-->
+                        <div class="card card-custom gutter-b">
+                            <!--begin::Header-->
+                            <div class="card-header h-auto">
+                                <!--begin::Title-->
+                                <div class="card-title py-5">
+                                    <h3 class="card-label">
+                                        Customer Graph
+                                    </h3>
+                                </div>
+                                {% comment %} <select>
+                                    <option>Current Month</option>><option>Last Month</option>>
+                                </select> {% endcomment %}
+                                <!--end::Title-->
+                            </div>
+                            <!--end::Header-->
+                            <div class="card-body">
+                                <!--begin::Chart-->
+                                <div id="chart_1"></div>
+                                <!--end::Chart-->
+                            </div>
+                        </div>
+                        <!--end::Card-->
+                    </div>
+                    <div class="col-lg-6">
+                        <!--begin::Card-->
+                        <div class="card card-custom gutter-b">
+                            <div class="card-header h-auto">
+                                <div class="card-title py-5">
+                                    <h3 class="card-label">
+                                        Shopping Graph
+                                    </h3>
+                                </div>
+                                {% comment %} <select>
+                                    <option>Current Month</option>><option>Last Month</option>>
+                                </select> {% endcomment %}
+                            </div>
+                            <div class="card-body">
+                                <!--begin::Chart-->
+                                <div id="chart_2"></div>
+                                <!--end::Chart-->
+                            </div>
+                        </div>
+                        <!--end::Card-->
+                    </div>
+                </div>
+
+                <!--begin::Row-->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <!--begin::Advance Table Widget 4-->
+                        <div class="card card-custom card-stretch gutter-b">
+                            <!--begin::Body-->
+                            <div class="card-body pt-0 pb-3 pl-0 pr-0">
+                                <div class="tab-content">
+                                    <!--begin::Table-->
+                                    <div class="table-responsive">
+                                        <table
+                                            class="table tbl table-head-custom table-head-bg   table-vertical-center">
+                                            <thead>
+                                                <tr class="text-left text-uppercase">
+                                                    <td></td>
+                                                    <td>Jan</td>
+                                                    <td>Feb</td>
+                                                    <td>Mar</td>
+                                                    <td>Apr</td>
+                                                    <td>May</td>
+                                                    <td>Jun</td>
+                                                    <td>Jul</td>
+                                                    <td>Aug</td>
+                                                    <td>Sep</td>
+                                                    <td>Oct</td>
+                                                    <td>Nov</td>
+                                                    <td>Dec</td>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        Total Customers
+                                                    </td>
+                                                    <td>{{context_1.month_1}}</td>
+                                                    <td>{{context_1.month_2}}</td>
+                                                    <td>{{context_1.month_3}}</td>
+                                                    <td>{{context_1.month_4}}</td>
+                                                    <td>{{context_1.month_5}}</td>
+                                                    <td>{{context_1.month_6}}</td>
+                                                    <td>{{context_1.month_7}}</td>
+                                                    <td>{{context_1.month_8}}</td>
+                                                    <td>{{context_1.month_9}}</td>
+                                                    <td>{{context_1.month_10}}</td>
+                                                    <td>{{context_1.month_11}}</td>
+                                                    <td>{{context_1.month_12}}</td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td>
+                                                        Daily Average
+                                                    </td>
+                                                    <td>{{context_2.month_avg_1}}</td>
+                                                    <td>{{context_2.month_avg_2}}</td>
+                                                    <td>{{context_2.month_avg_3}}</td>
+                                                    <td>{{context_2.month_avg_4}}</td>
+                                                    <td>{{context_2.month_avg_5}}</td>
+                                                    <td>{{context_2.month_avg_6}}</td>
+                                                    <td>{{context_2.month_avg_7}}</td>
+                                                    <td>{{context_2.month_avg_8}}</td>
+                                                    <td>{{context_2.month_avg_9}}</td>
+                                                    <td>{{context_2.month_avg_10}}</td>
+                                                    <td>{{context_2.month_avg_11}}</td>
+                                                    <td>{{context_2.month_avg_12}}</td>
+                                                </tr>
+
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                    <!--end::Table-->
+                                </div>
+                            </div>
+                            <!--end::Body-->
+                        </div>
+                        <!--end::Advance Table Widget 4-->
+                    </div>
+                </div>
+                <!--end::Row-->
+
+                <!--begin::Row store manager-->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h3 class="title mb-4">Store Manager Detail</h3>
+                        <!--begin::Advance Table Widget 4-->
+                        <div class="card mb-5  card-custom card-stretch gutter-b">
+                            <!--begin::Body-->
+                            <div class="card-body pt-0 pb-3 pl-0 pr-0">
+                                <div class="tab-content">
+                                    <!--begin::Table-->
+                                    <div class="table-responsive">
+                                        <table
+                                            class="table tbl dark table-head-custom table-head-bg   table-vertical-center">
+                                            <thead>
+                                                <tr class="text-left text-uppercase">
+                                                    <th width="100"></th>
+                                                    <th>Name</th>
+                                                    <th>Mobile Number</th>
+                                                    <th>Store Location</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for item in page_obj %}
+                                                <tr>
+                                                    <td class="text-center">
+                                                        <img src="{% static 'assets/media/users/blank.png' %}">
+                                                    </td>
+                                                    <td>{{item.manager_name}}</td>
+                                                    <td>{{item.manager_contact}}</td>
+                                                    <td><b>{{item.store.store_name}}</b>,&nbsp{{item.store.store_location}}
+                                                        - {{item.store.store_state}}</td>
+
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+
+                                        </table>
+                                        <hr>
+                                        <div class="text-right px-20" style="font-size: 15px;;font-weight: 500;">
+                                            <span>
+                                                {% if page_obj.has_previous %}
+                                                <a href='?page={{page_obj.previous_page_number}}'>Previous</a>
+                                                <span>&nbsp;&nbsp;</span>|&nbsp;&nbsp
+                                                {% endif %}
+                                                <span>Page : {{page_obj.number}}</span>
+                                                {% if page_obj.has_next %}
+                                                <span>&nbsp;&nbsp;</span>|&nbsp;&nbsp
+                                                <a href='?page={{page_obj.next_page_number}}'>Next</a>
+                                                {% endif %}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <!--end::Table-->
+                                </div>
+                            </div>
+                            <!--end::Body-->
+                        </div>
+                        <!--end::Advance Table Widget 4-->
+                    </div>
+                </div>
+                <!--end::Row-->
+                <!--end::Dashboard-->
+            </div>
+            <!--end::Container-->
+        </div>
+        <!--end::Entry-->
+    </div>
+    <!--end::Content-->
+
+    {% include "admin_template/footer.html" %}

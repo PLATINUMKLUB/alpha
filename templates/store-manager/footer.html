@@ -1,0 +1,121 @@
+{% load static %}
+<!--begin::Footer-->
+<div class="footer bg-white py-4 d-flex flex-lg-column" id="kt_footer">
+    <!--begin::Container-->
+    <div class="container-fluid d-flex flex-column flex-md-row align-items-center justify-content-between">
+        <!--begin::Copyright-->
+        <div class="text-dark order-2 order-md-1 text-center">
+            <span class="text-muted font-weight-bold mr-2">2020&copy;</span>
+            <a class="text-dark-75 text-hover-primary">ABACUS</a>
+        </div>
+        <!--end::Copyright-->
+
+
+        <!--end::Nav-->
+    </div>
+    <!--end::Container-->
+</div>
+<!--end::Footer-->
+</div>
+<!--end::Wrapper-->
+</div>
+<!--end::Page-->
+</div>
+<!--end::Main-->
+<!-- logout modal -->
+<div class="modal fade   popup" id="logout" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-modal="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close " data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body text-center  mb-5">
+                <h3 class="mb-5"> Are you sure want to logout? </h3>
+                {% comment %} <button class="btn btn-dark" data-dismiss="modal">Confirm</button> {% endcomment %}
+                <a href='{% url 'signout' %}' class="btn btn-dark">Confirm</a>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!--begin::Global Theme Bundle(used by all pages)-->
+<script src="{% static 'store_manager/plugins/global/plugins.bundle.js' %}"></script>
+<script src="{% static 'store_manager/plugins/custom/prismjs/prismjs.bundle.js' %}"></script>
+<script src="{% static 'store_manager/js/scripts.bundle.js' %}"></script>
+{% comment %} <script src="{% static 'assets/js/jquery.js' %}"></script> {% endcomment %}
+
+<!--end::Global Theme Bundle-->
+
+<!--begin::Page Vendors(used by this page)-->
+<script src="{% static 'store_manager/plugins/custom/fullcalendar/fullcalendar.bundle.js' %}"></script>
+<!--end::Page Vendors-->
+
+<!--begin::Page Scripts(used by this page)-->
+<script src="{% static 'store_manager/js/pages/widgets.js' %}"></script>
+<!--end::Page Scripts-->
+
+
+<!--begin::Page Scripts(used by this page)-->
+<script src="{% static 'store_manager/js/pages/features/charts/apexcharts.js' %}"></script>
+<script src="{% static 'store_manager/js/pages/crud/forms/widgets/bootstrap-datepicker.js' %}"></script>
+{% comment %} <script src="{% static 'js/custom.js' %}"></script> {% endcomment %}
+<script src="{% static 'store_manager/js/pages/widgets.js' %}"></script>
+<script src="{% static 'store_manager/js/pages/custom/profile/profile.js' %}"></script>
+<script src="{% static 'store_manager/js/pages/crud/forms/widgets/tagify.js' %}"></script>
+
+
+{% comment %} ------------------------------------------------------CUSTOM.JS--------------------------------------------------- {% endcomment %}
+<script>
+// manual entry form$
+$('.btn.search').click(function() {
+	$('.card.form-card-1').addClass('show');
+});
+
+$('.upload label input').change(function(e) {
+	var fileName = e.target.files[0].name;
+	$('#file').show();
+	$('#file').html(fileName);
+});
+
+$('.upload .btn-upload').click(function() {
+	$(this).parent().hide();
+	$('.col-assign').show();
+});
+
+$('.col-assign .btn-next').click(function() {
+	$(this).parent().find('h5.active').hide();
+	$(this).parent().find('h5.active').next().addClass('active');
+});
+
+// change pass
+$('.otp-text').keyup(function() {
+	if (this.value.length == this.maxLength) {
+		$(this).next('.otp-text').focus();
+	}
+});
+$('.btn-otp').click(function() {
+	$('.old-pas').hide();
+	$('.otp').fadeIn();
+	$('#dig-1').focus();
+});
+$('.pass').click(function() {
+	$('.login-pass').fadeIn();
+	$('.login-otp').hide();
+});
+
+
+
+</script>
+<!--end::Page Scripts-->
+
+</body>
+
+<!--end::Body-->
+
+</html>

@@ -1,0 +1,490 @@
+{% if user.is_authenticated %}
+{% include 'store-manager/header.html' %}
+{% load static %}
+
+<style>
+  #select_csv_data tr td li {
+    list-style: none;
+  }
+
+
+  #view_csv_data tr td li {
+    list-style: none;
+  }
+
+  .tab-content button {
+    margin-left: 324px;
+  }
+
+
+  @media (min-width: 992px) {
+    .content {
+      padding: 0px 0 !important;
+    }
+  }
+
+  .tab-content button {
+    margin-left: 0px !important;
+  }
+
+  input {
+    outline: 0;
+    border-width: 0 0 2px;
+    border-color: grey
+  }
+
+  input:focus {
+    border-color: green
+  }
+
+  .select2-container {
+    width: 100% !important;
+  }
+
+  .loaders {
+    opacity: 1;
+    position: absolute;
+    z-index: 99;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    background: rgba(255, 255, 255, .8);
+    display: none;
+  }
+
+  .loaders .load1 {
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid blue;
+    border-bottom: 16px solid blue;
+    width: 50px;
+    height: 50px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+    margin: 50px auto;
+  }
+
+  @-webkit-keyframes spin {
+    0% {
+      -webkit-transform: rotate(0deg);
+    }
+
+    100% {
+      -webkit-transform: rotate(360deg);
+    }
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+</style>
+</style>
+
+<!--begin::Wrapper-->
+<div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
+  <!--begin::Header-->
+  {% include 'store-manager/inner-header.html' %}
+  <!--end::Header-->
+
+  <!--begin::Content-->
+  <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+
+    <!--begin::Entry-->
+    <div class="d-flex flex-column-fluid">
+      <!--begin::Container-->
+      <div class="container-fluid UploadCSVModule">
+
+
+        <!--begin::Row-->
+        <div class="row">
+          <div class="col-lg-8 col-md-8">
+            <!--begin::Advance Table Widget 4-->
+            <div class="card card-custom card-stretch gutter-b mt-4">
+              <!--begin::Body-->
+              <div class="card-body pt-0 pb-3 pl-0 pr-0">
+                <div class="tab-content">
+                  <!--begin::Table-->
+                  <div class="table-responsive" style="overflow: scroll;height: 500px;">
+                    <table class="table tbl table-head-custom table-head-bg tbl-drop  table-vertical-center"
+                      id="UploadedDataTable">
+                      <thead>
+                        <tr class="text-left selectMenu" id="csv_header_main">
+                          <td>
+                            <div class="dropdown">
+                              <button type="button" id="nameHeader" class="btn btn-primary dropdown-toggle headerName"
+                                data-toggle="dropdown">
+                                Name
+                              </button>
+                              <div class="dropdown-menu csv_header" id="onboard_csv_header_1">
+                                <a class="dropdown-item" href="#">Please Upload Sheet</a>
+                              </div>
+                            </div>
+
+                          </td>
+                          <td>
+                            <div class="dropdown">
+                              <button type="button" id="contactHeader" class="btn btn-primary dropdown-toggle"
+                                data-toggle="dropdown">
+                                Conatct
+                              </button>
+                              <div class="dropdown-menu onboard_csv_header" id="onboard_csv_header_2">
+                                <a class="dropdown-item" href="#">Please Upload Sheet</a>
+                              </div>
+                            </div>
+
+                          </td>
+                          <td>
+                            <div class="dropdown">
+                              <button type="button" id="dobHeader" class="btn btn-primary dropdown-toggle"
+                                data-toggle="dropdown">
+                                DOB
+                              </button>
+                              <div class="dropdown-menu onboard_csv_header" id="onboard_csv_header_3">
+                                <a class="dropdown-item" href="#">Please Upload Sheet</a>
+                              </div>
+                            </div>
+
+                          </td>
+                          <td>
+                            <div class=" dropdown">
+                              <button type="button" id="genderHeader" class="btn btn-primary dropdown-toggle"
+                                data-toggle="dropdown">
+                                Gender
+                              </button>
+                              <div class="dropdown-menu onboard_csv_header" id="onboard_csv_header_4">
+                                <a class="dropdown-item" href="#">Please Upload Sheet</a>
+                              </div>
+                            </div>
+
+                          </td>
+                          <td>
+                            <div class="dropdown">
+                              <button type="button" id="mailHeader" class="btn btn-primary dropdown-toggle"
+                                data-toggle="dropdown">
+                                Mail ID
+                              </button>
+                              <div class="dropdown-menu onboard_csv_header" id="onboard_csv_header_5">
+                                <a class="dropdown-item" href="#">Please Upload Sheet</a>
+                              </div>
+                            </div>
+
+                          </td>
+                          <td>
+                            <div class="dropdown">
+                              <button type="button" id="amtHeader" class="btn btn-primary dropdown-toggle"
+                                data-toggle="dropdown">
+                                Amount 
+                              </button>
+                              <div class="dropdown-menu onboard_csv_header" id="onboard_csv_header_6">
+                                <a class="dropdown-item" href="#">Please Upload Sheet</a>
+                              </div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="dropdown">
+                              <button type="button" id="invoiceHeader" class="btn btn-primary dropdown-toggle"
+                                data-toggle="dropdown">
+                                Invoice
+                              </button>
+                              <div class="dropdown-menu onboard_csv_header" id="onboard_csv_header_7">
+                                <a class="dropdown-item" href="#">Please Upload Sheet</a>
+                              </div>
+                            </div>
+
+                          </td>
+                          <td>
+                            <div class="dropdown">
+                              <button type="button" id="DOMHeader" class="btn btn-primary dropdown-toggle"
+                                data-toggle="dropdown">
+                                DOM
+                              </button>
+                              <div class="dropdown-menu onboard_csv_header" id="onboard_csv_header_8">
+                                <a class="dropdown-item" href="#">Please Upload Sheet</a>
+                              </div>
+                            </div>
+
+                          </td>
+                            <td>
+                            <div class="dropdown">
+                              <button type="button" id="TierHeader" class="btn btn-primary dropdown-toggle"
+                                data-toggle="dropdown">
+                                Tier No
+                              </button>
+                              <div class="dropdown-menu onboard_csv_header" id="onboard_csv_header_9">
+                                <a class="dropdown-item" href="#">Please Upload Sheet</a>
+                              </div>
+                            </div>
+
+                          </td>
+                        </tr>
+                      </thead>
+                      <tbody id="select_csv_data">
+                        <tr>
+                          <td id="row_data_1">
+
+                          </td>
+                          <td id="row_data_2">
+
+
+                          </td>
+                          <td id="row_data_3">
+
+
+                          </td>
+                          <td id="row_data_4">
+
+
+                          </td>
+                          <td id="row_data_5">
+
+
+                          </td>
+                          <td id="row_data_6">
+
+
+                          </td>
+                          <td id="row_data_7">
+
+
+                          </td>
+                          <td id="row_data_8">
+
+
+                          </td>
+                          <td id="row_data_9">
+
+
+                          </td>
+                        </tr>
+                      </tbody>
+
+                    </table>
+                  </div><br>
+                  <!--end::Table-->
+                  <div class="text-center">
+                  <button class="btn btn-success" id="ShowPreviewData" disabled>
+                    Preview & Send
+                  </button>
+                  </div>
+                </div>
+              </div>
+              <!--end::Body-->
+            </div>
+            <!--end::Advance Table Widget 4-->
+          </div>
+
+          <div class="col-lg-4 col-md-8">
+            <div class="upload mt-4">
+              <h3 id="header_upload_sheet"><img src="{% static 'store_manager/images/dasboard.svg' %}">
+                Upload Sheet
+              </h3>
+              <span id="reuploadSheet" class="btn btn-primary" style="display:none;">
+                    <a href="{% url 'onboardentry' %}" style="color:white;"><b>Upload Another Sheet</b></a>
+              </span>
+
+              {% comment %} -------------------------------------------CSV upload
+              form------------------------------------------------ {% endcomment %}
+
+              <div id='UploadCSV'>
+                <label for="browse_csv_file">
+                  <input type="file" id="browse_csv_file" name="browse_csv_file"
+                    accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" >
+                 <em id="uploadedFileName"><b>Choose a .csv /.xlsx file</b></em>
+                  <span id="Browse_file" onclick="browse_csv_file()">Browse</span>
+                </label>
+                <div class="clearfix  "></div>
+                {% comment %} <span id="csv_file" class="file"> {% endcomment %}
+                <p style='font-weight:bold;font-size:15px;' id="file" class="file"></p>
+                  {% comment %} <input type="file" id="csv_file1" name="csv_file1" class="btn btn-danger">
+                </span> {% endcomment %}
+                <!-- {% comment %} <button type='submit' class="btn btn-success btn-upload ">Upload<i
+                    class="fa fa-upload"></i></button> {% endcomment %} -->
+                <button id="upload_csv_file" value="upload_csv_file" class="btn btn-success">Upload<i
+                    class="fa fa-upload"></i></button>
+              </div>
+
+
+
+
+            </div>
+
+            <div class="upload mt-4 col-assign">
+              <div class="assign">
+              </div>
+              <div id="dvCSV"></div>
+
+            </div>
+
+          </div>
+        </div>
+        <!--end::Row-->
+        <!--end::Dashboard-->
+      </div>
+      <!--end::Container-->
+    </div>
+    <!--end::Entry-->
+  </div>
+  <!--end::Content-->
+
+
+  <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////// -->
+  <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////// -->
+  <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////// -->
+  <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////// -->
+  <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////// -->
+  <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////// -->
+  <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////// -->
+  <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////// -->
+  <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////// -->
+  <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////// -->
+  <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////// -->
+  <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+
+
+
+
+
+
+
+  <!--begin::Content-->
+  <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+
+    <!--begin::Entry-->
+    <div class="d-flex flex-column-fluid">
+      <!--begin::Container-->
+      <div class="container-fluid PreviewUploadCSVModule" style="display: none;">
+
+
+        <!--begin::Row-->
+        <div class="row">
+          <div class="col-lg-6  ">
+            <h3 class="page-title mt-3">Preview Data</h3>
+          </div>
+          <div class="col-lg-6  ">
+            <a href="#" onclick="back_show()" class="btn btn-dark float-right">Back</a>
+          </div>
+          <div class="col-lg-12  ">
+            <!--begin::Advance Table Widget 4-->
+            <div class="loaders">
+                <div class="load1"></div>
+                Dont refresh your browser..
+                </div>
+            <div class="card card-custom card-stretch gutter-b mt-4">
+              <!--begin::Body-->
+              <div class="card-body pt-0 pb-3 pl-0 pr-0">
+                <div class="tab-content">
+                  <!--begin::Table-->
+                  <div class="table-responsive">
+                    <table class="table tbl table-head-custom table-head-bg tbl-drop  table-vertical-center">
+                      <thead>
+                        <tr class="text-left  ">
+                          <td>Name</td>
+                          <td>Contact Number</td>
+                          <td>Date Of Birth</td>
+                          <td>Gender</td>
+                          <td>Mail ID</td>
+                          <td>Amount Of Purchase</td>
+                          <td>Invoice No.</td>
+                          <td>Date of Marriage</td>
+                          <td>Tier Number</td>
+
+                        </tr>
+                      </thead>
+                      <tbody id="view_csv_data">
+                        <tr>
+                          <td id="review_data_1">
+
+                          </td>
+                          <td id="review_data_2">
+
+
+                          </td>
+                          <td id="review_data_3">
+
+
+                          </td>
+                          <td id="review_data_4">
+
+
+                          </td>
+                          <td id="review_data_5">
+
+
+                          </td>
+                          <td id="review_data_6">
+
+
+                          </td>
+                          <td id="review_data_7">
+
+
+                          </td>
+                          <td id="review_data_8">
+
+
+                          </td>
+                          <td id="review_data_9">
+
+
+                          </td>
+                        </tr>
+                      </tbody>
+
+                    </table>
+                  </div>
+                  <!--end::Table-->
+                </div>
+
+                <div class="text-center">
+                  <!-- data-toggle="modal" data-target="#success" -->
+                  <button class="btn btn-success send mt-5" onclick="myFunction1()" id='sheetuploadbtn'> Save
+                  </button>
+                </div>
+              </div>
+              <!--end::Body-->
+            </div>
+            <!--end::Advance Table Widget 4-->
+          </div>
+
+
+        </div>
+        <!--end::Row-->
+        <!--end::Dashboard-->
+      </div>
+      <!--end::Container-->
+    </div>
+    <!--end::Entry-->
+  </div>
+  <!--end::Content-->
+  <div class="modal fade   popup" id="success" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-modal="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close " data-dismiss="modal" aria-label="Close">
+            <i aria-hidden="true" class="ki ki-close"></i>
+          </button>
+        </div>
+        <div class="modal-body text-center  mb-5">
+          <img src="{% static 'store_manager/images/check.png' %}">
+          <h3 class="mb-5">Cusotmer data successfully updated. </h3>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+  {% include 'store-manager/footer.html' %}
+
+  {% endif %}

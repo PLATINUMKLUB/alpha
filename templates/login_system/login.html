@@ -1,0 +1,471 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+{% if not user.is_authenticated %}
+<style type="text/css">
+	#header .header-body {
+		background: transparent;
+	}
+
+	#header .header-container:after {
+		border-bottom: 0
+	}
+
+	.sticky-header-active #header .header-body {
+		background: #fff;
+	}
+</style>
+
+<div class="login-bg"></div>
+<div role="main" class="main login ">
+	<section class="section">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-5 appear-animation  " data-appear-animation="fadeInRightShorter"
+					data-appear-animation-delay="200">
+					<img src="{% static 'img/home/login.png' %}">
+				</div>
+				<div class="col-lg-5 appear-animation  ml-auto" data-appear-animation="fadeInRightShorter"
+					data-appear-animation-delay="300">
+					<div class="  rounded h-100 login-pass  ">
+						<h1 class="font-weight-bold text-6 mb-4 text-center">Welcome!</h1>
+						<div class="btns">
+							<a href="javascript:;" class="active">Sign In</a><a href="#" data-toggle="modal"
+								data-target="#signup">Sign Up </a>
+							{% if registered %}
+							<hr><b style="color:red;">{{registered}}</b>
+							{% elif success %}
+							<hr><b style="color:red;">{{success}}</b>
+							{% elif error %}
+							<hr><b style="color:red;">{{error}}</b>
+							{% endif %}
+						</div>
+
+						<!-- -----------------------------------------------------------------------------------SIGNIN FORM------------------------------------------------- -->
+
+						<form action="signin" method="POST">
+							{% csrf_token %}
+							<div class="form-row">
+								<div class="form-group col mb-2   ">
+									<i class="fa fa-check"></i><i class="fa fa-times"></i>
+									<input type="text" value="" maxlength="100"
+										class="form-control bg-light-5 rounded border-0 text-1"
+										placeholder="Mobile No. or Email ID" name="email_phone" id="frmRegisterEmail"
+										required>
+
+								</div>
+							</div>
+							<div class="form-row   ">
+								<div class="form-group col mb-2 ">
+									<input type="password" value="" placeholder="Password"
+										class="form-control bg-light-5 rounded border-0 text-1" name="pass"
+										id="frmRegisterPassword2" required />
+									<i class="fa fa-eye-slash"></i>
+									<!-- <i class="far fa-eye" id="togglePassword" style="margin-left: -30px;cursor: pointer;"></i> -->
+
+								</div>
+							</div>
+							<div class="form-row  mb-2">
+								<div class="form-group col mb-2 ">
+									<a href="javascript:;" data-toggle="modal" data-target="#forgotpass">Forgot
+										Password?</a>
+									<a href="javascript:;" class="help">Need Help?</a>
+								</div>
+							</div>
+
+							<div class="row align-items-center mb-4">
+								<div class="col text-right">
+									<button type="button" class="btn btn-default otp btn-v-3 btn-h-3 font-weight-bold"
+										id='otp_btn'>Sign in Via OTP</button>
+
+								</div>
+							</div>
+
+							<div class="row align-items-center">
+								<div class="col  ">
+									<button type="submit"
+										class="btn btn-primary d-block w-100  btn-v-3 btn-h-3 font-weight-bold">Sign
+										In</button>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="  rounded h-100 login-otp ">
+						<h1 class="font-weight-bold text-6 mb-1">OTP Authentication </h1>
+						{% if otp_error %}
+						<hr>
+						<p>{{ otp_error }}</p>
+						<hr>
+						{% elif success %}
+						<hr>
+						<p>{{ success }}</p>
+						<hr>
+						{% else %}
+						<p class="font-weight-semibold text-2">Enter your registered Contact to receive OTP.
+						</p>
+						{% endif %}
+
+
+						<!-- ------------------------------------------------------------------OTP Generation form--------------------------------------------------------------------------------- -->
+
+						<form id='otp_form' action="send_otp" method="post">
+							{% csrf_token %}
+							<input type="text" id='phone_munber' name="phone_email_otp" name="Contact number"
+								onkeyup="checkOTP()" required>
+							<input type="submit" value="Send OTP" id='id_otp'
+								class="btn btn-primary d-inline w-10  btn-v-1 btn-h-1 font-weight">
+						</form>
+						<br>
+
+						<!-- --------------------------------------------------------------------------------OTP verification form------------------------------------------------------------------- -->
+						<form id='validate_form' action="otp_login" method="post">
+							{% csrf_token %}
+							<div class="form-row">
+								<div class="form-group col mb-2   ">
+									<input type="password" name='d1' id="dig-1" onchange="ValidatePassKey(this)"
+										class="otp-text  " type="text" maxlength="1" required />
+									<input type="password" name='d2' id="dig-2" onchange="ValidatePassKey(this)"
+										class="otp-text" type="text" maxlength="1" required />
+									<input type="password" name='d3' id="dig-3" onchange="ValidatePassKey(this)"
+										class="otp-text" type="text" maxlength="1" required />
+									<input type="password" name='d4' id="dig-4" class="otp-text" type="text"
+										maxlength="1" nchange="btnn()" />
+								</div>
+							</div>
+
+							<div class="form-row  mb-2">
+								<div class="form-group col mb-2 ">
+									<a href="javascript:;" class="float-left">Need Help?</a>
+								</div>
+							</div>
+							<div class="row align-items-center mb-4 mt-4">
+								<div class="col text-right">
+									<button type="button" class="btn btn-default pass  btn-v-3 btn-h-3 font-weight-bold"
+										id="via_password">Sign in Via
+										Password</button>
+								</div>
+							</div>
+							<div class="row align-items-center">
+								<div class="col  ">
+									<input type="submit"
+										class="btn btn-primary d-block w-100  btn-v-3 btn-h-3 font-weight-bold"
+										value='Sign In'>
+								</div>
+							</div>
+						</form>
+						<!-- ------------------------------------------------------------------------------------OTP verification form ends-------------------------------------------------------- -->
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
+
+<!-- -----------------------------------------------------------------------FORGOT PASSORD MODAL-------------------------------------------------------------------------------- -->
+<form id='forgot_form' action='password_reset' method='POST'>
+	{% csrf_token %}
+	<div class="modal fade popup" id="forgotpass" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog text-left" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+
+
+				<div class="modal-body text-center">
+					<img src="{% static 'img/home/link.svg' %}">
+					<p class=" text-3 mt-3 font-weight-semibold text-dark">Enter your registered Email address</p>
+					<p id='para_alert1' style='color:red;font-weight:bold;font-size:15px;'></p>
+					<div class="form-group col-lg-12 col-md-12 col-sm-12">
+						<input type="text" id='id_email' name="email" class="form-control text-center"
+							placeholder="Email Address" onkeyup='searchEmail()' required>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+
+					<button type='submit' class='btn btn-primary' id="forget_button" disabled>Send </button>
+
+				</div>
+</form>
+
+</div>
+</div>
+</div>
+
+
+<!-- -------------------------------------------------------subscribe FORM MODAL------------------------------------------------- -->
+<!-- subscribe form -->
+<div class=" modal fade popup form" id="subscribe" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+	aria-hidden="true">
+	<div class="modal-dialog text-left" role="document">
+		<div class="modal-content">
+			<div class="modal-header pb-0">
+
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body  ">
+				<h5 class="modal-title text-5 font-weight-bold mt-0" id="exampleModal2Label">Subscribe
+				</h5>
+				<p class=" text-2 mt-1   text-dark">Please fill out the form below.</p>
+
+
+				<form action='' method="POST">
+					{% csrf_token %}
+					<div class="form-row">
+						<div class="form-group col-lg-6 col-md-6 col-sm-6">
+							<input type="text" name="sub_fname" class="form-control" placeholder="First Name" required>
+						</div>
+						<div class="form-group col-lg-6 col-md-6 col-sm-6">
+							<input type="text" name="sub_lname" class="form-control" placeholder="Last Name" required>
+						</div>
+
+						<div class="form-group col-lg-6 col-md-6 col-sm-6">
+							<input type="email" name="sub_email" class="form-control" placeholder="Email Address"
+								required>
+						</div>
+						<div class="form-group col-lg-6 col-md-6 col-sm-6">
+							<input type="number" name="sub_phone" class="form-control" placeholder="Mobile Number  "
+								required>
+						</div>
+
+						<div class="form-group col-lg-6 col-md-6 col-sm-6 ml-auto text-right pt-3">
+							<input type='submit' class="btn btn-primary" value='Submit'>
+						</div>
+
+					</div>
+				</form>
+
+
+			</div>
+
+		</div>
+	</div>
+</div>
+
+
+<div class="modal fade popup form" id="signup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+	aria-hidden="true">
+	<div class="modal-dialog text-left" role="document">
+		<div class="modal-content">
+			<div class="modal-header pb-0">
+
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body  ">
+				<h5 class="modal-title text-5 font-weight-bold mt-0" id="exampleModal2Label">Signup
+				</h5>
+				<span class=" text-2 mt-1   text-dark"><b>Please fill out the form below. </b></span>
+
+
+				<span id="signupError" style="color:red;"></span>
+				<br>
+
+				<!-- ------------------------------------------SIGNUP FORM------------------------------------------------- -->
+
+
+				<form action='signup' method="POST">
+					{% csrf_token %}
+					<div class="form-row">
+						<div class="form-group col-lg-6 col-md-6 col-sm-6">
+							<input type="text" name="fname" class="form-control" id='signupfname'
+								onkeyup="signupFnameValidation()" placeholder="First Name" value="{{values.fname}}"
+								required>
+						</div>
+						<div class="form-group col-lg-6 col-md-6 col-sm-6">
+							<input type="text" name="lname" class="form-control" placeholder="Last Name"
+								id='signuplname' onkeyup="signupLnameValidation()" value="{{values.lname}}" disabled
+								required>
+						</div>
+						<div class="form-group col-lg-6 col-md-6 col-sm-6">
+							<input type="email" name="email" class="form-control" placeholder="Email" id='signupemail'
+								onkeyup="signupEmailValidation()" value="{{values.email}}" disabled required>
+						</div>
+						<div class="form-group col-lg-6 col-md-6 col-sm-6">
+							<input type="text" name="phone" class="form-control" placeholder="Mobile Number "
+								value="{{values.phone}}" id='signupcontact' maxlength="10"
+								onkeyup="signupContactValidation()" disabled required>
+						</div>
+
+						<div class="form-group col-lg-6 col-md-6 col-sm-6">
+							<p><b>* Enter a valid email address only.</b></p>
+						</div>
+						<div class="form-group col-lg-6 col-md-6 col-sm-6 ml-auto text-right pt-3">
+							<input type="submit" class="btn btn-primary" id='signupbutton' value='Submit' disabled>
+
+						</div>
+
+					</div>
+				</form>
+
+
+			</div>
+
+		</div>
+	</div>
+</div>
+<script src="{% static 'js/jquery.js' %}"></script>
+<script src="{% static 'js/email_validation.js' %}"></script>
+<script>
+	const form = document.getElementById('otp_form');
+	form.addEventListener('submit', submitHandler);
+
+	function submitHandler(e) {
+		e.preventDefault();
+		$.ajax({
+			type: 'POST',
+			url: "{% url 'send_otp' %}",
+			data: $('#otp_form').serialize(),
+			dataType: 'json',
+			success: successHadler
+		})
+	}
+
+	function successHadler(data) {
+		if (data.msg === 'Success') {
+			let p = $('#phone_munber').val();
+			alert('OTP successfully sent!');
+			document.getElementById('id_otp').value = 'Resend OTP'
+
+		} else if (data.msg === 'Fail') {
+			form.reset();
+			alert('You are not a registered User')
+
+		} else if (data.msg === 'invalid') {
+			form.reset();
+			alert('Invalid Contact Details.')
+
+		} else if (data.msg === 'error') {
+			form.reset();
+			alert('Error occured while sending your data to server.\nPlease try after sometime')
+		}
+	}
+</script>
+
+<script>
+	function checkOTP() {
+		document.getElementById('')
+	}
+</script>
+
+<script src="{% static 'js/custom.js' %}"></script>
+
+
+<script type="text/javascript">
+	$('#dig-1').focus();
+	$(".otp-text").keyup(function () {
+		if (this.value.length == this.maxLength) {
+			$(this).next('.otp-text').focus();
+		}
+	});
+	$('.otp').click(function () {
+		$('.login-pass').hide();
+		$('.login-otp').fadeIn();
+		$('#dig-1').focus();
+	});
+	$('.pass').click(function () {
+		$('.login-pass').fadeIn();
+		$('.login-otp').hide();
+	});
+</script>
+
+<script>
+	flag = false;
+	function signupFnameValidation() {
+		var fname = document.getElementById('signupfname').value;
+		var regx = /^[A-Za-z]+$/;
+		if (fname.match(regx)) {
+			document.getElementById('signupError').innerHTML = ''
+			document.getElementById('signuplname').disabled = false;
+			flag = false;
+		} else {
+			document.getElementById('signupError').innerHTML = 'Name only contains alphabets'
+			document.getElementById('signuplname').disabled = true;
+			document.getElementById('signupemail').disabled = true;
+			document.getElementById('signupcontact').disabled = true;
+			flag = true;
+		}
+	}
+
+	function signupLnameValidation() {
+		var lname = document.getElementById('signuplname').value;
+		var regx = /^[A-Za-z]+$/;
+		if (lname.match(regx)) {
+			document.getElementById('signupError').innerHTML = ''
+			flag = false;
+			document.getElementById('signupemail').disabled = false;
+		} else {
+			document.getElementById('signupError').innerHTML = 'Name only contains alphabets'
+			flag = true;
+
+			document.getElementById('signupemail').disabled = true;
+			document.getElementById('signupcontact').disabled = true;
+		}
+	}
+
+	function signupEmailValidation() {
+		var email = document.getElementById('signupemail').value;
+		var regx = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.]{2,5})+\.([A-Za-z]{2,5})$/;
+		if (email.match(regx)) {
+			document.getElementById('signupError').innerHTML = ''
+			flag = false;
+			document.getElementById('signupcontact').disabled = false;
+
+		} else {
+			document.getElementById('signupError').innerHTML = 'Invalid Email'
+			flag = true;
+
+			document.getElementById('signupcontact').disabled = true;
+		}
+	}
+
+	function signupContactValidation() {
+		var contact = document.getElementById('signupcontact').value;
+		var regx = /^[6-9][0-9]{9}$/;
+		if (contact.match(regx)) {
+			document.getElementById('signupError').innerHTML = ''
+			flag = true;
+			document.getElementById('signupbutton').disabled = false;
+		} else {
+			document.getElementById('signupError').innerHTML = 'Invalid Contact'
+			flag = false;
+			document.getElementById('signupbutton').disabled = true;
+		}
+	}
+
+
+
+</script>
+
+{% else %}
+<div role="main" class="main">
+	<div class="slider-container slider-container-height-550 rev_slider_wrapper">
+		<div id="revolutionSlider" class="slider rev_slider" data-version="5.4.7" data-plugin-revolution-slider
+			data-plugin-options="{'delay': 9000, 'gridwidth': [1140,960,720,540], 'gridheight': [550,550,550,550], 'responsiveLevels': [4096,1200,992,576], 'parallax': { 'type': 'mouse', 'origo': 'slidercenter', 'speed': 2000, 'levels': [2,3,4,5,6,7,12,16,10,50], 'disable_onmobile': 'on' }, 'navigation' : {'arrows': { 'enable': true, 'hide_under': 767, 'style': 'slider-arrows-style-1' }, 'bullets': {'enable': true, 'style': 'bullets-style-1', 'h_align': 'center', 'v_align': 'bottom', 'space': 7, 'v_offset': 25, 'h_offset': 0}}}">
+			<ul>
+				<li class="slide-overlay slide-overlay-level-1" data-transition="fade">
+					<img src="{% static 'img/home/1.jpg' %}" alt="" data-bgposition="50% 20%" data-bgfit="cover"
+						data-bgrepeat="no-repeat" class="rev-slidebg">
+				</li>
+				<li data-transition="fade">
+					<img src="{% static 'img/home/2.jpg' %}" alt="" data-bgposition="center center" data-bgfit="cover"
+						data-bgrepeat="no-repeat" class="rev-slidebg">
+				</li>
+				<li data-transition="fade">
+					<img src="{% static 'img/home/3.jpg' %}" alt="" class="rev-slidebg bg-dark-5">
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+{% endif %}
+
+{% endblock content %}

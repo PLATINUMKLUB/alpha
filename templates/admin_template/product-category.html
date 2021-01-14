@@ -1,0 +1,170 @@
+{% load static %}
+{% load overview_extras %}
+{% include 'admin_template/header.html' %}
+<!--begin::Wrapper-->
+<div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
+  <!--begin::Header-->
+  {% include "admin_template/inner-header.html" %}
+  <!--end::Header-->
+
+  <!--begin::Content-->
+  <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+
+    <!--begin::Entry-->
+    <div class="d-flex flex-column-fluid">
+      <!--begin::Container-->
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-6 ">
+            <h4 class="title"> Product Category</h4>
+          </div>
+          <div class="col-md-6 text-right">
+            <a href="javascript:;" class="btn btn-outline-primary add-cat " onclick='newCategory()'><i class="fa fa-plus"></i> Add Category</a>
+
+          </div>
+
+          <div class="col-lg-12">
+            <div class="card card-custom gutter-b example example-compact ">
+              <div class="card-header">
+                <h3 class="card-title">
+                  Category List
+                </h3>
+
+              </div>
+              <!--begin::Form-->
+              <form id='category_form' class="form" method='POST' action='product_category'>
+                {% csrf_token %}
+                <div class="card-body pt-3 pb-0">
+                  <div class="row">
+                    <div class="col-lg-6 mx-auto" id="add-cat">
+
+                      <div class="form-group row">
+                        <div class="col-lg-12 mt-3 mb-3">
+                          <label class="checkCat">Category Name</label>&nbsp;&nbsp;&nbsp;&nbsp;<span id="catError" style="color: red;"></span>
+                          <input type="text" name='Store_category' class="form-control"
+                            placeholder="Enter  category name" value="" id='storeCategory' onkeyup="searchCategory()"
+                            required />
+                        </div>
+                        <div class="col-lg-11 mt-3 mb-3">
+                          <label>Sub Category Name</label>
+                          <input type="text" name='Store_sub_category' class="form-control AddNameAttr"
+                            placeholder="Enter  sub category name" id="sub_cat_edit" onkeyup="subCategory_validate()"  value = '' required />
+                        </div>
+                        <div class="col-lg-1 mt-3 pt-1  ">
+                          <a id="addmoreSubCategory" href="#" class="add-more-c"><i class="fa fa-plus-circle" id="AddMoreSubCategory"></i></a>
+                        </div>
+                        <div id="add-cats" class="col-lg-12" id='additionalCategories'></div>
+
+                        <div class="col-lg-12 text-right mt-5   mb-5 pb-5">
+                          <button type="button" class="btn btn-secondary cancel_c  mt-4 btn-lg ">Cancel
+
+                          </button>
+                          <!-- data-target="#success" data-toggle="modal" type="submit" -->
+                          <button class="btn btn-primary  btn-lg mt-4 ml-3" type="submit" id="CategoryFlag">Add
+
+                          </button>
+                        </div>
+
+                      </div>
+
+
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </form>
+              <!--end::Form-->
+            </div>
+            <div class="col-lg-12">
+              <div class="table-responsive">
+                <!--begin: Datatable-->
+                <table class=" mt-5 tbl table   dark   table-bordered p_category table-striped ">
+                  <thead>
+                    <tr>
+                      <th width="100">S.No</th>
+                      <th width="300"> Category</th>
+                      <th>Sub Category</th>
+                      <th>Edit</th>
+                      <th>Delete</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for item in page_obj %}
+                    <tr>
+                      <td>{{item.id}}</td>
+                      <td>{{item.category}}</td>
+                      <td>
+                        {% for i in item.sub_category|MakeList %}
+                        <span>{{ i }}</span>
+                        {% endfor %}
+                      </td>
+                      <td>
+                        <a href="#" class="btn btn-primary btn-sm add-cat" id='edit_category' onclick='editCategory({{item.id}})'>Edit</a>
+                      </td>
+                      <td>
+                      <form action="{% url 'delete_cat' item.id %}" method="post" class="d-inline" onsubmit="return confirm('Are you sure, You want to delete this category!')">
+                            {% csrf_token %}
+                            <input type="submit" value="Delete" class="btn btn-danger btn-sm">
+                        </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+                <hr>
+                <div class="text-right px-20" style="font-size: 15px;;font-weight: 500;">
+                  <span>
+                    {% if page_obj.has_previous %}
+                        <a href='?page={{page_obj.previous_page_number}}'>Previous</a>
+                    <span>&nbsp;&nbsp;</span>|&nbsp;&nbsp
+                    {% endif %}
+                    <span>Page : {{page_obj.number}}</span>
+                    {% if page_obj.has_next %}
+                    <span>&nbsp;&nbsp;</span>|&nbsp;&nbsp
+                        <a href='?page={{page_obj.next_page_number}}'>Next</a>
+                    {% endif %}
+                  </span>
+              </div>
+                <!--end: Datatable-->
+
+              </div>
+            </div>
+
+            <!-- store manage detail -->
+
+
+          </div>
+        </div>
+      </div>
+      <!--end::Container-->
+
+
+    </div>
+    <!--end::Entry-->
+  </div>
+  <!--end::Content-->
+  <div class="modal fade   popup" id="success" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-modal="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close " data-dismiss="modal" aria-label="Close">
+            <i aria-hidden="true" class="ki ki-close"></i>
+          </button>
+        </div>
+        <div class="modal-body text-center  mb-5">
+          <img src="{% static 'assets/images/check.png' %}">
+          <h3 class="mb-5">Product category added successfully. </h3>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  {% comment %} <script src="{% static 'assets/js/jquery.js' %}"></script> {% endcomment %}
+  {% comment %} <script src="{% static 'assets/js/addStore.js' %}"></script> {% endcomment %}
+  </script>
+  {% include 'admin_template/footer.html' %}

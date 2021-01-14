@@ -1,0 +1,126 @@
+{% load static %}
+<!--begin::Footer-->
+<div class="footer bg-dark py-4 d-flex flex-lg-column" id="kt_footer">
+    <!--begin::Container-->
+    <div class="container-fluid  ">
+        <!--begin::Copyright-->
+        <div class="row">
+            <div class="text-light order-2     col-lg-6">
+                <span class="text-muted font-weight-bold mr-2">2020&copy;</span>
+                <a class="text-light-75 text-hover-primary">ABACUS</a>
+            </div>
+            <div class="text-light order-2  text-right  col-lg-6 social">
+                <a href="" target="_blank"><i class="fab fa-youtube"></i></a>
+                <a href="" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="" target="_blank"><i class="fab fa-twitter"></i></a>
+                <a href="" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            </div>
+        </div>
+        <!--end::Copyright-->
+
+
+        <!--end::Nav-->
+    </div>
+    <!--end::Container-->
+</div>
+<!--end::Footer-->
+</div>
+<!--end::Wrapper-->
+</div>
+<!--end::Page-->
+</div>
+<!--end::Main-->
+
+<!-- logout modal -->
+<div class="modal fade   popup" id="logout" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-modal="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close " data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body text-center  mb-5">
+                <h3 class="mb-5"> Are you sure want to logout? </h3>
+                {% comment %} <button class="btn btn-dark" data-dismiss="modal">Confirm</button> {% endcomment %}
+                <a href='{% url 'signout' %}' class="btn btn-dark">Confirm</a>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!--begin::Global Theme Bundle(used by all pages)-->
+<script src="{% static 'assets/plugins/global/plugins.bundle.js' %}"></script>
+<script src="{% static 'assets/plugins/custom/prismjs/prismjs.bundle.js' %}"></script>
+<script src="{% static 'assets/js/scripts.bundle.js' %}"></script>
+<!--end::Global Theme Bundle-->
+
+<!--begin::Page Vendors(used by this page)-->
+<script src="{% static 'assets/plugins/custom/fullcalendar/fullcalendar.bundle.js' %}"></script>
+<!--end::Page Vendors-->
+
+<!--begin::Page Scripts(used by this page)-->
+<script src="{% static 'assets/js/pages/widgets.js' %}"></script>
+<!--end::Page Scripts-->
+
+
+<!--begin::Page Scripts(used by this page)-->
+{% comment %}
+<script src="{% static 'assets/js/pages/features/charts/apexcharts.js' %}"></script> {% endcomment %}
+
+<script src="{% static 'assets/js/custom.js' %}"></script>
+
+
+<script src="{% static 'AdminAbacus/productCategory.js' %}"></script>
+<script src="{% static 'AdminAbacus/AdminChart.js' %}"></script>
+<script src="{% static 'AdminAbacus/customerManagement.js' %}"></script>
+<script src="{% static 'AdminAbacus/tier_Indi_collective.js' %}"></script>
+<script src="{% static 'AdminAbacus/customer_info.js' %}"></script>
+<script src="{% static 'AdminAbacus/AdminBroadcast.js' %}"></script>
+<script src="{% static 'AdminAbacus/campaignText.js' %}"></script>
+<script src="{% static 'AdminAbacus/storeList.js' %}"></script>
+<script src="{% static 'AdminAbacus/excelexportjs.js' %}"></script>
+
+
+
+
+
+
+<script src="{% static 'assets/js/jquery-ui.js' %}"></script>
+
+
+<script src="{% static 'AdminAbacus/addStore.js' %}"></script>
+<script src="{% static 'AdminAbacus/newCampaign.js' %}"></script>
+
+
+<script src="{% static 'assets/js/pages/widgets.js' %}"></script>
+<script src="{% static 'assets/js/pages/custom/profile/profile.js' %}"></script>
+<script src="{% static 'assets/js/pages/crud/forms/widgets/tagify.js' %}"></script>
+<script src="{% static 'assets/js/pages/crud/ktdatatable/base/html-table.js' %}"></script>
+<script src="{% static 'assets/js/pages/crud/forms/widgets/select2.js' %}"></script>
+<script src="{% static 'assets/js/pages/crud/forms/widgets/bootstrap-select.js' %}"></script>
+<script src="{% static 'assets/js/pages/crud/forms/widgets/bootstrap-daterangepicker.js' %}"></script>
+
+<script src="{% static 'assets/js/pages/crud/forms/widgets/nouislider.js' %}"></script>
+
+<script src="{% static 'assets/js/pages/crud/forms/widgets/bootstrap-datepicker.js' %}"></script>
+<script src="{% static 'assets/js/pages/crud/forms/widgets/bootstrap-timepicker.js' %}"></script>
+<script src="{% static 'assets/js/pages/crud/datatables/basic/basic.js' %}"></script>
+<script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+{% comment %} 
+<script>
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+</script> {% endcomment %}
+
+<!--end::Page Scripts-->
+
+</body>
+
+<!--end::Body-->
+
+</html>

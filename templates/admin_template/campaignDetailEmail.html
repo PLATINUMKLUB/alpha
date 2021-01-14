@@ -1,0 +1,846 @@
+{% load static %}
+{% include 'admin_template/header.html' %}
+
+<style>
+  .select2-container {
+    width: 100% !important;
+  }
+
+  .loaders {
+    opacity: 1;
+    position: absolute;
+    z-index: 99;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    background: rgba(255, 255, 255, .8);
+    display: none;
+  }
+
+  .loaders .load1 {
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid blue;
+    border-bottom: 16px solid blue;
+    width: 50px;
+    height: 50px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+    margin: 50px auto;
+  }
+
+  @-webkit-keyframes spin {
+    0% {
+      -webkit-transform: rotate(0deg);
+    }
+
+    100% {
+      -webkit-transform: rotate(360deg);
+    }
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+</style>
+
+<!--begin::Wrapper-->
+<div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
+  <!--begin::Header-->
+  {% include 'admin_template/inner-header.html' %}
+  <!--end::Header-->
+
+  <!--begin::Content-->
+  <div class="" id="kt_content" style="min-height:732px !important;">
+    <div id='campaignDetails'>
+      <!--begin::Entry-->
+      <div class="d-flex flex-column-fluid">
+        <!--begin::Container-->
+
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-lg-6">
+              <h4 class="title">EMAIL Campaign</h4>
+            </div>
+            <div class="col-lg-6 text-right"><a href="{% url 'email_broadcast' %}"
+                class="btn btn-dark btn-sm  mt-2">Back</a></div>
+            <div class="col-lg-12">
+              <div class="card card-custom gutter-b example example-compact">
+                <div class="card-header d-block">
+                  <div class="row">
+                    <div class="col-md-3">
+                      <h3 class="card-title  mt-4 pt-1">
+                        {{masterCamp}} Campaign
+                      </h3>
+                    </div>
+                    <div class="col-md-6 text-center">
+                      <div class="camp_info">
+                        <!-- <span>Email Sent: <i>{{total}}</i></span>&nbsp;&nbsp;
+                        <span>Total Delivered: <i>-</i></span>&nbsp;&nbsp;
+                        <span>Not Delivered: <i>-</i></span> -->
+                      </div>
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+              {% if data %}
+              <div class="card card-custom gutter-b example example-compact ">
+
+                <!--begin::Form-->
+                <div class="card-body pt-3 pb-0 pl-3  pr-3" id='emailDetailCampblurBackground'>
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="table-responsive">
+                        <!--begin: Datatable-->
+                        <table id="camp_det"
+                          class="  camp_tbl tbl list dark   table table-bordered  camp_det   table-striped ">
+                          <thead>
+
+                            <tr>
+                              <th>Campaign Name</th>
+                              <th>Date</th>
+                              <th>Email Sent </th>
+                              <th>Total Delivered</th>
+                              <th>Not Delivered</th>
+                              <th>Email List</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+
+                            {% for i in data %}
+                            <tr>
+                              <td class="text-left" onclick='broad_send_email_campaign(this)' id='campaignName'><a
+                                  href="#" style="color:black;">{{masterCamp}} Campaign {{i.Year}}</a></td>
+                              <td>{{i.Year}}</td>
+                              {% comment %} <td>{{total}}</td> {% endcomment %}
+                              <td>-</td>
+
+                              <td>-</td>
+                              <td>-</td>
+                              <form action='' method='GET'>
+                                <td class="text-center"> <a href="{% url 'campaign-mobile-no-list2' i.Year %}"><img
+                                      src="{% static 'assets/images/list.png' %}"></a></td>
+                              </form>
+                            </tr>
+                            {% endfor %}
+                          </tbody>
+
+                        </table>
+                      </div>
+                    </div>
+
+
+                  </div>
+
+
+                  <!--end::Form-->
+                </div>
+                {% else %}
+                <div class="text-center">
+                  <h2>No record available!</h2>
+                </div>
+                {% endif %}
+
+                <!-- store manage detail -->
+
+
+              </div>
+            </div>
+
+          </div>
+
+          <!--end::Container-->
+
+
+        </div>
+
+
+      </div>
+    </div>
+
+
+    <!-- ######################################################################################################### -->
+    <!-- ##################################### Campaign Email Module To Send  ####################################-->
+    <!-- ######################################################################################################### -->
+
+    <!--begin::Content-->
+    <div id='cap_text' style='display:none;'>
+      <div class="" id="kt_content" style="min-height:732px !important;" >
+        <!--begin::Entry-->
+        <div class="d-flex flex-column-fluid">
+          <!--begin::Container-->
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-lg-6">
+                <h4 class="title">EMAIL Campaign</h4>
+              </div>
+              <div class="col-lg-12">
+                <div class="card card-custom gutter-b example example-compact">
+                  <div class="card-header d-block">
+                    <div class="row">
+                      <div class="col-md-3">
+                        {% comment %} <h3 id='' class="card-title  mt-4 pt-1">
+                          {{masterCamp}} Campaign
+
+                        </h3> {% endcomment %}
+                        <input type='text' name='mailSubject' class="card-title  mt-4 pt-1"
+                          value="{{masterCamp}} Campaign" style='border:1px solid white;' readonly />
+                      </div>
+                      <div class="col-md-6 text-center">
+                        <div class="camp_info">
+                          {% comment %} <span>EMAIL Sent: <i>550</i></span>
+                          <span>Total Delivered: <i>450</i></span>
+                          <span>Not Delivered: <i>150</i></span> {% endcomment %}
+                        </div>
+                      </div>
+                      <div class="col-md-3 text-center">
+                        <div class="camp_info">
+                          {% comment %} <span>14/11/2019 15:30</span> {% endcomment %}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="card card-custom gutter-b example example-compact ">
+
+                  <!--begin::Form-->
+                  <div class="card-body pt-3 pb-0">
+                    <div class="row">
+                      <div class="col-lg-12">
+                        <a href="javascript:;" id="editContent" class="float-right btn btn-dark btn-sm mt-4 edit-cont"
+                          onclick="removeEmailReadOnly()">Edit Content</a>
+                        <div class="sms_text view">
+
+                          <p class="mb-5">
+                            <select name="insertValue" id="openDropdownOnclick"
+                              onchange="getdynamictextCampaignEmail(this)">
+                              <option class="d-none">Insert A dynamic value</option>
+                              <option value="name">Name
+                              </option>
+                              <option value="mob_number">
+                                Mobile Number</option>
+                              <option value="email">
+                                Email</option>
+                              <option value="dob">Date
+                                Of Birth</option>
+                              <option value="gender">
+                                Gender</option>
+                            </select>
+                          </p>
+
+
+                          <textarea class="form-control" id='broad_send_email_campaign_text' readonly></textarea>
+
+                        </div>
+                        <div class="text-right mb-5">
+                          <a onclick='selectEmialCampaignCustomer()' class="ml-3 btn btn-primary btn-sm">Select
+                            Customers</a>
+
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <!--end::Form-->
+                </div>
+
+                <!-- store manage detail -->
+
+
+              </div>
+            </div>
+          </div>
+          <!--end::Container-->
+
+
+        </div>
+        <!--end::Entry-->
+      </div>
+    </div>
+    <!--end::Content-->
+
+    <!-- ################################################################################################################## -->
+    <!-- ########################################### Select Customer(Filter) For Email Campaign --==>(Start)  ############# -->
+    <!-- ################################################################################################################## -->
+    <div id='CampaignCustomerData' style='display:none;'>
+      <div class="d-flex flex-column-fluid">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-lg-6 ">
+              <h4 class="title mb-0">Customer List</h4>
+            </div>
+            <div class="col-md-6 text-right">
+              <a href="javascript:;" class="btn btn-primary filter"><i class="fa fa-filter"></i> Filter</a>
+            </div>
+            <div class="col-lg-12 ">
+              <div class="card card-custom card-stretch gutter-b mt-4">
+                <div class="card-body pt-3 pb-3 pl-3 pr-3">
+                  <div class="col-md-12">
+                    <div class="filters">
+                      <div class="row">
+                        <div class="col-md-4">
+                          <label class="titles"> Store Wise</label>
+                          <a href="javascript:;" class="sel_all float-right">Select All</a>
+                          <select class="form-control select2" id="kt_select2_3" name="StorenameFilter"
+                            multiple="multiple">
+
+                            {% for i in store_detail  %} <option>{{i.store_name}}</option>
+                            {% endfor %}
+                          </select>
+                        </div>
+
+                        <div class="col-md-4 pl5  ">
+                          <label class="titles "> Tier Method</label>
+                          <div class="checkbox-inline pt-2" id="tierMethod">
+                            <label class="checkbox  ">
+                              <input type="checkbox" name="tierType" value="collective" id="collective"
+                                onclick="collectiveClick()">
+                              <span></span>
+                              Collective
+                            </label>
+                            <label class="checkbox">
+                              <input type="checkbox" name="tierType" value="individual" id="individual"
+                                onclick="individualClick()">
+                              <span></span>
+                              Individual
+                            </label>
+                            <label class="checkbox">
+                            <input type="checkbox" name="tierType" value="onboard"
+                                id="onboard" onclick="onboardClick()">
+                            <span></span>
+                            Onboard
+                        </label>
+
+                          </div>
+                        </div>
+
+                        <div class="col-md-4">
+                          <label class="titles"> Tier Type</label>
+                          <div class="checkbox-inline pt-2" id="CheckTierSelect">
+                            <label class="checkbox  ">
+                              <input type="checkbox" id="tier1" name="tier" value="Tier 1" onclick="filterTier()">
+                              <span></span>
+                              Tier 1
+                            </label>
+                            <label class="checkbox ml-5">
+                              <input type="checkbox" id="tier2" name="tier" value="Tier 2" onclick="filterTier()">
+                              <span></span>
+                              Tier 2
+                            </label>
+                            <label class="checkbox ml-5">
+                              <input type="checkbox" id="tier3" name="tier" value="Tier 3" onclick="filterTier()">
+                              <span></span>
+                              Tier 3
+                            </label>
+
+                          </div>
+                        </div>
+
+                        <div class="col-md-4 mt-5 pt-2 removeSectionOnTierSelect">
+                          <label class="titles"> Date range</label>
+                          <input type='text' name="dateFilter" class="form-control" id="kt_daterangepicker_1" readonly
+                            placeholder="Select time" type="text" />
+                        </div>
+
+                        <div class="col-md-4 mt-5 pt-2 pl5 removeSectionOnTierSelect">
+                          <label class="titles"> Shopping Range</label>
+                          <p>
+                            <input type="text" id="minval" placeholder="Min Amount"  style="width: 140px; float: left; height: 35px" class="form-control" onkeyup="checkAmtRange()" value="" onkeypress="return onlyNumberKey(event)" maxlength="10" required>
+                            <input type="text" id="maxval" placeholder="Max Amount" style="width: 140px; margin-left: 20px;  float: left; height: 35px; "  class="form-control mb-4" onkeyup="checkAmtRange()" value="" onkeypress="return onlyNumberKey(event)" maxlength="10" required> 
+                            <div class="clearfix  "></div>
+                            <div id="slider-range"></div>
+                        </p>
+                        <p>
+                          <input type="text" id="amount" name="amount" value='' readonly><span id='erroramt' style="color:red;font-size:14px;font-weight:bold;"></span>
+                          {% comment %} <div id="slider-range"></div> {% endcomment %}
+                        </p>
+
+
+
+                        </div>
+
+                        <!-- <div class="col-md-4 mt-5 pt-2 removeSectionOnTierSelect">
+                                            <label class="titles"> Filled complete Details form</label>
+                                            <div class="radio-inline mt-2">
+                                              <label class="radio">
+                                                <input type="radio" name="radios2">
+                                                <span></span>
+                                                Option 1
+                                              </label>
+                                              <label class="radio">
+                                                <input type="radio" name="radios2">
+                                                <span></span>
+                                                Option 2
+                                              </label>
+                  
+                                            </div>
+                                          </div> -->
+
+                        <div class="col-md-12 mt-5 pt-2 text-center">
+                          <button class="btn btn-dark btn-sm" id="stopDefaultAction">Reset Filter</button>
+                          <button type='submit' class="btn btn-dark btn-sm applybtnn"
+                            onclick="CampaignFilterCustomerManagement()">Apply</button>
+                        </div>
+
+
+
+                        <!-- </form> -->
+
+                      </div>
+
+
+                    </div>
+                  </div>
+                  <!-- ################################################################################################################## -->
+                  <!-- ########################################### Select Customer(Filter) For Email Campaign --==>(END)  ########################## -->
+                  <!-- ################################################################################################################## -->
+
+
+
+
+
+                  <div class="cust_head">
+                    <div class="row">
+                      <div class="col-md-3">
+                        <div class="form-group mb-2">
+                          <input type="text" class="form-control" name="" id='emailcampSearch' placeholder="Search">
+                        </div>
+                      </div>
+                      <div class="col-md-9 text-right">
+                        <div class="export-btn">
+                        {% comment %} <a href="javascript:;" data-toggle="modal" data-target="#excel" class="btn btn-text-primary"><i
+                            class="fas fa-file-excel" onclick="Under()"></i>Export Excel</a> {% endcomment %}
+                          {% comment %} <a href="javascript:;" data-toggle="modal" data-target="#csv" class="btn btn-text-success"><i
+                              class="fas fa-file-csv"></i>Export CSV</a> {% endcomment %}
+                          <a href="javascript:;" data-toggle="modal" data-target="#mail" class="btn btn-text-danger"> <i
+                              class="fas fa-envelope-open-text"></i> Send Mail </a>
+                          {% comment %} <a href="javascript:;" data-toggle="modal" data-target="#email"
+                            class="btn btn-primary btn-lg mt-4">Send
+                            EMAIL</a> {% endcomment %}
+
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <div class="tab-content">
+                    <!--begin::Table-->
+
+                    <div class="table-responsive" id="dvData">
+                      <!--begin: Datatable-->
+                      <table class="tbl list dark table table-bordered cust_tbl table-striped">
+                        <thead>
+                          <tr>
+                            <th><label><input type="checkbox" name="" value=""
+                                  onclick="SelectAll_Customer(this)"></label>
+                            </th>
+
+                            <th>Name</th>
+                            <th>Mobile</th>
+                            <th>Email </th>
+                            <th>Gender</th>
+                            <th>DOM</th>
+                            <th>DOB</th>
+
+                          </tr>
+                        </thead>
+                        <tbody id="getTabledata">
+                         
+                          {% for item in page_obj %}
+                          <tr class='rowtotal'>
+                            <td><label id='sel_users'><input type="checkbox" name="" class="chckbx" /></label></td>
+                            <td id="rowID" style='display:none;'>{{item.id}}</td>
+                            {% if item.name == "" %}
+                            <td id="rowName">Customer</td>
+                            {% else %}
+                            <td id="rowName">{{item.name}}</td>
+                            {% endif %}
+
+                            <td id="rowContact">{{item.contact}}</td>
+
+                            {% if item.email == "" %}
+                            <td id="rowEmail">NA</td>
+                            {% else %}
+                            <td id="rowEmail">{{item.email}}</td>
+                            {% endif %}
+                            <td id="rowGender">{{item.gender}}</td>
+                            <td id="rowDom">{{item.DOM}}</td>
+
+                            {% if item.DOB == "" %}
+                            <td id="rowDob">NA</td>
+                            {% else %}
+                            <td id="rowDob">{{item.DOB}}</td>
+                            {% endif %}
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+
+                        <tbody id="getTabledata" style="display: none;">
+                        </tbody>
+                      </table>
+                     
+                    </div>
+                    <!--end::Table-->
+                    <div class="text-center">
+                      <button class="btn btn-info" id="loadmoreemailcampaignBtn">Load More Customers</button>
+                    <h4 id="hiddenemailCampText" style="color:#7337EE;font-weight:bold;display:none;">- No More Customers Found -</h4>
+
+
+                      {% comment %} <a href="#" data-toggle="modal" data-target="#mail"
+                        class="btn btn-primary btn-lg mt-4">Send
+                        Email</a> {% endcomment %}
+                    </div>
+                  </div>
+                </div>
+                <!--end::Body-->
+              </div>
+              <!--end::Advance Table Widget 4-->
+            </div>
+
+
+          </div>
+          <!--end::Row-->
+          <!--end::Dashboard-->
+        </div>
+        <!--end::Container-->
+      </div>
+    </div>
+
+    <!-- ########################################################################################################## -->
+    <!-- ############################################  Preview Campaign Email    ################################### -->
+    <!-- ########################################################################################################## -->
+    <div id="sendcampaignEmail" style='display:none;'>
+      <div class="d-flex flex-column-fluid">
+        <!--begin::Container-->
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-lg-6 ">
+              <h4 class="title">Mail Preview</h4>
+            </div>
+            {% comment %} <div class="modal-body pt-0  mb-5 col-lg-6">
+              <div class="text-right"> <button type="submit" id="sendtMail" onclick="sendAllEmailCamp()"
+                  class="ml-3 btn btn-primary btn-sm">Send Email</button>
+              </div>
+
+            </div> {% endcomment %}
+            <div class="col-lg-6 ">
+              <div class="text-right mb-5">
+                <a href="{% url 'email_broadcast' %}" class="btn btn-danger btn-sm">Cancel</a>
+                <button type="button" class="ml-3 btn btn-primary btn-sm" onclick="sendAllEmailCamp()">Send
+                  Email</button>
+              </div>
+            </div>
+            <div class="col-lg-12">
+              <div class="loaders" style="display:none;">
+                <div class="load1"></div>
+                Dont refresh your browser..
+              </div>
+
+              <div class="card card-custom gutter-b example example-compact " id="final_mail_PreviewCamp">
+
+              </div>
+
+
+
+              <!-- store manage detail -->
+
+            </div>
+          </div>
+          <!--end::Container-->
+
+
+        </div>
+      </div>
+    </div>
+
+    <!--end::Entry-->
+  </div>
+
+  <!--end::Content-->
+  <div class="modal fade   popup" id="schedule" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-modal="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Schedule SMS </h4>
+          <button type="button" class="close " data-dismiss="modal" aria-label="Close">
+            <i aria-hidden="true" class="ki ki-close"></i>
+          </button>
+        </div>
+        <div class="modal-body pt-0  mb-5">
+          <form class="form">
+            <div class="form-group mb-2  ">
+              <label class="col-form-label  ">Select Date</label>
+              <input type="text" class="form-control" id="kt_datepicker_1_modal" readonly placeholder="Select date" />
+            </div>
+            <div class="form-group  ">
+              <label class="col-form-label  ">Select Time</label>
+              <input class="form-control" id="kt_timepicker_1_modal" readonly placeholder="Select time" type="text" />
+            </div>
+            <div class="text-right"> <button data-toggle="modal" data-target="#success" data-dismiss="modal"
+                class="ml-3 btn btn-primary btn-lg">Schedule Now</button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade   popup" id="success" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-modal="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close " data-dismiss="modal" aria-label="Close">
+            <i aria-hidden="true" class="ki ki-close"></i>
+          </button>
+        </div>
+        <div class="modal-body text-center  mb-5">
+          <img src="{% static 'assets/images/check.png' %}">
+          <h3 class="mb-5"> Messages are scheduled successfully. </h3>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- exprt csv modal -->
+  <div class="modal fade   popup  " id="csv" tabindex="-1" role="dialog " aria-labelledby="exampleModalLabel"
+    aria-modal="true">
+    <div class="modal-dialog modal-dialog-centered  " role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Export CSV</h4>
+          <button type="button" class="close " data-dismiss="modal" aria-label="Close">
+            <i aria-hidden="true" class="ki ki-close"></i>
+          </button>
+        </div>
+        <div class="modal-body pt-0  mb-2">
+          <div class="card-body pt-0 pb-0 pl-1 pr-1">
+            <div class="row" id="parent_for_exportCSV">
+
+              <div class="col-lg-12">
+                <div class="form-group row">
+
+                  <div class="col-lg-12 mt-3 mb-3">
+                    <label>Want to export CSV for </label>
+                    <div class="radio-list mt-3">
+                      <label class="radio radio-outline radio-outline-2x radio-primary" id='allCust'>
+                        <input type="radio" name="radios16" checked="checked" id="Allcust" value="All Customers">
+                        <span></span>
+                        All Customers
+                      </label>
+                      <label class="radio radio-outline radio-outline-2x radio-primary">
+                        <input type="radio" name="radios16" value="Selected Customer" id="selectAllcust">
+                        <span></span>
+                        Selected Customers
+                      </label>
+
+                      <label class="radio radio-outline radio-outline-2x radio-primary">
+                        <input type="radio" name="radios16" value="UnSelected Customer" id="unselectAll">
+                        <span></span>
+                        Unselected Customers
+                      </label>
+
+                    </div>
+                  </div>
+
+
+
+                </div>
+              </div>
+
+              <div class="col-lg-12 mt-5  text-right">
+
+                <button type="submit" class="btn btn-primary btn-sm ml-4" onclick="exportCSVData(this)">Export</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ####################################################################################################### -->
+  <!-- ###################################   Email Module POPUP BOX ########################################## -->
+  <!-- ####################################################################################################### -->
+  <!-- send mail modal -->
+  <div class="modal fade   popup  " id="mail" tabindex="-1" role="dialog " aria-labelledby="exampleModalLabel"
+    aria-modal="true">
+    <div class="modal-dialog modal-dialog-centered  " role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Send Mail</h4>
+          <button type="button" class="close " data-dismiss="modal" aria-label="Close">
+            <i aria-hidden="true" class="ki ki-close"></i>
+          </button>
+        </div>
+        <div class="modal-body pt-0  mb-2">
+          <form class="form">
+            <div class="card-body pt-0 pb-0 pl-1 pr-1">
+              <div class="row">
+
+                <div class="col-lg-12">
+                  <div class="form-group row">
+
+                    <div class="col-lg-12 mt-3 mb-3">
+                      <label>Want to send mail to </label>
+                      <div class="radio-list mt-3">
+                        <label class="radio radio-outline radio-outline-2x radio-primary" id='allCust'>
+                          <input type="radio" name="radiosmail" checked="checked" id="Allcustmailcamp"
+                            value="All Customers">
+
+                          <span></span>
+                          All Customers
+
+                        </label>
+                        <label class="radio radio-outline radio-outline-2x radio-primary">
+                          <input type="radio" name="radiosmail" value="Selected Customer" id="selectAllcustmailcamp">
+                          <span></span>
+                          Selected Customers
+                        </label>
+
+                        <label class="radio radio-outline radio-outline-2x radio-primary">
+                          <input type="radio" name="radiosmail" value="UnSelected Customer" id="unselectAllmailcamp">
+                          <span></span>
+                          Unselected Customers
+                        </label>
+
+                      </div>
+                    </div>
+
+
+
+                  </div>
+                </div>
+
+                <div class="col-lg-12 mt-5  text-right">
+                  <a href="#" class="btn btn-primary btn-sm ml-4" data-dismiss="modal"
+                    onclick="CampaignsendEmailtoCustomer(this)">Send Mail</a>
+                </div>
+              </div>
+
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  {% include 'admin_template/footer.html' %}
+  <script>
+    $(document).ready(function () {
+        localStorage.setItem('offset1', 0);
+      $('#loadmoreemailcampaignBtn').on('click', function () {
+           var _current_result = localStorage.getItem('offset1');
+            _current_result = parseInt(_current_result) + 10;
+            localStorage.setItem('offset1', _current_result);
+        // run ajax 
+        $.ajax({
+          url: "{% url 'load_more' %}",
+          type: 'post',
+          data: { 'offset': _current_result, 'csrfmiddlewaretoken': "{{csrf_token}}" }, beforeSend: function () {
+            $('#loadmoreemailcampaignBtn').addClass('disabled').text('loading...');
+          },
+          success: function (response) {
+            var _html = '';
+            var json_data = $.parseJSON(response.customers);
+            console.log(json_data);
+
+             var TableData = new Array();
+            $('#getTabledata tr').each(function (row, tr) {
+                TableData[row] = {
+                        "pk": $(tr).find('td:eq(1)').text()
+                    ,"name": $(tr).find('td:eq(2)').text()
+                    , "contact": $(tr).find('td:eq(3)').text()
+                    , "email": $(tr).find('td:eq(4)').text()
+                    , "gender": $(tr).find('td:eq(5)').text()
+                    , "DOM": $(tr).find('td:eq(6)').text()
+                    , "DOB": $(tr).find('td:eq(7)').text()
+                }
+            });
+            console.log('TABLE data : ',TableData);
+            var Uniquedata = checkDuplicateRecordInTable(TableData, json_data)
+            console.log('FInal Data List : ',Uniquedata)
+            $('#getTabledata').html("");
+
+              if(json_data.length == 0){
+            $('#loadmoreemailcampaignBtn').hide();
+            $('#hiddenemailCampText').show();
+          }else{
+              $('#loadmoreemailcampaignBtn').show();
+          }
+          for (var k = 0; k < Uniquedata.length; k++) {
+                        _html += '<tr  class="rowtotal"><td><label id="sel_users"><input type="checkbox" name="" class="chckbx" /></label></td><td id="rowID" style="display:none;">'+ Uniquedata[k]['pk'] +'</td><td id="rowName">' + Uniquedata[k]['name'] + '</td><td id="rowContact">' + Uniquedata[k]['contact'] + '</td><td id="rowEmail">' + Uniquedata[k]['email'] + '</td><td id="rowGender">' + Uniquedata[k]['gender'] + '</td><td id="rowDom">' + Uniquedata[k]['DOM'] + '</td><td id="rowDob">' + Uniquedata[k]['DOB'] + '</td></tr>'
+            //$.each(json_data, function (index, data) {
+           //   console.log(index, data.fields.contact);
+           //   if(data.fields.name == '' & data.fields.email == '' & data.fields.DOB == ''){
+          //  _html += '<tr onclick="customer_detailed_info(' + data.pk + ')" class="rowtotal"><td><label id="sel_users"><input type="checkbox" name="" class="chckbx" /></label></td>{% if  data.fields.pk  == "" %}<td id="rowName">NA</td>{% else %}<td id="rowName">' + 'Customer' + '</td>{% endif %}<td id="rowContact">' + data.fields.contact + '</td>{% if data.fields.email == "" %}<td id="rowEmail">NA</td>{% else %}<td id="rowEmail">' + "NA" + '</td>{% endif %}<td id="rowGender">' + data.fields.gender + '</td><td id="rowDom">'+ data.fields.DOM +'</td>{% if data.fields.DOB  == "" %}<td id="rowDob">NA</td>{% else %}<td id="rowDob">' + "NA" + '</td>{% endif %}</tr>'
+         //   }else if(data.fields.name == ''){
+         //   _html += '<tr onclick="customer_detailed_info(' + data.pk + ')" class="rowtotal"><td><label id="sel_users"><input type="checkbox" name="" class="chckbx" /></label></td>{% if  data.fields.pk  == "" %}<td id="rowName">NA</td>{% else %}<td id="rowName">' + data.fields.name + '</td>{% endif %}<td id="rowContact">' + data.fields.contact + '</td>{% if data.fields.email == "" %}<td id="rowEmail">NA</td>{% else %}<td id="rowEmail">' + data.fields.email + '</td>{% endif %}<td id="rowGender">' + data.fields.gender + '</td><td id="rowDom">'+ data.fields.DOM +'</td>{% if data.fields.DOB  == "" %}<td id="rowDob">NA</td>{% else %}<td id="rowDob">' + data.fields.DOB + '</td>{% endif %}</tr>'
+        //    }else if(data.fields.email == ''){
+        //    _html += '<tr onclick="customer_detailed_info(' + data.pk + ')" class="rowtotal"><td><label id="sel_users"><input type="checkbox" name="" class="chckbx" /></label></td>{% if  data.fields.pk  == "" %}<td id="rowName">NA</td>{% else %}<td id="rowName">' + 'Customer' + '</td>{% endif %}<td id="rowContact">' + data.fields.contact + '</td>{% if data.fields.email == "" %}<td id="rowEmail">NA</td>{% else %}<td id="rowEmail">' + "NA" + '</td>{% endif %}<td id="rowGender">' + data.fields.gender + '</td><td id="rowDom">'+ data.fields.DOM +'</td>{% if data.fields.DOB  == "" %}<td id="rowDob">NA</td>{% else %}<td id="rowDob">' + data.fields.DOB + '</td>{% endif %}</tr>'
+        //    }else if(data.fields.DOB == ''){
+        //    _html += '<tr onclick="customer_detailed_info(' + data.pk + ')" class="rowtotal"><td><label id="sel_users"><input type="checkbox" name="" class="chckbx" /></label></td>{% if  data.fields.pk  == "" %}<td id="rowName">NA</td>{% else %}<td id="rowName">' + 'Customer' + '</td>{% endif %}<td id="rowContact">' + data.fields.contact + '</td>{% if data.fields.email == "" %}<td id="rowEmail">NA</td>{% else %}<td id="rowEmail">' + data.fields.email + '</td>{% endif %}<td id="rowGender">' + data.fields.gender + '</td><td id="rowDom">'+ data.fields.DOM +'</td>{% if data.fields.DOB  == "" %}<td id="rowDob">NA</td>{% else %}<td id="rowDob">' + "NA" + '</td>{% endif %}</tr>'
+        //    }else{
+        //      _html += '<tr onclick="customer_detailed_info(' + data.pk + ')" class="rowtotal"><td><label id="sel_users"><input type="checkbox" name="" class="chckbx" /></label></td>{% if  data.fields.pk  == "" %}<td id="rowName">NA</td>{% else %}<td id="rowName">' + data.fields.name + '</td>{% endif %}<td id="rowContact">' + data.fields.contact + '</td>{% if data.fields.email == "" %}<td id="rowEmail">NA</td>{% else %}<td id="rowEmail">' + data.fields.email + '</td>{% endif %}<td id="rowGender">' + data.fields.gender + '</td><td id="rowDom">'+ data.fields.DOM +'</td>{% if data.fields.DOB  == "" %}<td id="rowDob">NA</td>{% else %}<td id="rowDob">' + data.fields.DOB + '</td>{% endif %}</tr>'
+         //   }
+            };
+            $('#loadmoreemailcampaignBtn').removeClass('disabled');
+            $('#loadmoreemailcampaignBtn').addClass('btn btn-info');
+            $('#getTabledata').html(_html);
+            $('#loadmoreemailcampaignBtn').addClass('text-center').text('Load More Customers');
+          }
+        })
+      })
+    })
+
+
+    
+       function checkDuplicateRecordInTable(TableData, json_data) {
+        var renderUniqueData = new Array();
+        var renderUniqueDataObj = new Array();
+        $.each(json_data, function (index, data) {
+            renderUniqueDataObj[index] = {
+                'pk': data.pk
+                ,"name": data.fields.name
+                , "contact": data.fields.contact
+                , "email": data.fields.email
+                , "gender": data.fields.gender
+                , "DOM": data.fields.DOM
+                , "DOB": data.fields.DOB
+            }
+        });
+        var children = TableData.concat(renderUniqueDataObj);
+        //console.log('lllllll :', children);
+        let newArray = [];
+        let uniqueObject = {};
+        for (let i in children) {
+            objTitle = children[i]['contact'];
+            uniqueObject[objTitle] = children[i];
+        }
+        for (i in uniqueObject) {
+            newArray.push(uniqueObject[i]);
+        }
+        //console.log(newArray);
+        return newArray;
+
+    }
+  </script>

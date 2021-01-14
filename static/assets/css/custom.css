@@ -1,0 +1,130 @@
+#kt_aside_toggle { position: absolute; top: 45px;z-index: 99; left: 6% }
+.aside-minimize  #kt_aside_toggle {left: 29%}
+.store_det {background: #00C2F2; color: #fff;  font-size: 16px; margin-top: 10px}
+.brand .brand-logo img{max-width: 120px}
+.btn-success {background: #00C2F2!important}
+.btn-dark {background: #333!important}
+.topbar .topbar-item .text-dark-50 {color: #000; text-align: right; opacity: 1!important}
+.topbar .topbar-item .text-dark-50 > em {font-weight: 400; font-style: normal; font-size: 12px; opacity: .8}
+.btn-img img {max-width: 26px;  }
+.btn-img {border-radius: 5px;padding:   10px; background: #fff;}
+.tbl thead tr{background: #f0daff!important}
+.tbl thead tr td{color: #000 ;font-weight: 700}
+.tbl tbody tr td:first-child{color: #000; font-weight: 700 }
+.tbl tbody tr td {padding: 15px 10px}
+
+.tbl.dark thead tr th{background: #333!important; color: #fff!important}
+.tbl.dark  td {color: #333; font-weight: 500}
+.tbl.dark  td img{width: 55px; height: 55px; border-radius: 100%}
+.aside-menu .menu-nav > .menu-item > .menu-link .menu-icon.small img {max-width: 20px}
+.aside-menu .menu-nav > .menu-item > .menu-link .menu-icon.small1 img {max-width: 18px}
+.aside-menu .menu-nav > .menu-item.last {margin-top: 200px; border-bottom: solid 1px rgba(255,255,255,.3); padding-bottom: 10px}
+.aside-menu .menu-nav > .menu-item.last > .menu-link .menu-icon img{max-width: 20px}
+
+.header-menu-wrapper h3 {margin-top: 15px; float: left;}
+.header-menu-wrapper .search {float: left; width: 300px; margin-top: 10px; margin-left: 50px; position: relative;}
+.header-menu-wrapper .search input {width: 100%; border-radius: 3px; height:35px; border: solid 1px #bbb; padding: 10px; outline: none;}
+.header-menu-wrapper .search .btn {position: absolute; width: 40px; height: 35px; border:0; border-left: solid 1px #bbb; right: 0; border-radius: 0;}
+.header-menu-wrapper .search .btn i { color: #666; font-size: 14px}
+.card.form-card  > .card-header {background: #333;}
+.card.form-card  > .card-header .card-title {color: #fff}
+.btn-success.search {font-size: 16px;}
+.btn-success.search img{max-width: 25px; margin-left: 20px}
+.card.example-compact  > .card-header {border-left:solid 3px #a36cc7;}
+/*.card.form-card-1 {pointer-events: none; opacity: .3}*/
+/*.card.form-card-1.show{pointer-events: all; opacity: 1}*/
+h4.title {font-weight: 600; margin: 10px 0 20px }
+.tbl-drop select {border:0; background: none; font-weight: 600; outline: none; font-size: 12px}
+.tbl-drop thead td {font-weight: 600!important;font-size: 12px; text-transform: none; letter-spacing: 0}
+.tbl-drop tbody tr td:first-child {font-weight: 400}
+.upload {border:solid 1px #ccc; padding: 15px;}
+.upload label{display: block; border: solid 1px #bec3d8; background: #e0e3f1; padding: 0  0px 0 10px; line-height: 35px;   margin: 15px 0 10px; height: 40px; overflow-y: hidden; cursor: pointer;  }
+.upload label span {float: right; background: #5d6692; color: #fff; padding:   10px; line-height: 18px}
+.upload label input{display: none;}
+.upload .btn {display: block; width: 100%; font-size: 16px;  margin: 25px 0 10px  }
+.upload .btn i{margin-left: 10px}
+.upload .file {margin: 15px 0; min-height: 20px;  display: none;}
+.upload  h3{font-size: 18px; margin-bottom: 25px}
+.upload  h3 img {max-width: 25px}
+.upload .table  {min-width: 500px}
+.upload .table-res  {overflow: hidden; overflow-x: scroll; max-width: 100%}
+.upload .table tbody tr {background: #fff}
+.col-assign {display: none;}
+.col-assign .assign .cols {margin-bottom: 15px}
+.col-assign .assign .cols .btn-next{  border:0; outline: none;  float: right; margin-top: -3px}
+.col-assign .assign .cols .btn-next i{color: #00C2F2!important; font-size: 22px;}
+.col-assign .assign .cols h5 {text-decoration: underline; display: none;}
+.col-assign .assign .cols h5.active {display: block;} 
+.btn.send {font-size: 16px;padding: 10px 40px}
+.popup .modal-dialog {margin-top: 0}
+.popup .modal-header {border-bottom: 0}
+.popup .modal-header .close {position: absolute; right: 10px; top: 10px;}
+.popup .modal-body  img {max-width: 100px}
+
+.otp-text {width: 50px; border: solid 1px #ccc; background: #f6f6f6; font-size: 20px; color: #333; padding: 10px 0; margin-bottom: 10px; display: inline-block; margin-right: 20px;  text-align: center; outline: none; }
+.otp {display: none;}
+.tagss {padding-bottom: 15px}
+.btn-send {display: none;}
+
+.tbl.list thead  tr th {padding:15px 10px!important; color: #fff!important}
+.tbl.list thead  tr th span {color: #fff!important}
+.tbl.list  tr td {padding:10px 10px!important;}
+.tbl.list  tr td a img {width: 26px; height: 26px}
+.tbl.list  tr td a.btn {width: 32px;height: 32px; border-radius: 100%; font-weight: 600; font-size: 15px; line-height: 27px; padding: 0 10px; margin: 0 8px; text-align: center;}
+.tbl.list   tr td a.btn i {font-size: 11px}
+.tbl.list tr td:last-child{width: 100px; text-align: right;}
+.tbl.list tr td:first-child {font-weight: 500}
+.btn.next {width: 100px; font-weight:500; font-size: 16px}
+.card.form-card-2 {display: none;} 
+.amount .form-control {float: left; width: 49%;}
+.amount .form-control:last-child {margin-left: 2%}
+/*.card.form-card-1.show{pointer-events: all; opacity: 1}*/
+.social  a {margin: 0 5px}
+.add-more i, .remove_tier i, .add-more-c i,  .remove_c i {color: red!important; opacity: 1; font-size: 22px}
+.add-more , .add-more-c {display: block; margin-top: 30px}
+.add-more i  , .add-more-c  i {color: green!important}
+.remove_tier, .remove_c {display: inline-block; float: right;}
+.tier_info {background: #eee; border:solid 1px #999; padding: 15px;}
+.tier_info p {width: 90%; margin: 0; font-weight: 500; line-height: 20px}
+.tier_info p label {color: #8c08e4; font-weight: 600; text-decoration: underline; font-size: 16px}
+.btn.disabled {opacity: .3; pointer-events: none;} 
+
+
+.cust_head {padding: 15px 0 0}
+.cust_tbl tr td , .cust_tbl tr th{vertical-align: middle;}
+ .cust_tbl tr th label {margin-bottom: 0}
+.cust_tbl tr td:nth-child(1), .cust_tbl tr th:nth-child(1){width: 30px!important;  vertical-align: middle;}
+/*.cust_tbl tr td:last-child{width: 200px!important; text-align: left;}*/
+.cust_tbl tr   span {width: auto!important}
+.cust_tbl    td img{ width: 40px!important; height: 40px!important}
+.cust_tbl tr td {cursor: pointer;}
+.filters {background: #fdfaff; border:solid 1px #cb8cf5; padding: 15px; 
+margin: 0px 0 15px; height: 0; overflow: hidden; padding: 0;opacity: 0; transition: all ease .3s; margin-top: -20px}
+.filters.show {height: auto; padding: 15px; opacity: 1; margin-top: 10px}
+.filters .titles {font-size: 16px; font-weight: 600; margin-bottom: 12px}
+.ui-widget.ui-widget-content { margin-top: -5px }
+#amount {border:0; color: #8c08e4; padding-top: 0;  outline: none; font-weight: 600; padding-bottom: 0}
+.pl5 {padding-left: 40px}
+.export-btn {text-align: right; padding: 0 0 5px}
+.export-btn a {font-size: 11px; margin: 0 ; font-weight: 600; padding: 5px 10px}
+.export-btn a i  {font-size: 20px;   display: block; color: #333}
+.tbl.dark.cust_det thead tr   th span {color: #fff!important}
+.tbl.dark.cust_det thead tr   th  {padding: 15px !important}
+ .tbl.dark.cust_det   tr    td {padding:10px 15px !important}
+ .tbl.dark.cust_det   tr    td:first-child {width: auto!important}
+  /*.tbl.dark.cust_det   tr    td:first-child span {width:60%!important}*/
+ .modal .image-input .image-input-wrapper {width: 115px; height: 115px}
+.p_category tr td span {padding: 5px 10px; background: #f7eefd; border: solid 1px #d3a7f1; color: #333; font-size: 12px; margin: 0 5px}
+#add-cat{display: none;}
+.mobile_nos {overflow: hidden; overflow-y: scroll; max-height: 250px; padding: 15px 0}
+.mobile_nos span {padding: 5px 10px; background: #f7eefd; border: solid 1px #d3a7f1; color: #333; font-size: 12px; margin:  5px 5px; display: inline-block; font-weight: 600; position: relative;}
+.mobile_nos span a{color: #9a0bf9; margin-left: 5px }
+.sms_text {padding: 15px 0}
+.sms_text p {font-size: 15px;}
+.sms_text p  select {font-size: 14px; margin-left: 10px; padding:3px 10px; outline:none; }
+.sms_text textarea {height: 200px; border:0; padding: 10px 0}
+.multi-sel .select2-container .select2-search--inline .select2-search__field {margin: 5px 0}
+.multi-sel .select2-container--default .select2-selection--multiple .select2-selection__rendered {background: #f9f9f9}
+
+
+

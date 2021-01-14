@@ -1,0 +1,155 @@
+{% load static %}
+{% include 'admin_template/header.html' %}
+  <!--begin::Wrapper-->
+  <div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
+      <!--begin::Header-->
+      {% include 'admin_template/inner-header.html' %}
+      <!--end::Header-->
+
+      <!--begin::Content-->
+ <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                        
+        <!--begin::Entry-->
+    <div class="d-flex flex-column-fluid">
+        <!--begin::Container-->
+        <div class="container-fluid">
+                            
+        
+ <!--begin::Row-->
+        <div class="row">
+ 
+             <div class="col-lg-12  ">
+               <div class="card card-custom card-stretch mt-4 mb-5">
+                  <!--begin::Header-->
+                  <div class="card-header py-3">
+                    <div class="card-title align-items-start flex-column">
+                      <h3 class="card-label font-weight-bolder text-dark">Admin Profile</h3>
+                          <span class="text-muted font-weight-bold font-size-sm mt-1">Update your personal information</span>
+                          {% if success %}
+                            <span style="color:#00FF00;">Profile Updated Successfully!</span>
+                          {% endif %}
+                      </div>
+                    {% comment %} <div class="card-toolbar">
+                        <h3>Store ID: 457878DFG</h3>
+                      
+                    </div> {% endcomment %}
+                  </div>
+                  <!--end::Header-->
+
+                  <!--begin::Form-->
+                  <form class="form" action="" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <!--begin::Body-->
+                    <div class="card-body">
+                      <div class="row">
+                        <label class="col-xl-3"></label>
+                        <div class="col-lg-9 col-xl-6">
+                          <h5 class="font-weight-bold mb-6">Customer Details</h5>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label class="col-xl-3 col-lg-3 col-form-label">Avatar</label>
+                        <div class="col-lg-9 col-xl-6">
+                          <div class="image-input image-input-outline" id="kt_profile_avatar" style="background-image: url('{{admin_image}}')">
+                              <div class="image-input-wrapper" style="background-image: url('../../static/Upload_Images/{{admin_image}}')"></div>
+
+                                    <label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="Change avatar">
+                                        <i class="fa fa-pen icon-sm text-muted"></i>
+                                        <input type="file" name="admin_image" accept=".png, .jpg, .jpeg"/>
+                                       <input type="hidden" name="profile_avatar_remove"/>
+                                    </label>
+
+                                <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="cancel" data-toggle="tooltip" title="Cancel avatar">
+                                      <i class="ki ki-bold-close icon-xs text-muted"></i>
+                                  </span>
+
+                                  {% comment %} <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="remove" data-toggle="tooltip" title="Remove avatar">
+                                      <i class="ki ki-bold-close icon-xs text-muted"></i>
+                                  </span> {% endcomment %}
+                              </div>
+                              <span class="form-text text-muted">Allowed file types:  png, jpg, jpeg.</span>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label class="col-xl-3 col-lg-3 col-form-label">Name</label>
+                        <div class="col-lg-9 col-xl-6">
+                          <input class="form-control form-control-lg form-control-solid" type="text" name="admin_name" value="{{request.user.first_name}}"/>
+                        </div>
+                      </div>
+                      <!-- <div class="form-group row">
+                        <label class="col-xl-3 col-lg-3 col-form-label">DOB</label>
+                        <div class="col-lg-9 col-xl-6">
+                          <input class="form-control form-control-lg form-control-solid" type="text" id="kt_datepicker_1"   value="09/07/1980"/>
+                        </div>
+                      </div> -->
+                      {% comment %} <div class="form-group row">
+                        <label class="col-xl-3 col-lg-3 col-form-label">Contact Phone</label>
+                        <div class="col-lg-9 col-xl-6">
+                          <div class="input-group input-group-lg input-group-solid">
+                            <div class="input-group-prepend"><span class="input-group-text"><i class="la la-phone"></i></span></div>
+                            <input type="text" class="form-control form-control-lg form-control-solid" name="admin_contact" value="" placeholder="Phone" />
+                          </div>
+                           
+                        </div>
+                      </div> {% endcomment %}
+                     
+                      <div class="form-group row">
+                        <label class="col-xl-3 col-lg-3 col-form-label">Email Address</label>
+                        <div class="col-lg-9 col-xl-6">
+                          <div class="input-group input-group-lg input-group-solid">
+                            <div class="input-group-prepend"><span class="input-group-text"><i class="la la-at"></i></span></div>
+                            <input type="text" class="form-control form-control-lg form-control-solid" name="admin_email" value="{{email}}" placeholder="Email" />
+                          </div>
+                        </div>
+                      </div>
+                       <div class="form-group row">
+                        <label class="col-xl-3 col-lg-3 col-form-label">Password</label>
+                        <div class="col-lg-9 col-xl-6">
+                          <input class="form-control form-control-lg form-control-solid" type="password"   value="12345678" readonly/>
+                          <a href="{% url 'chng_pwd' %}" class="pass float-right mt-2 font-weight-bold">Change Password</a>
+                        </div>
+                      </div>
+                    
+                   
+                      
+ 
+                      <!-- <button type="reset" class="btn btn-success float-right mr-2 mt-5 mb-5" data-toggle="modal" data-target="#success">Save Changes</button>
+                      <button type="reset" class="btn btn-success float-right mr-2 mt-5 mb-5" data-toggle="modal" data-target="#success">Save Changes</button>
+                       -->
+                       <input type="submit" class="btn btn-success float-right mr-2 mt-5 mb-5" value="Save Changes">
+
+                    </div>
+                    <!--end::Body-->
+
+                  </form>
+                  <!--end::Form-->
+                </div>
+          </div>
+
+            
+        </div>
+        <!--end::Row-->
+        <!--end::Dashboard-->
+    </div>
+    <!--end::Container-->
+</div>
+<!--end::Entry-->
+</div>
+<!--end::Content-->
+<div class="modal fade   popup" id="success" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-modal="true"  >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <button type="button" class="close " data-dismiss="modal" aria-label="Close">
+                      <i aria-hidden="true" class="ki ki-close"></i>
+                  </button>
+              </div>
+              <div class="modal-body text-center  mb-5">
+                   <img src="{% static 'assets/images/check.png' %}">
+                   <h3 class="mb-5">Profile details are updated successfully. </h3>
+              </div>
+              
+      </div>
+  </div>
+</div>
+{% include 'admin_template/footer.html' %}

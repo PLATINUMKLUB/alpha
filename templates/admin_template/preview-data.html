@@ -1,0 +1,135 @@
+{% include "admin_template/header.html" %}
+  <!--begin::Wrapper-->
+  <div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
+      <!--begin::Header-->
+      {% include "admin_template/inner-header.html" %}
+      <!--end::Header-->
+
+      <!--begin::Content-->
+      <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                        
+        <!--begin::Entry-->
+        <div class="d-flex flex-column-fluid">
+            <!--begin::Container-->
+            <div class="container-fluid">
+                                
+            
+     <!--begin::Row-->
+            <div class="row">
+              <div class="col-lg-6  ">
+                <h3 class="page-title mt-3">Preview Data</h3>
+              </div>
+               <div class="col-lg-6  ">
+                 <a href="entry-via-sheet.php" class="btn btn-dark float-right">Back</a>
+               </div>
+                 <div class="col-lg-12  ">
+                  <!--begin::Advance Table Widget 4-->
+                   <div class="card card-custom card-stretch gutter-b mt-4">
+                      <!--begin::Body-->
+                      <div class="card-body pt-0 pb-3 pl-0 pr-0">
+                          <div class="tab-content">
+                              <!--begin::Table-->
+                              <div class="table-responsive">
+                                <table class="table tbl table-head-custom table-head-bg tbl-drop  table-vertical-center">
+                                   <thead>
+                                    <tr class="text-left  ">
+                                         <td>Contact no. </td>
+                                         <td>  Name</td>
+                                         <td> 
+                                         Email ID
+                                          </td>
+                                          <td>
+                                          DOB
+                                         </td>
+                                         <td>
+                                         Amount of Purchase
+                                          
+                                         </td>
+                                         <td>
+                                          Gender
+                                         </td>
+                                         <td>
+                                           Store ID
+                                         </td>
+ 
+                                    </tr>
+                                    </thead>
+                                   <tbody>
+                                   	<tr>
+                                   	 <td  > 8574208619 </td>
+                                   	 <td> Sushil  </td>
+                                   	 <td> suhil11@gmail.com</td>
+                                   	 <td> 01/05/1988</td>
+                                   	 <td> Male </td>
+                                   	 <td> ddd </td>
+                                   	 <td> 1255 </td>
+                                   	  
+                                   	  
+                                   	</tr>
+                                      <tr>
+                                     <td  > 8574208619 </td>
+                                     <td> Sushil  </td>
+                                     <td> suhil11@gmail.com</td>
+                                     <td> 01/05/1988</td>
+                                     <td> Male </td>
+                                     <td> ddd </td>
+                                     <td> 3434 </td>
+                                      
+                                      
+                                    </tr>
+                                      <tr>
+                                     <td  > 8574208619 </td>
+                                     <td> Sushil  </td>
+                                     <td> suhil11@gmail.com</td>
+                                     <td> 01/05/1988</td>
+                                     <td> Male </td>
+                                     <td> ddd </td>
+                                     <td> 5855 </td>
+                                      
+                                      
+                                    </tr>
+                                   	 
+                                  
+                                   </tbody>
+
+                                </table>
+                              </div>
+                              <!--end::Table-->
+                          </div>
+
+                          <div class="text-center">
+                            <button class="btn btn-success send mt-5    "   data-toggle="modal" data-target="#success"> Send </button>
+                          </div>
+                      </div>
+                      <!--end::Body-->
+                  </div>
+                  <!--end::Advance Table Widget 4-->
+              </div>
+
+                
+            </div>
+            <!--end::Row-->
+            <!--end::Dashboard-->
+        </div>
+        <!--end::Container-->
+    </div>
+    <!--end::Entry-->
+</div>
+<!--end::Content-->
+<div class="modal fade   popup" id="success" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-modal="true"  >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <button type="button" class="close " data-dismiss="modal" aria-label="Close">
+                      <i aria-hidden="true" class="ki ki-close"></i>
+                  </button>
+              </div>
+              <div class="modal-body text-center  mb-5">
+                   <img src="assets/images/check.png">
+                   <h3 class="mb-5">Cusotmer data successfully updated. </h3>
+              </div>
+              
+      </div>
+  </div>
+</div>
+{% include "admin_template/footer.html" %}

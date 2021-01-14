@@ -1,0 +1,1331 @@
+{% load static %}
+{% include 'admin_template/header.html' %}
+
+<style>
+    .loaders {
+        opacity: 1;
+        position: absolute;
+        z-index: 99;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        background: rgba(255, 255, 255, .8);
+        display: none;
+    }
+
+    .loaders .load1 {
+        border: 16px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 16px solid blue;
+        border-bottom: 16px solid blue;
+        width: 50px;
+        height: 50px;
+        -webkit-animation: spin 2s linear infinite;
+        animation: spin 2s linear infinite;
+        margin: 50px auto;
+    }
+
+    @-webkit-keyframes spin {
+        0% {
+            -webkit-transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+        }
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+</style>
+
+<!--begin::Wrapper-->
+<div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
+    <!--begin::Header-->
+    {% include 'admin_template/inner-header.html' %}
+
+
+
+
+
+    <!--end::Header-->
+
+
+
+    <!--begin::Content-->
+    <div class="" id="kt_content">
+
+        <!--begin::Entry-->
+        <div class="d-flex flex-column-fluid">
+            <!--begin::Container-->
+            <div class="container-fluid" id="cutomerPannel">
+
+                <!--begin::Row-->
+                <div class="row">
+                    <div class="col-lg-6 ">
+                        <h4 class="title mb-0">Customer Management</h4>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <a href="javascript:;" class="btn btn-primary filter " id="filterBtn"><i
+                                class="fa fa-filter"></i>
+                            Filter</a>
+                    </div>
+
+                    <!-- <form> -->
+                    <!-- {% csrf_token %} -->
+                    <!-- action="customerFilterApply " method="GET" -->
+                    <div class="col-lg-12 ">
+                        <!--begin::Advance Table Widget 4-->
+                        <div class="card card-custom card-stretch gutter-b mt-4">
+                            <!--begin::Body-->
+                            <div class="card-body pt-2 pb-3 pl-3 pr-3" id='blurBackground'>
+                                <div class="col-md-12">
+                                    <div class="filters">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <label class="titles"> Store Wise *</label>
+                                                <a href="javascript:;" class="sel_all float-right">Select All</a>
+                                                <select class="form-control select2" id="kt_select2_3"
+                                                    name="StorenameFilter" multiple="multiple" required>
+                                                    {% for i in store_detail %} <option>{{i.store_name}}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-4 pl5  ">
+                                                <label class="titles "> Tier Method</label>
+                                                <div class="checkbox-inline pt-2" id="tierMethod">
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="tierType" value="collective"
+                                                            id="collective" onclick="collectiveClick()">
+                                                        <span></span>
+                                                        Collective
+                                                    </label>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="tierType" value="individual"
+                                                            id="individual" onclick="individualClick()">
+                                                        <span></span>
+                                                        Individual
+                                                    </label>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="tierType" value="onboard"
+                                                            id="onboard" onclick="onboardClick()">
+                                                        <span></span>
+                                                        Onboard
+                                                    </label>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="titles"> Tier Type</label>
+                                                <div class="checkbox-inline pt-2" id="CheckTierSelect">
+                                                    <label class="checkbox  ">
+                                                        <input type="checkbox" id="tier1" name="tier" value="Tier 1"
+                                                            onclick="filterTier()">
+                                                        <span></span>
+                                                        Tier 1
+                                                    </label>
+                                                    <label class="checkbox ml-5">
+                                                        <input type="checkbox" id="tier2" name="tier" value="Tier 2"
+                                                            onclick="filterTier()">
+                                                        <span></span>
+                                                        Tier 2
+                                                    </label>
+                                                    <label class="checkbox ml-5">
+                                                        <input type="checkbox" id="tier3" name="tier" value="Tier 3"
+                                                            onclick="filterTier()">
+                                                        <span></span>
+                                                        Tier 3
+                                                    </label>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4 mt-5 pt-2 removeSectionOnTierSelect">
+                                                <label class="titles"> Date range</label>
+                                                <input type='text' name="dateFilter" class="form-control"
+                                                    id="kt_daterangepicker_1" readonly placeholder="Select time"
+                                                    type="text" />
+                                            </div>
+
+                                            <div class="col-md-4 mt-5 pt-2 pl5 removeSectionOnTierSelect">
+                                                <label class="titles"> Shopping Range</label>
+                                                <p>
+                                                    <input type="text" id="minval" placeholder="Min Amount"
+                                                        style="width: 140px; float: left; height: 35px"
+                                                        class="form-control" onkeyup="checkAmtRange()" value=""
+                                                        onkeypress="return onlyNumberKey(event)" maxlength="10"
+                                                        required>
+                                                    <input type="text" id="maxval" placeholder="Max Amount"
+                                                        style="width: 140px; margin-left: 20px;  float: left; height: 35px; "
+                                                        class="form-control mb-4" onkeyup="checkAmtRange()" value=""
+                                                        onkeypress="return onlyNumberKey(event)" maxlength="10"
+                                                        required>
+                                                <div class="clearfix  "></div>
+                                                <div id="slider-range"></div>
+                                                </p>
+                                                <p>
+                                                    <input type="text" id="amount" name="amount" value='' readonly><span
+                                                        id='erroramt'
+                                                        style="color:red;font-size:14px;font-weight:bold;"></span>
+                                                    {% comment %}
+                                                <div id="slider-range"></div> {% endcomment %}
+                                                </p>
+                                            </div>
+                                            <!-- <div class="col-md-4 mt-5 pt-2 removeSectionOnTierSelect">
+                          <label class="titles"> Filled complete Details form</label>
+                          <div class="radio-inline mt-2">
+                            <label class="radio">
+                              <input type="radio" name="radios2">
+                              <span></span>
+                              Option 1
+                            </label>
+                            <label class="radio">
+                              <input type="radio" name="radios2">
+                              <span></span>
+                              Option 2
+                            </label>
+
+                          </div>
+                        </div> -->
+                                            <div class="col-md-12 mt-5 pt-2 text-center">
+                                                <button class="btn btn-dark btn-sm" id="stopDefaultAction">Reset
+                                                    Filter</button>
+                                                <button type='submit' class="btn btn-dark btn-sm"
+                                                    onclick="FilterCustomerManagement(this)"
+                                                    id='FilterCustomerManagementID'>Apply</button>
+                                            </div>
+                                            {% comment %} onclick="FilterCustomerManagement(this)" {% endcomment %}
+                                            <!-- </form> -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="cust_head">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" name="" id="myInput"
+                                                    placeholder="Search">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-9 text-right">
+                                            <div class="export-btn">
+                                                <a href="javascript:;" data-toggle="modal" data-target="#excel"
+                                                    class="btn btn-text-primary"><i class="fas fa-file-excel"></i>Export
+                                                    Excel</a>
+                                                <a href="javascript:;" data-toggle="modal" data-target="#csv"
+                                                    class="btn btn-text-success"><i class="fas fa-file-csv"></i>Export
+                                                    CSV</a>
+                                                <a href="javascript:;" data-toggle="modal" data-target="#mail"
+                                                    class="btn btn-text-danger"> <i
+                                                        class="fas fa-envelope-open-text"></i> Send Mail </a>
+                                                <a href="javascript:;" data-toggle="modal" data-target="#sms"
+                                                    class="btn btn-text-warning"> <i class="fas fa-comment-dots"></i>
+                                                    Send SMS</a>
+                                            </div>
+                                        </div>
+                                        {% comment %} <img
+                                            src="https://img.icons8.com/material-rounded/50/000000/export-excel.png" />
+                                        {% endcomment %}
+
+                                    </div>
+                                </div>
+                                <div class="tab-content">
+                                    <!--begin::Table-->
+
+                                    <div class="table-responsive" id="dvData">
+                                        <!--begin: Datatable-->
+                                        <table
+                                            class="tbl list dark table table-bordered cust_tbl table-striped table2excel"
+                                            id="tblCustomers" data-tableName="Test Table 2">
+                                            <thead>
+                                                <tr>
+                                                    <th><label><input type="checkbox" name="" value=""
+                                                                onclick="SelectAll_Customer(this)"></label>
+                                                    </th>
+                                                    <th>Name</th>
+                                                    <th>Mobile</th>
+                                                    <th>Email </th>
+                                                    <th>Gender</th>
+                                                    <th>DOM</th>
+                                                    <th>DOB</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="getTabledata">
+                                                {% for item in page_obj %}
+                                                <tr onclick="customer_detailed_info({{item.id}})" class='rowtotal'>
+                                                    <td><label id='sel_users'><input type="checkbox" name=""
+                                                                class="chckbx" /></label></td>
+                                                    <td id="rowID" style='display:none;'>{{item.id}}</td>
+                                                    {% if item.name == "" %}
+                                                    <td id="rowName">Customer</td>
+                                                    {% else %}
+                                                    <td id="rowName">{{item.name}}</td>
+                                                    {% endif %}
+
+                                                    <td id="rowContact">{{item.contact}}</td>
+
+                                                    {% if item.email == "" %}
+                                                    <td id="rowEmail">NA</td>
+                                                    {% else %}
+                                                    <td id="rowEmail">{{item.email}}</td>
+                                                    {% endif %}
+                                                    <td id="rowGender">{{item.gender}}</td>
+                                                    <td id="rowDom">{{item.DOM}}</td>
+
+                                                    {% if item.DOB == "" %}
+                                                    <td id="rowDob">NA</td>
+                                                    {% else %}
+                                                    <td id="rowDob">{{item.DOB}}</td>
+                                                    {% endif %}
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+
+                                            <tbody id="getTabledata" style="display: none;">
+                                            </tbody>
+                                        </table>
+                                        <div class="text-center">
+                                            <button class="btn btn-info" id="LoadMoreBtn">Load More Customers</button>
+                                            <h4 id="hiddencustText"
+                                                style="color:#7337EE;font-weight:bold;display:none;">- No More Customers
+                                                Found -</h4>
+                                        </div>
+
+                                    </div>
+                                    <!--end::Table-->
+                                </div>
+                            </div>
+                            <!--end::Body-->
+                        </div>
+                        <!--end::Advance Table Widget 4-->
+                    </div>
+
+
+                </div>
+                <!--end::Row-->
+                <!--end::Dashboard-->
+            </div>
+            <!--end::Container-->
+        </div>
+        <!--end::Entry-->
+    </div>
+    <!--end::Content-->
+
+    <!-- ############################################################################################################## -->
+    <!-- ################################################################### Content  Models #########################-->
+    <!-- ############################################################################################################### -->
+
+    <!-- details modal -->
+    <div class="modal fade   popup  " id="cust_det" tabindex="-1" role="dialog " aria-labelledby="exampleModalLabel"
+        aria-modal="true">
+        <div class="modal-dialog modal-dialog-centered  modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Customer Detail</h4>
+                    <!-- <button type="button" class="close " data-dismiss="modal" aria-label="Close">
+            <i aria-hidden="true" class="ki ki-close"></i>
+          </button> -->
+                </div>
+                <div class="modal-body pt-0  mb-2">
+                    <form class="form">
+                        <div class="card-body pt-0 pb-0 pl-1 pr-1">
+                            <div class="row">
+
+                                <div class="col-lg-9">
+                                    <div class="form-group row">
+                                        <div class="col-lg-4 mt-3 mb-3">
+                                            <label>Name</label>
+                                            <input type="text" id="customer_info_name" class="form-control"
+                                                placeholder="Enter   name" value="" disabled />
+                                        </div>
+                                        <div class="col-lg-4 mt-3 mb-3">
+                                            <label>Contact No.</label>
+                                            <input type="text" id="customer_info_contact" class="form-control"
+                                                placeholder="Enter contact no" value="" disabled />
+                                        </div>
+
+                                        <div class="col-lg-4 mt-3 mb-3">
+                                            <label>Email<span></span></label>
+                                            <div class="input-group">
+
+                                                <input type="text" id="customer_info_email" class="form-control"
+                                                    value="" placeholder="" disabled />
+                                            </div>
+
+
+                                        </div>
+                                        <div class="col-lg-4 mt-3 mb-3">
+                                            <label>DOB<span></span></label>
+                                            <div class="input-group">
+                                                <input id="customer_info_dob" type="text" class="form-control"
+                                                    placeholder="Enter DOB" value="" disabled />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 mt-3 mb-3">
+                                            <label>DOM<span></span></label>
+                                            <div class="input-group">
+                                                <input id="customer_info_dom" type="text" class="form-control"
+                                                    placeholder="Enter DOM" value="" disabled />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 mt-3 mb-3">
+                                            <label>Gender</label>
+                                            <div class="radio-inline mt-3">
+                                                <label class="radio radio-outline radio-outline-2x radio-primary">
+                                                    <input type="radio" name="radios16" id="customer_info_gender">
+                                                    <span></span>
+                                                    Male
+                                                </label>
+                                                <label class="radio radio-outline radio-outline-2x radio-primary">
+                                                    <input type="radio" name="radios16" id="customer_info_gender">
+                                                    <span></span>
+                                                    Female
+                                                </label>
+
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 text-center pt-5">
+                                    <div class="image-input image-input-outline mt-5" id="kt_profile_avatar"
+                                        style="background-image: url(../../static/assets/media/users/customer_dummy_pic.jpg)">
+                                        <div class="image-input-wrapper"></div>
+
+
+
+
+
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-lg-12 mt-4">
+                                    <div class="table-responsive">
+                                        <!--begin: Datatable-->
+                                        <table class="table">
+                                            <thead class="thead-dark">
+                                                <tr>
+                                                    <th scope="col">Store Name</th>
+                                                    <th scope="col">Store ID</th>
+                                                    <th scope="col">Total Shopping</th>
+                                                    <th scope="col">Tier</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tierInfoData">
+                                                <tr>
+
+                                                    <td>Mark</td>
+                                                    <td>Otto</td>
+                                                    <td>@mdo</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12 mt-5 pt-4 text-right">
+                                    <!-- {% comment %} <button class="btn btn-secondary btn-lg">Cancel</button> {% endcomment %} -->
+                                    <button type="button" class="btn btn-secondary btn-lg" data-dismiss="modal"
+                                        aria-label="Close">Cancel</button>
+                                    <!-- <button class="btn btn-primary btn-lg ml-4">Update</button> -->
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- exprt csv modal -->
+    <div class="modal fade   popup  " id="csv" tabindex="-1" role="dialog " aria-labelledby="exampleModalLabel"
+        aria-modal="true">
+        <div class="modal-dialog modal-dialog-centered  " role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Export CSV</h4>
+                    <button type="button" class="close " data-dismiss="modal" aria-label="Close">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+                <div class="modal-body pt-0  mb-2">
+                    <div class="card-body pt-0 pb-0 pl-1 pr-1">
+                        <div class="row" id="parent_for_exportCSV">
+
+                            <div class="col-lg-12">
+                                <div class="form-group row">
+
+                                    <div class="col-lg-12 mt-3 mb-3">
+                                        <label>Want to export CSV for </label>
+                                        <div class="radio-list mt-3">
+                                            <label class="radio radio-outline radio-outline-2x radio-primary"
+                                                id='allCust'>
+                                                <input type="radio" name="radios16" checked="checked" id="Allcust"
+                                                    value="All Customers">
+                                                <span></span>
+                                                All Customers
+                                            </label>
+                                            <label class="radio radio-outline radio-outline-2x radio-primary">
+                                                <input type="radio" name="radios16" value="Selected Customer"
+                                                    id="selectAllcust">
+                                                <span></span>
+                                                Selected Customers
+                                            </label>
+
+                                            <label class="radio radio-outline radio-outline-2x radio-primary">
+                                                <input type="radio" name="radios16" value="UnSelected Customer"
+                                                    id="unselectAll">
+                                                <span></span>
+                                                Unselected Customers
+                                            </label>
+
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12 mt-5  text-right">
+
+                                <button type="submit" class="btn btn-primary btn-sm ml-4"
+                                    onclick="exportCSVData(this)">Export CSV</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- exprt Excel modal -->
+    <div class="modal fade   popup  " id="excel" tabindex="-1" role="dialog " aria-labelledby="exampleModalLabel"
+        aria-modal="true">
+        <div class="modal-dialog modal-dialog-centered  " role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Export Excel</h4>
+                    <button type="button" class="close " data-dismiss="modal" aria-label="Close">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+                <div class="modal-body pt-0  mb-2">
+                    <div class="card-body pt-0 pb-0 pl-1 pr-1">
+                        <div class="row" id="parent_for_exportCSV">
+
+                            <div class="col-lg-12">
+                                <div class="form-group row">
+
+                                    <div class="col-lg-12 mt-3 mb-3">
+                                        <label>Want to export Excel for </label>
+                                        <div class="radio-list mt-3">
+                                            <label class="radio radio-outline radio-outline-2x radio-primary"
+                                                id='allexcelCust'>
+                                                <input type="radio" name="radios16" checked="checked" id="Allexcelcust"
+                                                    value="All Customers">
+                                                <span></span>
+                                                All Customers
+                                            </label>
+                                            <label class="radio radio-outline radio-outline-2x radio-primary">
+                                                <input type="radio" name="radios16" value="Selected Customer"
+                                                    id="selectAllexcelcust">
+                                                <span></span>
+                                                Selected Customers
+                                            </label>
+
+                                            <label class="radio radio-outline radio-outline-2x radio-primary">
+                                                <input type="radio" name="radios16" value="UnSelected Customer"
+                                                    id="unselectexcelAll">
+                                                <span></span>
+                                                Unselected Customers
+                                            </label>
+
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12 mt-5  text-right">
+                                <button type="submit" class="btn btn-primary btn-sm ml-4 exportToExcel"
+                                    onclick="exportExcelData(this)">Export Excel</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- send mail modal -->
+    <div class="modal fade   popup  " id="mail" tabindex="-1" role="dialog " aria-labelledby="exampleModalLabel"
+        aria-modal="true">
+        <div class="modal-dialog modal-dialog-centered  " role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Send Mail</h4>
+                    <button type="button" class="close " data-dismiss="modal" aria-label="Close">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+                <div class="modal-body pt-0  mb-2">
+                    <form class="form">
+                        <div class="card-body pt-0 pb-0 pl-1 pr-1">
+                            <div class="row">
+
+                                <div class="col-lg-12">
+                                    <div class="form-group row">
+
+                                        <div class="col-lg-12 mt-3 mb-3">
+                                            <label>Want to send mail to </label>
+                                            <div class="radio-list mt-3">
+                                                <label class="radio radio-outline radio-outline-2x radio-primary"
+                                                    id='allCust'>
+                                                    <input type="radio" name="radiosmail" checked="checked"
+                                                        id="Allcustmail" value="All Customers">
+
+                                                    <span></span>
+                                                    All Customers
+
+                                                </label>
+                                                <label class="radio radio-outline radio-outline-2x radio-primary">
+                                                    <input type="radio" name="radiosmail" value="Selected Customer"
+                                                        id="selectAllcustmail">
+                                                    <span></span>
+                                                    Selected Customers
+                                                </label>
+
+                                                <label class="radio radio-outline radio-outline-2x radio-primary">
+                                                    <input type="radio" name="radiosmail" value="UnSelected Customer"
+                                                        id="unselectAllmail">
+                                                    <span></span>
+                                                    Unselected Customers
+                                                </label>
+
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12 mt-5  text-right">
+                                    <a href="#" class="btn btn-primary btn-sm ml-4" data-dismiss="modal"
+                                        onclick="sendEmailtoCustomer(this)">Send Mail</a>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- send sms modal -->
+    <div class="modal fade   popup  " id="sms" tabindex="-1" role="dialog " aria-labelledby="exampleModalLabel"
+        aria-modal="true">
+        <div class="modal-dialog modal-dialog-centered  " role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Send SMS</h4>
+                    <button type="button" class="close " data-dismiss="modal" aria-label="Close">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+
+                <div class="modal-body pt-0  mb-2">
+                    <form class="form">
+                        <div class="card-body pt-0 pb-0 pl-1 pr-1">
+                            <div class="row">
+
+                                <div class="col-lg-12">
+                                    <div class="form-group row">
+
+                                        <div class="col-lg-12 mt-3 mb-3">
+                                            <label>Want to send SMS to </label>
+                                            <div class="radio-list mt-3">
+                                                <label class="radio radio-outline radio-outline-2x radio-primary"
+                                                    id='allCust'>
+                                                    <input type="radio" name="radiosms" checked="checked"
+                                                        id="Allcustsms" value="All Customers">
+
+                                                    <span></span>
+                                                    All Customers
+
+                                                </label>
+                                                <label class="radio radio-outline radio-outline-2x radio-primary">
+                                                    <input type="radio" name="radiosms" value="Selected Customer"
+                                                        id="selectAllcustsms">
+                                                    <span></span>
+                                                    Selected Customers
+                                                </label>
+
+                                                <label class="radio radio-outline radio-outline-2x radio-primary">
+                                                    <input type="radio" name="radiosms" value="UnSelected Customer"
+                                                        id="unselectAllsms">
+                                                    <span></span>
+                                                    Unselected Customers
+                                                </label>
+
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12 mt-5  text-right">
+
+                                    <a href="#" class="btn btn-primary btn-sm ml-4" data-dismiss="modal"
+                                        onclick="sendSmstoCustomer()">Send SMS</a>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ############################################################################################## -->
+    <!-- ###################################### Merging Email Module  ############################### -->
+    <!-- ############################################################################################## -->
+    <div id="emailModule" style="display: none;">
+        <div class="" id="kt_content">
+
+            <!--begin::Entry-->
+            <div class="d-flex flex-column-fluid" style="margin-top:5px;">
+                <!--begin::Container-->
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-6 ">
+                            <h4 class="title"> Customer Management</h4>
+                        </div>
+                        <div class="col-lg-6 text-right">
+                            <!-- <a href="javascript:;" onclick="backToCustomerManagement()" class="btn btn-dark btn-sm"><i class="fa fa-arrow-left"></i> Back</a> -->
+                            <a href="javascript:;" onclick="backToCustomerManagement()"
+                                class="btn btn-dark btn-sm">Back</a>
+
+                        </div>
+                        <!-- </div> -->
+                        <div class="col-lg-12">
+                            <div class="card card-custom gutter-b example example-compact ">
+                                <div class="card-header">
+                                    <h3 class="card-title">
+                                        Subject Mail
+                                    </h3>
+
+                                    <div class="col-md-3">
+                                        <select class="form-control mt-3" name="emailCampaignName"
+                                            onchange="selectEmailCampaignName(this)">
+                                            <option value="none">Select Campaign Name</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input type="text" id='mailSubject' style="height: 35px"
+                                            class="form-control mt-3" name="mailSubject"
+                                            placeholder="Enter new campaign name">
+                                    </div>
+
+                                </div>
+
+                                <!--end::Form-->
+                            </div>
+                            <div class="card card-custom gutter-b example example-compact ">
+                                <div class="card-header">
+                                    <h3 class="card-title">
+                                        Send Mail
+                                    </h3>
+
+                                </div>
+                                <!--begin::Form-->
+                                <form class="form">
+                                    <div class="card-body pt-3 pb-0">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="mobile_nos" id='emailBind'>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </form>
+                                <!--end::Form-->
+                            </div>
+
+                            <div class="card card-custom gutter-b example example-compact ">
+
+                                <!--begin::Form-->
+                                <div class="card-body pt-3 pb-0">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="sms_text">
+                                                <p class="mb-5">
+                                                    <select name="insertValue" id="openDropdownOnclick"
+                                                        onchange="getdynamictextEmail(this)">
+                                                        <option class="d-none">Insert A dynamic value</option>
+                                                        <option value="name">Name
+                                                        </option>
+                                                        <option value="mob_number">
+                                                            Mobile Number</option>
+                                                        <option value="email">
+                                                            Email</option>
+                                                        <option value="dob">Date
+                                                            Of Birth</option>
+                                                        <option value="gender">
+                                                            Gender</option>
+                                                    </select>
+                                                </p>
+
+
+                                                <textarea class="form-control" id='emailText'></textarea>
+
+                                            </div>
+
+                                            <div class="text-right mb-5">
+                                                {% comment %} <button type="button" class="btn btn-dark btn-sm"
+                                                    data-toggle="tooltip" data-placement="top"
+                                                    title="Under Development">
+                                                    Schedule
+                                                </button> {% endcomment %}
+                                                <button data-toggle="modal" data-target="#schedule"
+                                                    onclick="perviewScheduleMail()"
+                                                    class="btn btn-info btn-sm">Schedule</button>
+                                                <button onclick="perviewMail()"
+                                                    class="ml-3 btn btn-primary btn-sm">Preview & Send</button>
+                                                <!-- <a class="ml-3 btn btn-primary btn-lg" href='{% url 'preview_mail' %}'>Preview & Send</a> -->
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <!--end::Form-->
+                            </div>
+
+                            <!-- store manage detail -->
+
+
+                        </div>
+                    </div>
+                </div>
+                <!--end::Container-->
+
+
+            </div>
+            <!--end::Entry-->
+        </div>
+        <!--end::Content-->
+        <div class="modal fade   popup" id="schedule" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-modal="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Schedule Mail </h4>
+                        <button type="button" class="close " data-dismiss="modal" aria-label="Close">
+                            <i aria-hidden="true" class="ki ki-close"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body pt-0  mb-5">
+                        <form class="form">
+                            <div class="form-group mb-2  ">
+                                <label class="col-form-label  ">Select Date</label>
+                                <input type="text" class="form-control" id="kt_datepicker_1_modal" value="" readonly
+                                    placeholder="Select date" required />
+                            </div>
+                            <div class="form-group  ">
+                                <label class="col-form-label  ">Select Time</label>
+                                <input class="form-control" id="kt_timepicker_1_modal" placeholder="Select time"
+                                    type="text" required />
+                            </div>
+                            <div class="text-right">
+                                <button data-toggle="modal" data-target="#success" data-dismiss="modal"
+                                    class="ml-3 btn btn-primary btn-lg" onclick="emailschedule()">Schedule Now</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade   popup" id="success" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-modal="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close " data-dismiss="modal" aria-label="Close">
+                            <i aria-hidden="true" class="ki ki-close"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center  mb-5">
+                        <img src="{% static 'assets/images/check.png' %}">
+                        <h3 class="mb-5"> Emails are scheduled successfully. </h3>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <!--  ================================SMS Module ================================ -->
+    <!-- ============================================================================ -->
+
+
+
+    <!--begin::Content-->
+    <div id="smsModule" style="display: none;">
+        <div class="" id="kt_content">
+
+            <!--begin::Entry-->
+            <div class="d-flex flex-column-fluid" style="margin-top:5px;">
+                <!--begin::Container-->
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-6 ">
+                            <h4 class="title"> Customer Management</h4>
+                        </div>
+                        <div class="text-right col-lg-6">
+                            <!-- <a href="javascript:;" onclick="backToCustomerManagement()" class="btn btn-dark btn-sm"><i class="fa fa-arrow-left "></i> Back</a> -->
+                            <a href="javascript:;" onclick="backToCustomerManagement()"
+                                class="btn btn-dark btn-sm">Back</a>
+
+                        </div>
+                        <!-- </div> -->
+
+
+
+                        <div class="col-lg-12">
+                            <div class="card card-custom gutter-b example example-compact ">
+                                <div class="card-header">
+                                    <h3 class="card-title">
+                                        Send SMS
+                                    </h3>
+                                    <div class="col-md-3">
+                                        <select class="form-control mt-3" name="smsCampaignName"
+                                            onchange="selectSmsCampaignName(this)">
+                                            <option value="none">Select Campaign Name</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input type="text" id="smsSubject" style="height: 35px"
+                                            class="form-control mt-3" name="smsSubject"
+                                            placeholder="Enter new campaign name">
+                                    </div>
+
+                                </div>
+
+                                <!--begin::Form-->
+                                <form class="form">
+                                    <div class="card-body pt-3 pb-0">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="mobile_nos" id="mobNO_Bind">
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </form>
+                                <!--end::Form-->
+                            </div>
+
+                            <div class="card card-custom gutter-b example example-compact ">
+
+                                <!--begin::Form-->
+                                <div class="card-body pt-3 pb-0">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="sms_text">
+                                                <p class="mb-5">
+                                                    <select onchange="getdynamictextSMS(this)">
+                                                        <option class="d-none">Insert A dynamic value</option>
+                                                        <option value="name">Name
+                                                        </option>
+                                                        <option value="mob_number">
+                                                            Mobile Number</option>
+                                                        <option value="email">
+                                                            Email</option>
+                                                        <option value="dob">Date
+                                                            Of Birth</option>
+                                                        <option value="gender">
+                                                            Gender</option>
+                                                    </select>
+                                                </p>
+
+
+                                                <textarea class="form-control" id='smsText'></textarea>
+
+                                            </div>
+                                            <div class="text-right mb-5">
+                                                <button data-toggle="modal" data-target="#sms_schedule"
+                                                    class="btn btn-dark btn-sm"
+                                                    onclick="perviewScheduleSMS()">Schedule</button>
+                                                <button onclick="perviewSMS()"
+                                                    class="ml-3 btn btn-primary btn-sm">Preview & Send</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <!--end::Form-->
+                            </div>
+
+                            <!-- store manage detail -->
+
+
+                        </div>
+                    </div>
+                </div>
+                <!--end::Container-->
+
+
+            </div>
+            <!--end::Entry-->
+        </div>
+        <!--end::Content-->
+        <div class="modal fade   popup" id="sms_schedule" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalLabel" aria-modal="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Schedule SMS </h4>
+                        <button type="button" class="close " data-dismiss="modal" aria-label="Close">
+                            <i aria-hidden="true" class="ki ki-close"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body pt-0  mb-5">
+                        <div class="form-group mb-2  ">
+                            <label class="col-form-label  ">Select Date</label>
+                            <!-- <input type="text" class="form-control" id="kt_datepicker_1_modal" readonly placeholder="Select date" /> -->
+                            <input type="text" class="form-control" id="kt_datepicker_2_modal" value="" readonly
+                                placeholder="Select date" />
+
+                        </div>
+                        <div class="form-group  ">
+                            <label class="col-form-label  ">Select Time</label>
+                            <input class="form-control" id="kt_timepicker_1_modal" readonly placeholder="Select time"
+                                type="text" />
+                        </div>
+                        <div class="text-right"> <button data-toggle="modal" data-target="#success1"
+                                data-dismiss="modal" class="ml-3 btn btn-primary btn-lg"
+                                onclick='Smsschedule()'>Schedule Now</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        {% comment %} <div class="modal fade   popup" id="success" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalLabel" aria-modal="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close " data-dismiss="modal" aria-label="Close">
+                            <i aria-hidden="true" class="ki ki-close"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center  mb-5">
+                        <img src="{% static 'assets/images/check.png' %}">
+                        <h3 class="mb-5"> SMS are scheduled successfully. </h3>
+                    </div>
+
+                </div>
+            </div>
+        </div> {% endcomment %}
+        <div class="modal fade   popup" id="success1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-modal="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close " data-dismiss="modal" aria-label="Close">
+                            <i aria-hidden="true" class="ki ki-close"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center  mb-5">
+                        <img src="{% static 'assets/images/check.png' %}">
+                        <h3 class="mb-5"> SMS are scheduled successfully. </h3>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- ########################################################################################################## -->
+    <!-- ##################################    Email Module Preview ######################################################## -->
+    <!-- ########################################################################################################### -->
+
+    <div id="mailPreview" style="display: none;">
+        <div class="content d-block flex-column flex-column-fluid" id="kt_content">
+
+            <!--begin::Entry-->
+            <div class="d-block ">
+                <!--begin::Container-->
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-6 ">
+                            <h4 class="title">Mail Preview</h4>
+                        </div>
+                        <div class="col-lg-6 ">
+                            <div class="modal-body pt-0 text-right mb-5">
+                                <a href="{% url 'customer_management' %}" class="btn btn-danger btn-sm">Cancel</a>
+                                <button type="submit" id="sendtMail" onclick="sendAllEMail()"
+                                    class="ml-3 btn btn-primary btn-sm">Send
+                                    Email</button>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12">
+                            <div class="loaders">
+                                <div class="load1"></div>
+                                Dont refresh your browser..
+                            </div>
+                            <div class="card card-custom gutter-b example example-compact" id="final_mail_Preview"
+                                style="padding-bottom:5px ;">
+
+                            </div>
+
+
+
+
+                            <!-- store manage detail -->
+
+
+                        </div>
+                    </div>
+                </div>
+                <!--end::Container-->
+
+
+            </div>
+            <!--end::Entry-->
+        </div>
+        <!--end::Content-->
+    </div>
+
+
+
+    <!-- ########################################################################################################## -->
+    <!-- ##################################    SMS Module Preview ######################################################## -->
+    <!-- ########################################################################################################### -->
+
+    <!--begin::Content-->
+    <div id="smsPreview" style="display: none;">
+        <div class="" id="kt_content">
+
+            <!--begin::Entry-->
+            <div class="d-flex flex-column-fluid">
+                <!--begin::Container-->
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-6 ">
+                            <h4 class="title">SMS Preview</h4>
+                        </div>
+                        <div class="col-lg-6 ">
+                            <div class="text-right mb-5">
+                                <a href="{% url 'customer_management' %}" class="btn btn-danger btn-sm">Cancel</a>
+                                <button type="button" class="ml-3 btn btn-primary btn-sm" onclick="sendAllSMS()">Send
+                                    SMS</button>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="loaders">
+                                <div class="load1"></div>
+                                Dont refresh your browser..
+                            </div>
+                            <div class="card card-custom gutter-b example example-compact " id="final_sms_Preview">
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <!--end::Container-->
+
+
+    </div>
+    <!--end::Entry-->
+</div>
+<!--end::Content-->
+
+
+<div class="modal fade   popup" id="success" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-modal="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close " data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body text-center  mb-5">
+                <img src="{% static 'assets/images/check.png' %}">
+                <h3 class="mb-5"> Messages are sent successfully. </h3>
+            </div>
+
+        </div>
+    </div>
+</div>
+</div>
+{% csrf_token %}
+
+
+{% include 'admin_template/footer.html' %}
+<script src="{% static 'assets/js/jquery-ui.js' %}"></script>
+<script src="{% static 'assets/js/searchFilter.js' %}"></script>
+<script>
+    $(document).ready(function () {
+        localStorage.setItem('offset', 0);
+        $('#LoadMoreBtn').on('click', function () {
+            $('#blurBackground').css('opacity',0.1);
+            var _current_result = localStorage.getItem('offset');
+            _current_result = parseInt(_current_result) + 10;
+            localStorage.setItem('offset', _current_result);
+            // run ajax 
+            $.ajax({
+                url: "{% url 'load_more' %}",
+                type: 'post',
+                data: { 'offset': _current_result, 'csrfmiddlewaretoken': "{{csrf_token}}" }, beforeSend: function () {
+                    $('#LoadMoreBtn').addClass('disabled').text('loading...');
+                },
+                success: function (response) {
+                    var _html = '';
+                    var json_data = $.parseJSON(response.customers);
+                    console.log('JSON data : ',json_data);
+                    //-----------------------------------------------------------------------------------------------------------
+                    //                                       REMOVE DUPLICATE CUSTOMERS
+                    //-----------------------------------------------------------------------------------------------------------
+                    var TableData = new Array();
+                    $('#getTabledata tr').each(function (row, tr) {
+                        TableData[row] = {
+                             "pk": $(tr).find('td:eq(1)').text()
+                            ,"name": $(tr).find('td:eq(2)').text()
+                            , "contact": $(tr).find('td:eq(3)').text()
+                            , "email": $(tr).find('td:eq(4)').text()
+                            , "gender": $(tr).find('td:eq(5)').text()
+                            , "DOM": $(tr).find('td:eq(6)').text()
+                            , "DOB": $(tr).find('td:eq(7)').text()
+                        }
+                    });
+                    console.log('TABLE data : ',TableData);
+                    var Uniquedata = checkDuplicateRecordInTable(TableData, json_data)
+                    console.log('FInal Data List : ',Uniquedata)
+                    //-----------------------------------------------------------------------------------------------------------
+                    //-----------------------------------------------------------------------------------------------------------
+                    
+                    if (json_data.length == 0) {
+                        $('#LoadMoreBtn').hide();
+                        $('#hiddencustText').show();
+                    } else {
+                        $('#LoadMoreBtn').show();
+                    }
+                    Swal.fire({
+                        position: 'center',
+                        title: "<b style='font-size:20px;font-weight:800;'>Your data is loading...</b>",
+                        showConfirmButton: false,
+                        timer: 1200,
+                        onOpen: () => {
+                        swal.showLoading();
+                        }
+                        }).then(function(){
+                            $('#getTabledata').html("");
+                            for (var k = 0; k < Uniquedata.length; k++) {
+                        _html += '<tr onclick="customer_detailed_info(' + Uniquedata[k]['pk'] + ')" class="rowtotal"><td><label id="sel_users"><input type="checkbox" name="" class="chckbx" /></label></td><td id="rowID" style="display:none;">'+ Uniquedata[k]['pk'] +'</td><td id="rowName">' + Uniquedata[k]['name'] + '</td><td id="rowContact">' + Uniquedata[k]['contact'] + '</td><td id="rowEmail">' + Uniquedata[k]['email'] + '</td><td id="rowGender">' + Uniquedata[k]['gender'] + '</td><td id="rowDom">' + Uniquedata[k]['DOM'] + '</td><td id="rowDob">' + Uniquedata[k]['DOB'] + '</td></tr>'
+                    }
+                    $('#blurBackground').css('opacity',1);
+                    $('#LoadMoreBtn').removeClass('disabled');
+                    $('#LoadMoreBtn').addClass('btn btn-info');
+                    $('#getTabledata').html(_html);
+                    $('#LoadMoreBtn').addClass('text-center').text('Load More Customers ');
+                 })
+
+                    
+                    
+                }
+            })
+        })
+    })
+
+
+
+    function checkDuplicateRecordInTable(TableData, json_data) {
+        var renderUniqueData = new Array();
+        var renderUniqueDataObj = new Array();
+        $.each(json_data, function (index, data) {
+            renderUniqueDataObj[index] = {
+                'pk': data.pk
+                ,"name": data.fields.name
+                , "contact": data.fields.contact
+                , "email": data.fields.email
+                , "gender": data.fields.gender
+                , "DOM": data.fields.DOM
+                , "DOB": data.fields.DOB
+            }
+        });
+        var children = TableData.concat(renderUniqueDataObj);
+        //console.log('lllllll :', children);
+        let newArray = [];
+        let uniqueObject = {};
+        for (let i in children) {
+            objTitle = children[i]['contact'];
+            uniqueObject[objTitle] = children[i];
+        }
+        for (i in uniqueObject) {
+            newArray.push(uniqueObject[i]);
+        }
+        //console.log(newArray);
+        return newArray;
+
+    }
+</script>

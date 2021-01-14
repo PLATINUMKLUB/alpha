@@ -1,0 +1,203 @@
+<!-- <?php  include('header.php'); ?> -->
+{% include 'store-manager/header.html' %}
+{% load static %}
+
+<!--begin::Wrapper-->
+<div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
+	<!--begin::Header-->
+	{% comment %} <?php include('inner-header.php')?> {% endcomment %}
+	{% include 'store-manager/inner-header.html' %}
+	<!--end::Header-->
+
+	<!--begin::Content-->
+	<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+
+		<!--begin::Entry-->
+		<div class="d-flex flex-column-fluid">
+			<!--begin::Container-->
+			<div class="container-fluid">
+				<!--begin::Dashboard-->
+				<div class="row">
+                {% if context.entry == 'Both' %}
+					<div class="col-lg-6 ml-auto text-right  mb-3">
+						<a href="{% url 'manualEntryData' %}"
+							class="btn btn-success font-weight-bolder font-size-sm mr-3">Customer Manual Entry</a>
+						<a href="{% url 'sheet' %}" class="btn btn-dark font-weight-bolder font-size-sm mr-3">Customer Entry
+							Through Sheet</a>
+                        {% comment %} <a href="{% url 'onboardentry' %}" class="btn btn-info font-weight-bolder font-size-sm">Onboard Entry
+							Through Sheet</a>             {% endcomment %}
+						
+					</div>
+                    {% elif context.entry == 'Manual' %}
+                    <div class="col-lg-6 ml-auto text-right  mb-3">
+						<a href="{% url 'manualEntryData' %}"
+							class="btn btn-success font-weight-bolder font-size-sm mr-3">Customer Manual Entry</a>
+                        {% comment %} <a href="{% url 'onboardentry' %}" class="btn btn-info font-weight-bolder font-size-sm mr-3">Onboard Entry
+							Through Sheet</a>             {% endcomment %}
+						
+					</div>
+                    {% elif context.entry == 'SheetUpload' %}
+                    <div class="col-lg-6 ml-auto text-right  mb-3">
+						<a href="{% url 'sheet' %}" class="btn btn-dark font-weight-bolder font-size-sm">Cusomer Entry
+							Through Sheet</a>
+                        {% comment %} <a href="{% url 'onboardentry' %}" class="btn btn-info font-weight-bolder font-size-sm mr-3">Onboard Entry
+							Through Sheet</a>             {% endcomment %}
+						
+					</div>
+                    {% endif %}
+				</div>
+				<div class="row">
+					<div class="col-lg-6">
+						<!--begin::Card-->
+						<div class="card card-custom gutter-b">
+							<!--begin::Header-->
+							<div class="card-header h-auto">
+								<!--begin::Title-->
+								<div class="card-title py-5">
+									<h3 class="card-label">
+										Customer Graph
+
+									</h3>
+								</div>
+								<!-- <select>
+									<option>Current Month</option>><option>Last Month</option>>
+								</select> -->
+								<!--end::Title-->
+							</div>
+							<!--end::Header-->
+							<div class="card-body">
+								<!--begin::Chart-->
+								<div id="chart_1"></div>
+								<!--end::Chart-->
+							</div>
+						</div>
+						<!--end::Card-->
+					</div>
+					<div class="col-lg-6">
+						<!--begin::Card-->
+						<div class="card card-custom gutter-b">
+							<div class="card-header h-auto">
+								<div class="card-title py-5">
+									<h3 class="card-label">
+										Shopping Graph
+									</h3>
+								</div>
+								<!-- <select>
+									<option>Current Month</option>><option>Last Month</option>>
+								</select> -->
+							</div>
+							<div class="card-body">
+								<!--begin::Chart-->
+								<div id="chart_2"></div>
+								<!--end::Chart-->
+							</div>
+						</div>
+						<!--end::Card-->
+					</div>
+				</div>
+
+				<!--begin::Row-->
+				<div class="row">
+					<div class="col-lg-12">
+						<!--begin::Advance Table Widget 4-->
+						<div class="card card-custom card-stretch gutter-b">
+							<!--begin::Body-->
+							<div class="card-body pt-0 pb-3 pl-0 pr-0">
+								<div class="tab-content">
+									<!--begin::Table-->
+									<div class="table-responsive">
+										<table
+											class="table tbl table-head-custom table-head-bg   table-vertical-center">
+											<thead>
+												<tr class="text-left text-uppercase">
+													<td></td>
+													<td>Jan</td>
+													<td>Feb</td>
+													<td>Mar</td>
+													<td>Apr</td>
+													<td>May</td>
+													<td>Jun</td>
+													<td>Jul</td>
+													<td>Aug</td>
+													<td>Sep</td>
+													<td>Oct</td>
+													<td>Nov</td>
+													<td>Dec</td>
+
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td>
+														Total Customers
+													</td>
+													<td>{{context_1.month_1}}</td>
+													<td>{{context_1.month_2}}</td>
+													<td>{{context_1.month_3}}</td>
+													<td>{{context_1.month_4}}</td>
+													<td>{{context_1.month_5}}</td>
+													<td>{{context_1.month_6}}</td>
+													<td>{{context_1.month_7}}</td>
+													<td>{{context_1.month_8}}</td>
+													<td>{{context_1.month_9}}</td>
+													<td>{{context_1.month_10}}</td>
+													<td>{{context_1.month_11}}</td>
+													<td>{{context_1.month_12}}</td>
+												</tr>
+												<tr>
+													<td>
+														Total Shopping
+													</td>
+													<td>{{context_3.total_amount_1}}</td>
+													<td>{{context_3.total_amount_2}}</td>
+													<td>{{context_3.total_amount_3}}</td>
+													<td>{{context_3.total_amount_4}}</td>
+													<td>{{context_3.total_amount_5}}</td>
+													<td>{{context_3.total_amount_6}}</td>
+													<td>{{context_3.total_amount_7}}</td>
+													<td>{{context_3.total_amount_8}}</td>
+													<td>{{context_3.total_amount_9}}</td>
+													<td>{{context_3.total_amount_10}}</td>
+													<td>{{context_3.total_amount_11}}</td>
+													<td>{{context_3.total_amount_12}}</td>
+												</tr>
+												<tr>
+													<td>
+														Daily Average
+													</td>
+													<td>{{context_2.month_avg_1}}</td>
+													<td>{{context_2.month_avg_2}}</td>
+													<td>{{context_2.month_avg_3}}</td>
+													<td>{{context_2.month_avg_4}}</td>
+													<td>{{context_2.month_avg_5}}</td>
+													<td>{{context_2.month_avg_6}}</td>
+													<td>{{context_2.month_avg_7}}</td>
+													<td>{{context_2.month_avg_8}}</td>
+													<td>{{context_2.month_avg_9}}</td>
+													<td>{{context_2.month_avg_10}}</td>
+													<td>{{context_2.month_avg_11}}</td>
+													<td>{{context_2.month_avg_12}}</td>
+												</tr>
+
+											</tbody>
+
+										</table>
+									</div>
+									<!--end::Table-->
+								</div>
+							</div>
+							<!--end::Body-->
+						</div>
+						<!--end::Advance Table Widget 4-->
+					</div>
+				</div>
+				<!--end::Row-->
+				<!--end::Dashboard-->
+			</div>
+			<!--end::Container-->
+		</div>
+		<!--end::Entry-->
+	</div>
+	<!--end::Content-->
+
+	{% include 'store-manager/footer.html' %}

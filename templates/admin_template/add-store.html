@@ -1,0 +1,544 @@
+{% load static %}
+{% include "admin_template/header.html" %}
+
+
+<style>
+    .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
+        width: 350px !important;
+    }
+
+    .removeTier {
+        display: inline-block;
+        float: right;
+        color: red;
+        font-size: 20px;
+    }
+
+
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+    }
+
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+</style>
+
+
+<!--begin::Wrapper-->
+<div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
+    <!--begin::Header-->
+
+    {% include "admin_template/inner-header.html" %}
+    <!--end::Header-->
+
+
+    <!--begin::Content-->
+    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+
+        <!--begin::Entry-->
+        <div class="d-flex flex-column-fluid">
+            <!--begin::Container-->
+
+
+            <div class="container-fluid">
+                <form action="AddStoreDetail" enctype="multipart/form-data" method="POST">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-lg-12 ">
+                            <h4 class="title" id="StoreManageMentHeader"> Store Management</h4>
+                            {% if error %}
+                            <span>{{error}}</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-lg-12">
+                            <div id="Step1">
+                                <div class="card card-custom gutter-b example example-compact form-card-1">
+                                    <div class="card-header">
+                                        <h3 class="card-title" id="ShowValidationIssue">
+                                            Store Details
+                                        </h3>
+
+                                    </div>
+                                    <!--begin::Form-->
+
+                                    <div class="card-body pt-3 pb-0">
+                                        <div class="form-group row">
+                                            <div class="col-lg-4 mt-3 mb-3">
+                                                <label id="StoreNameLabel"><b>Store Name</b><span style='color:red;'>
+                                                        *</span></label>
+
+                                                <input type="text" id='storeName' class="form-control" name="storeName"
+                                                    onkeyup="AddStoreName(this)" placeholder="Enter store name"
+                                                    required />
+                                                <input type="hidden" class="form-control" name="StoreIDAbacusSHop" />
+                                                <p id="invalidStore" class="text-center" style="color: red;"></p>
+                                            </div>
+                                            <div class="col-lg-8 mt-3 mb-3">
+                                                <label id="storelocationLabel"><b>Store Location</b><span style='color:red;'>
+                                                        *</span></label>
+                                                <span id="invalidloc" class="text-center" style="color: red;"></span>
+                                                <input type="text" class="form-control" id="storeLoc"
+                                                    name="storeLocation" placeholder="Enter store location"
+                                                    onkeyup="sLocation()" required />
+                                            </div>
+                                            <div class="col-lg-4 mt-3 mb-3">
+                                                <label><b>City/Town</b><span style='color:red;'> *</span></label>
+                                                <span id="invalidtown" class="text-center" style="color: red;"></span>
+                                                <div class="input-group">
+                                                    <input type="text" id="storeTown" class="form-control"
+                                                        name="storeCity" placeholder="Enter city" onkeyup="stown()"
+                                                        required />
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 mt-3 mb-3">
+                                                <label><b>State</b><span style='color:red;'> *</span></label>
+                                                <span id="invalidstate" class="text-center" style="color: red;"></span>
+                                                <div class="input-group">
+                                                    <input type="text" id="storeState" class="form-control"
+                                                        name="storState" placeholder="Enter State" onkeyup="sstate()"
+                                                        required />
+                                                </div>
+                                            </div>
+                                            {% comment %} <div class="col-lg-4 mt-3 mb-3">
+                                                <label>Store Invoice Format<span style='color:red;'> *</span></label>
+                                                <span id="invalidInvoice" class="text-center"
+                                                    style="color: red;"></span>
+                                                <div class="input-group">
+                                                    <input type="text" id="storeInvoice" class="form-control"
+                                                        name="storeInvoice" placeholder="Enter State"
+                                                        onkeyup="StoreInvoice()" required />
+                                                </div>
+                                            </div> {% endcomment %}
+
+
+                                            <div class="col-lg-4 mt-3 mb-3">
+                                                <label class="titles"><b>Category</b></label><br />
+                                                <select class="selectpicker" multiple data-live-search="true"
+                                                    name="storCategory" id="catGRY">
+                                                    {% for i in data %}
+                                                    <option>{{i.category}}</option>
+                                                    {% endfor %}
+                                                </select>
+
+                                            </div>
+
+                                            <div class="col-lg-4 mt-3 mb-3">
+                                                <label class="titles"><b>Sub Category</b></label><br />
+                                                <select class="selectpicker select-ajax" multiple
+                                                    data-live-search="true" id="subcatGRY" name="storSubCategory">
+                                                </select>
+
+
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+
+                                    <!--end::Form-->
+                                </div>
+
+                            </div>
+
+                            <!-- store manage detail -->
+
+                            <div id="Step2" style="display: none;">
+                                <div class="card card-custom gutter-b example example-compact">
+                                    <div class="card-header">
+                                        <h3 class="card-title">
+                                            Store Manager Details
+                                        </h3>
+
+                                    </div>
+                                    <!--begin::Form-->
+
+                                    <div class="card-body pt-3 pb-0">
+                                        <div class="row">
+                                            <div class="col-lg-2 text-center pt-5">
+                                                <div class="image-input image-input-outline mt-5" id="kt_profile_avatar"
+                                                    style="background-image: url(assets/media/users/blank.png)">
+                                                    <div class="image-input-wrapper"></div>
+
+                                                    <label
+                                                        class="btn btn-sm btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow"
+                                                        data-action="change" data-toggle="tooltip" title=""
+                                                        data-original-title="Change avatar">
+                                                        <i class="fa fa-camera icon-md text-muted"></i>
+                                                        <input type="file" name="managerProfileImage"
+                                                            accept=".png, .jpg, .jpeg" />
+                                                        <input type="hidden" name="profile_avatar_add" />
+                                                    </label>
+
+
+
+
+                                                </div>
+
+                                            </div>
+                                            <div class="col-lg-10">
+                                                <div class="form-group row">
+                                                    <div class="col-lg-4 mt-3 mb-3">
+                                                        <label><b>Name</b><span style='color:red;'> *</span></label>
+                                                        <span id="invalidmanagername" class="text-center"
+                                                            style="color: red;"></span>
+                                                        <input type="text" id="managrName" class="form-control"
+                                                            placeholder="Enter   name" name="mangerName"
+                                                            onkeyup="validateName()" required />
+
+                                                    </div>
+                                                    <div class="col-lg-5 mt-3 mb-3">
+                                                        <label><b>Contact No.</b><span style='color:red;'> *</span><small>(contact must starts with 6,7,8,9)</small></label>
+                                                        <span id="invalidmanagercontact" class="text-center"
+                                                            style="color: red;"></span>
+                                                        <input type="number" id="ManagerContact" class="form-control"
+                                                            placeholder="Enter contact no" name="mangerContactNo"
+                                                            type="number" onkeyup="validateCon(this)" onkeypress="return onlyNumberKey(event)" maxlength="10" required />
+                                                    </div>
+
+                                                    <div class="col-lg-3 mt-3 mb-3">
+                                                        <label><b>User Unique ID</b></label>
+                                                        <input type="text" class="form-control" placeholder="----------"
+                                                            name="userUinqueID" id="uniqueIDChceck" readonly />
+                                                    </div>
+                                                    <div class="col-lg-4 mt-3 mb-3">
+                                                        <label><b>Gender</b></label>
+                                                        <div class="radio-inline mt-3">
+                                                            <label
+                                                                class="radio radio-outline radio-outline-2x radio-primary">
+                                                                <input type="radio" name="managerGender" value="Male"
+                                                                    required>
+                                                                <span></span>
+                                                                Male
+                                                            </label>
+                                                            <label
+                                                                class="radio radio-outline radio-outline-2x radio-primary">
+                                                                <input type="radio" name="managerGender" value="Female">
+                                                                <span></span>
+                                                                Female
+                                                            </label>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-5 mt-3 mb-3">
+                                                        <label><b>Email</b><span style='color:red;'> *</span></label>
+                                                        <span id="invalidmanageremail" class="text-center"
+                                                            style="color: red;"></span>
+                                                        <div class="input-group">
+                                                            <input type="text" class="form-control"
+                                                                placeholder="Enter Email" id="managerEmail"
+                                                                name="managerEmail" onkeyup="validateEmail()"
+                                                                required />
+                                                        </div>
+
+
+                                                    </div>
+                                                    <div class="col-lg-3 mt-3 mb-3  ">
+                                                        <label><b>Password</b><span style='color:red;'>*</span></label>
+                                                        {% comment %} <img style='width:20px;height:20px;' src="https://img.icons8.com/fluent/48/000000/info.png" data-toggle="tooltip" data-html="true" title="<em><b style='color:#8C08E4;'>Password must contain atleast</b></em> <br>1 lower case letter<br>1 upper case letter<br>1 special characters <br>1 numbers<br>and length must be minimum 10"/> {% endcomment %}
+                                                        <span id="invalidmanagerpassword" class="text-center"
+                                                            style="color: red;"></span>
+                                                        
+                                                        <span id="invalidmanagerpassword" class="text-center"
+                                                            style="color: red;"></span>
+                                                        <div class="input-group">
+
+                                                            <input type="password" class="form-control"
+                                                                placeholder="***********" name="managerPass"
+                                                                id="validateManagerpass" value=""
+                                                                onkeyup="validatePassowrd()" onclick="enablepwdcondition()" required />
+                                                        </div>
+
+
+                                                    </div>
+                                                    <div class="col-lg-4 mt-3 mb-3">
+                                                        <label id="checkPassmanager"><b>Confirm Password</b><span
+                                                                style='color:red;'> *</span></label>
+                                                        <div class="input-group">
+
+                                                            <input type="password" onkeyup="getPassword_Manager(this)"
+                                                                class="form-control" placeholder="***********"
+                                                                name="managerConfirmPass" required />
+                                                        </div>
+
+
+                                                    </div>
+
+                                                    <div class="col-lg-5 mt-3 mb-3">
+                                                       
+
+                                                    </div>
+                                                    <!-- Validation div -->
+                                                    <div id="passwordCondition" class="col-lg-3 mt-3 mb-3" style="display: none;">
+                                                        <label id="checkPassmanager"><b>Password must contain</b></label><br>
+                                                        <span id='charlenadd' class="fa fa-times" style="font-weight: 600;color: red;font-size: 13px;">&nbsp;&nbsp;Atleast 8 characters</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                        <span id='uppercaseadd' class="fa fa-times" style="font-weight: 600;color: red;font-size: 13px;">&nbsp;&nbsp;Minimun 1 uppercase</span><br>
+                                                        <span id='numbersadd' class="fa fa-times" style="font-weight: 600;color: red;font-size: 13px;">&nbsp;&nbsp;Minimun 1 number</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                        <span id='symboladd' class="fa fa-times" style="font-weight: 600;color: red;font-size: 13px;">&nbsp;&nbsp;Minimun 1 symbol</span>
+                                                    </div>
+
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <!--end::Form-->
+                                </div>
+
+                                <!-- store manager superwiser -->
+                                <div class="card card-custom gutter-b example example-compact">
+                                    <div class="card-header">
+                                        <h3 class="card-title">
+                                            Store Manager Supervisor
+                                        </h3>
+
+                                    </div>
+                                    <!--begin::Form-->
+
+                                    <div class="card-body pt-3 pb-0">
+                                        <div class="row">
+
+                                            <div class="col-lg-12">
+                                                <div class="form-group row">
+                                                    <div class="col-lg-3 mt-3 mb-3">
+                                                        <label><b>Name</b></label>
+                                                        <span id="invalidsupervisorName" class="text-center"
+                                                            style="color: red;"></span>
+                                                        <input type="text" class="form-control" id="supervisorName"
+                                                            placeholder="Enter   name" name="supervisorName"
+                                                            onkeyup="validateSuName()"/>
+                                                    </div>
+                                                    <div class="col-lg-4 mt-3 mb-3">
+                                                        <label><b>Contact No.</b><small>&nbsp;&nbsp;(contact must starts with 6,7,8,9)</small></label>
+                                                        <span id="invalidsupervisorcontact" class="text-center"
+                                                            style="color: red;"></span>
+                                                        <input type="number" class="form-control"
+                                                            placeholder="Enter contact no" type="number" pattern="\d*"
+                                                             name="supervisorContactNO" id="SuperContact"
+                                                            onkeyup="validateSuperContact()" onkeypress="return onlyNumberKey(event)" maxlength="10" />
+                                                    </div>
+                                                    <div class="col-lg-3 mt-3 mb-3">
+                                                        <label><b>Email</b><span style='color:red;'> </span></label>
+                                                        <span id="invalidsupervisoremail" class="text-center"
+                                                            style="color: red;"></span>
+                                                        <div class="input-group">
+                                                            <input type="text" class="form-control"
+                                                                placeholder="Enter Email" id="supervisorEmail"
+                                                                name="supervisorEmail"
+                                                                onkeyup="validateSupervisorEmail()"  />
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-2 mt-3 mb-3">
+                                                        <label><b>Gender</b></label>
+                                                        <div class="radio-inline mt-3">
+                                                            <label
+                                                                class="radio radio-outline radio-outline-2x radio-primary">
+                                                                <input type="radio" name="supervisorGender" value="Male"
+                                                                    >
+                                                                <span></span>
+                                                                Male
+                                                            </label>
+                                                            <label
+                                                                class="radio radio-outline radio-outline-2x radio-primary">
+                                                                <input type="radio" name="supervisorGender"
+                                                                    value="Female">
+                                                                <span></span>
+                                                                Female
+                                                            </label>
+
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <!--end::Form-->
+                                </div>
+                                <!-- Add data type Store -->
+                                <div class="card card-custom gutter-b example example-compact">
+                                    <div class="card-header">
+                                        <h3 class="card-title">
+                                            Customer Data Entry Type
+                                        </h3>
+
+                                    </div>
+                                    <!--begin::Form-->
+
+                                    <div class="card-body pt-4 pb-5">
+                                        <div class="row">
+
+                                            <div class="col-lg-12">
+                                                <label><b>Allow store manager to enter data via</b><span style='color:red;'>
+                                                        *</span></label>
+                                                <div class="radio-inline mt-3">
+                                                    <label class="radio radio-outline radio-outline-2x radio-primary">
+                                                        <input type="radio" name="accessEntryOfData" checked="checked"
+                                                            value="Manual" required>
+                                                        <span></span>
+                                                        Manual Entry
+                                                    </label>
+                                                    <label class="radio radio-outline radio-outline-2x radio-primary">
+                                                        <input type="radio" name="accessEntryOfData"
+                                                            value="SheetUpload">
+                                                        <span></span>
+                                                        Sheet Upload
+                                                    </label>
+
+                                                    <label class="radio radio-outline radio-outline-2x radio-primary">
+                                                        <input type="radio" name="accessEntryOfData" value="Both">
+                                                        <span></span>Both
+                                                    </label>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+
+
+                            <div id="Step85" style="display: none;">
+                                <div class="card card-custom gutter-b example example-compact">
+                                    <div class="container-fluid">
+                                        <div class="row">
+
+
+                                            <div class="col-lg-12">
+                                                <div class="card card-custom gutter-b example example-compact ">
+                                                    <div class="card-header">
+                                                        <h3 class="card-title">
+                                                            Tier Definition
+                                                        </h3>
+
+                                                    </div>
+
+                                                    <div class="card-body pt-3 pb-0">
+                                                        <div class="row">
+
+                                                            <div class="col-lg-12">
+                                                                <p>Define Tier to the customers on the basis of Shopping
+                                                                    amount and the time period.
+                                                                </p>
+                                                                <div class="form-group row">
+                                                                    <div class="col-lg-3 mt-3 mb-3">
+                                                                        <label>Store Name *</label>
+                                                                        <input type="text" class="form-control"
+                                                                            placeholder="Enter   name"
+                                                                            name="NewStoreName" id="StoreNameput"
+                                                                            readonly />
+
+                                                                    </div>
+                                                                    <div class="col-lg-4 mt-3 mb-3 amount">
+                                                                        <label class="d-block" id="CheckTierRange">
+                                                                            <t>Shopping Amount (in
+                                                                                Rs.)</t>
+                                                                        </label>
+                                                                        <div class="clearfix"></div>
+                                                                        <input type="text" class="form-control "
+                                                                            placeholder="From" name="AMTfrom"
+                                                                            onkeyup="CheckRangeData(this)" />
+                                                                        <input type="text" class="form-control "
+                                                                            placeholder="To" name="AMTto"
+                                                                            onkeyup="CheckRangeData(this)" />
+                                                                    </div>
+                                                                    <div class="col-lg-2 mt-3 mb-3">
+                                                                        <label>Time Period(in
+                                                                            Years)<span>*</span></label>
+                                                                        <select class="form-control" name="selectYear"
+                                                                            id="tierYear">
+                                                                            <option>1</option>
+                                                                            <option>2</option>
+                                                                            <option>3</option>
+                                                                            <option>4</option>
+                                                                        </select>
+
+
+                                                                    </div>
+                                                                    <div class="col-lg-2 mt-3 mb-3">
+                                                                        <label>Assign Tier<span>*</span></label>
+                                                                        <select class="form-control" name="assignTier"
+                                                                            id="assignTier" onchange="onChangeTier()">
+                                                                            <option value="1">1</option>
+                                                                            <option value="2">2</option>
+                                                                            <option value="3">3</option>
+                                                                        </select>
+
+
+                                                                    </div>
+
+                                                                    <div class="col-lg-1 mt-3  ">
+                                                                        <a href="#" class="add-more"
+                                                                            onclick="AddMoreTierOnClick()"><i
+                                                                                class="fa fa-plus-circle"></i></a>
+                                                                    </div>
+
+
+
+                                                                </div>
+
+                                                                <div id="addTier"></div>
+
+
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+
+
+                                                </div>
+
+                                                <!-- store manage detail -->
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Tier Management -->
+                            <div class="col-lg-12 text-right pt-2" id="nextAddChangeSubmit">
+                                <!-- next -->
+                                <button type="button" class="btn btn-primary  mt-4" id="NextButton"
+                                    onclick="nextFormAddCategory()" disabled>Next</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+
+
+            <!--end::Container-->
+
+
+        </div>
+        <!--end::Entry-->
+    </div>
+    <!--end::Content-->
+    <script>
+    $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+    </script>
+    {% include "admin_template/footer.html" %}
+    <script src="{% static 'AdminAbacus/AdminValidation.js' %}"></script>

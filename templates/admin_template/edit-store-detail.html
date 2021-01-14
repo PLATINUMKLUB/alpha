@@ -1,0 +1,494 @@
+{% load static %}
+{% include "admin_template/header.html" %}
+<!--begin::Wrapper-->
+<div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
+    <!--begin::Header-->
+    {% include "admin_template/inner-header.html" %}
+    <!--end::Header-->
+
+    <!--begin::Content-->
+    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+
+        <!--begin::Entry-->
+        <div class="d-flex flex-column-fluid">
+            <!--begin::Container-->
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12 ">
+                        <span class="title" style="font-size:30px;font-weight:bold;">Edit Store
+                            Detail</span>&nbsp;&nbsp;&nbsp;&nbsp;<span
+                            style="font-size:15px;color:red;">{{error}}</span><br>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="card card-custom gutter-b example example-compact form-card-1 ">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    Store Details
+                                </h3>
+                            </div>
+                            <!--begin::Form-->
+                            <form action="" method="POST" enctype="multipart/form-data" class="form">
+                                {% csrf_token %}
+                                <div class="card-body pt-3 pb-0">
+                                    <div class="form-group row">
+                                        <div class="col-lg-4 mt-3 mb-3">
+                                            <label>Store Name</label><span style="color: red;">*</span><span
+                                                id='existStore' style="color: red;"></span>
+                                            <input type="text" class="form-control" id="editStoreName"
+                                                placeholder="Enter store name" value="{{store.store_name}}"
+                                                name='store_name' onkeyup="checkStoreExist()" required />
+                                        </div>
+                                        <div class="col-lg-8 mt-3 mb-3">
+                                            <label>Store Location</label><span style="color: red;">*</span><span
+                                                id='existStorelocedit' style="color: red;"></span>
+                                            <input type="text" class="form-control" placeholder="Enter store location"
+                                                value="{{store.store_location}}" onkeyup="editStorelocat()"
+                                                id="editStorelocation" name="store_location" required />
+                                        </div>
+                                        <div class="col-lg-4 mt-3 mb-3">
+                                            <label>City/Town</label><span style="color: red;">*</span><span
+                                                id='existStorecityedit' style="color: red;"></span>
+                                            <div class="input-group">
+
+                                                <input type="text" class="form-control" placeholder="Enter city"
+                                                    value="{{store.store_city}}" onkeyup="editStorec()"
+                                                    id="editStorecity" name="store_city" required />
+                                            </div>
+
+
+                                        </div>
+                                        <div class="col-lg-4 mt-3 mb-3">
+                                            <label>State</label><span style="color: red;">*</span><span
+                                                id='existStorestateedit' style="color: red;"></span>
+                                            <div class="input-group">
+
+                                                <input type="text" class="form-control" placeholder="Enter State"
+                                                    value="{{store.store_state}}" onkeyup="editStorest()"
+                                                    id="editStorestate" name="store_state" required />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--end::Form-->
+                        </div>
+
+                        <!-- store manage detail -->
+                        <div class="card card-custom gutter-b example example-compact form-card-2 d-block">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    Store Manager Details
+                                </h3>
+                            </div>
+                            <!--begin::Form-->
+                            <div class="card-body pt-3 pb-0">
+                                <div class="row">
+                                    <div class="col-lg-2 text-center pt-5">
+                                        {% if manager.manager_image %}
+                                        <div class="image-input image-input-outline mt-5" id="kt_profile_avatar"
+                                            style="background-image: url('{{manager.manager_image.url}}')">
+                                            <div class="image-input-wrapper"
+                                                style="background-image: url('../../static/Upload_Images/{{manager.manager_image}}')">
+                                            </div>
+                                            <label
+                                                class="btn btn-sm btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow"
+                                                data-action="change" data-toggle="tooltip" title=""
+                                                data-original-title="Change avatar">
+                                                <i class="fa fa-camera icon-md text-muted"></i>
+                                                <input type="file" name="managerProfileImage"
+                                                    accept=".png, .jpg, .jpeg" />
+                                                <input type="hidden" name="profile_avatar_add" />
+                                            </label>
+                                        </div>
+                                        {% else %}
+                                        <div class="image-input image-input-outline mt-5" id="kt_profile_avatar"
+                                            style="background-image: url(../../static/assets/media/users/customer_dummy_pic.jpg)">
+                                            <div class="image-input-wrapper"
+                                                style="background-image: url(../../static/assets/media/users/customer_dummy_pic.jpg)">
+                                            </div>
+                                            <label
+                                                class="btn btn-sm btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow"
+                                                data-action="change" data-toggle="tooltip" title=""
+                                                data-original-title="Change avatar">
+                                                <i class="fa fa-camera icon-md text-muted"></i>
+                                                <input type="file" name="managerProfileImage"
+                                                    accept=".png, .jpg, .jpeg" />
+                                                <input type="hidden" name="profile_avatar_add" />
+                                            </label>
+                                        </div>
+                                        {% endif %}
+
+                                    </div>
+                                    <div class="col-lg-10">
+                                        <div class="form-group row">
+                                            <div class="col-lg-4 mt-3 mb-3">
+                                                <label>Name<span
+                                                        style="color: red;">*&nbsp;&nbsp;&nbsp;</span></label><span
+                                                    id='existmanagername' style="color: red;"></span>
+                                                <input type="text" class="form-control" placeholder="Enter   name"
+                                                    value="{{manager.manager_name}}" id="editManagerName"
+                                                    onkeyup="editmanagerName()" name="mangerName" required />
+                                            </div>
+                                            <div class="col-lg-5 mt-3 mb-3">
+                                                <label>Contact No.<span style='color:red;'> *</span><small>(contact must
+                                                        starts with 6,7,8,9)</small></label><span
+                                                    id='existmanagercontact' style="color: red;"></span>
+                                                <input type="text" class="form-control" placeholder="Enter contact no"
+                                                    value="{{manager.manager_contact}}" name="mangerContactNo"
+                                                    id="checkManagerContact" onkeyup="editmanagerContact()"
+                                                    onkeypress="return onlyNumberKey(event)" maxlength="10" required />
+                                            </div>
+                                            <div class="col-lg-3 mt-3 mb-3">
+                                                <label>Gender</label>
+                                                <div class="radio-inline mt-3">
+                                                    {% if manager.gender == "Male" %}
+                                                    <label class="radio radio-outline radio-outline-2x radio-primary">
+                                                        <input type="radio" name="managerGender" checked="checked"
+                                                            value="Male">
+                                                        <span></span>
+                                                        Male
+                                                    </label>
+                                                    <label class="radio radio-outline radio-outline-2x radio-primary">
+                                                        <input type="radio" name="managerGender" value="Female">
+                                                        <span></span>
+                                                        Female
+                                                    </label>
+                                                    {% else %}
+                                                    <label class="radio radio-outline radio-outline-2x radio-primary">
+                                                        <input type="radio" name="managerGender" value="Male">
+                                                        <span></span>
+                                                        Male
+                                                    </label>
+                                                    <label class="radio radio-outline radio-outline-2x radio-primary">
+                                                        <input type="radio" name="managerGender" checked="checked"
+                                                            value="Female">
+                                                        <span></span>
+                                                        Female
+                                                    </label>
+                                                    {% endif %}
+
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 mt-3">
+                                                <label>Email<span
+                                                        style="color: red;">*&nbsp;&nbsp;&nbsp;</span></label><span
+                                                    id='existmanageremail' style="color: red;"></span>
+                                                <div class="input-group">
+
+                                                    <input type="text" class="form-control" onkeyup="checkEmailExist()"
+                                                        placeholder="Enter Email" value="{{manager.manager_email}}"
+                                                        id='existEmail' name="managerEmail" />
+                                                </div>
+
+                                                <br><br>
+                                            </div>
+                                            <div class="col-lg-5 mt-3">
+                                                <label>Password<span style='color:red;'>*</span></label>
+                                                {% comment %} <img style='width:20px;height:20px;'
+                                                    src="https://img.icons8.com/fluent/48/000000/info.png"
+                                                    data-toggle="tooltip" data-html="true"
+                                                    title="<em><b style='color:#8C08E4;'>Password must contain atleast</b></em> <br>1 lower case letter<br>1 upper case letter<br>1 special characters <br>1 numbers<br>and length must be minimum 10" />
+                                                {% endcomment %}
+                                                <span id="invalidmanagerpassword" class="text-center"
+                                                    style="color: red;"></span>
+                                                <div class="input-group">
+
+                                                    <input type="password" class="form-control"
+                                                        placeholder="***********" name="managerPass"
+                                                        id="validateManagerpass" value=""
+                                                        onclick="validateeditPassowrd()" onkeyup="editpassValidation()"/>
+                                                </div>
+
+
+                                            </div>
+                                            <div class="col-lg-3 mt-3">
+                                                <label id="checkPassmanager">Confirm Password<span style='color:red;'>
+                                                        *</span></label>
+                                                <div class="input-group">
+
+                                                    <input type="password" onkeyup="getPassword_Manager(this)"
+                                                        class="form-control" placeholder="***********"
+                                                        name="managerConfirmPass" />
+                                                </div>
+
+
+                                            </div>
+                                            <div class="col-lg-4 mt-3 mb-3" >
+                                                
+                                            </div>
+                                            <div id="passwordeditCondition" class="col-lg-6 mb-3" style="display: none;">
+                                                <label id="checkPassmanager"><b>Password must contain</b></label><br>
+                                                <span id="charlen" class="fa fa-times" style="font-weight: 600;color: red;font-size: 13px;">&nbsp;&nbsp;Atleast 8 characters</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <span id="upercase" class="fa fa-times" style="font-weight: 600;color: red;font-size: 13px;">&nbsp;&nbsp;Minimun 1 uppercase</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <span id="numbers" class="fa fa-times" style="font-weight: 600;color: red;font-size: 13px;">&nbsp;&nbsp;Minimun 1 number</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <span id="sym" class="fa fa-times" style="font-weight: 600;color: red;font-size: 13px;">&nbsp;&nbsp;Minimun 1 symbol</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <!--end::Form-->
+                        </div>
+
+                        <!-- store manager superwiser -->
+                        <div class="card card-custom gutter-b example example-compact form-card-2 d-block">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    Store Manager Supervisor
+                                </h3>
+                            </div>
+                            <!--begin::Form-->
+                            <div class="card-body pt-3 pb-0">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group row">
+                                            <div class="col-lg-3 mt-3 mb-3">
+                                                <label>Name<span
+                                                        style="color: red;">&nbsp;&nbsp;&nbsp;</span></label><span
+                                                    id='Supemail' style="color: red;"></span>
+                                                <input type="text" class="form-control" placeholder="Enter   name"
+                                                    value="{{supervisor.supervisor_name}}" onkeyup="EditSupName()"
+                                                    id="editSupName" name="supervisorName" />
+                                            </div>
+                                            <div class="col-lg-4 mt-3 mb-3">
+                                                <label><b>Contact No.</b><small>&nbsp;&nbsp;(contact must starts with
+                                                        6,7,8,9)</small></label>
+                                                <span id='SuperContactExist' style="color: red;"></span>
+                                                <input type="text" class="form-control" placeholder="Enter contact no"
+                                                    value="{{supervisor.supervisor_contact}}" name="supervisorContactNO"
+                                                    maxlength="10" onkeyup="EditSuperContact()" id="editsupcon"
+                                                    onkeypress="return onlyNumberKey(event)" />
+                                            </div>
+                                            <div class="col-lg-3 mt-3 mb-3">
+                                                <label>Email<span
+                                                        style="color: red;">&nbsp;&nbsp;&nbsp;</span></label><span
+                                                    id='SuperemailExist' style="color: red;"></span>
+                                                <div class="input-group">
+
+                                                    <input type="email" class="form-control" placeholder="Enter Email"
+                                                        value="{{supervisor.supervisor_email}}"
+                                                        onkeyup="EditSupervisorEmail()" id="emailsup"
+                                                        name="supervisorEmail" />
+                                                </div>
+
+
+                                            </div>
+
+                                            <div class="col-lg-2 mt-3 mb-3">
+                                                <label>Gender</label>
+                                                <div class="radio-inline mt-3">
+                                                    {% if supervisor.supervisor_gender == "Male" %}
+                                                    <label class="radio radio-outline radio-outline-2x radio-primary">
+                                                        <input type="radio" name="supervisorGender" checked="checked"
+                                                            value="Male">
+                                                        <span></span>
+                                                        Male
+                                                    </label>
+                                                    <label class="radio radio-outline radio-outline-2x radio-primary">
+                                                        <input type="radio" name="supervisorGender" value="Female">
+                                                        <span></span>
+                                                        Female
+                                                    </label>
+                                                    {% else %}
+                                                    <label class="radio radio-outline radio-outline-2x radio-primary">
+                                                        <input type="radio" name="supervisorGender" value="Male">
+                                                        <span></span>
+                                                        Male
+                                                    </label>
+                                                    <label class="radio radio-outline radio-outline-2x radio-primary">
+                                                        <input type="radio" name="supervisorGender" checked="checked"
+                                                            value="Female">
+                                                        <span></span>
+                                                        Female
+                                                    </label>
+                                                    {% endif %}
+                                                    <!-- <label class="radio radio-outline radio-outline-2x radio-primary">
+                                                        <input type="radio" name="supervisorGender" checked="checked"
+                                                            value="">
+                                                        <span></span>
+                                                        Male
+                                                    </label>
+                                                    <label class="radio radio-outline radio-outline-2x radio-primary">
+                                                        <input type="supervisorGender" name="radios16" value="">
+                                                        <span></span>
+                                                        Female
+                                                    </label> -->
+
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <!--end::Form-->
+                        </div>
+
+                        <!-- data entry type -->
+                        <div class="card card-custom gutter-b example example-compact form-card-1">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    Customer Data Entry Type
+                                </h3>
+
+                            </div>
+                            <!--begin::Form-->
+                            <div class="card-body pt-3 pb-0">
+                                <div class="form-group row">
+                                    <div class="col-lg-12  mt-3 mb-3">
+                                        <label>Allow store manager to enter data via</label>
+                                        {% if manager.entry_type == 'Manual' %}
+                                        <div class="radio-inline mt-3">
+                                            <label class="radio radio-outline radio-outline-2x radio-primary">
+                                                <input type="radio" name="accessEntryOfData" checked="checked"
+                                                    value="Manual">
+                                                <span></span>
+                                                Manual Entry
+                                            </label>
+                                            <label class="radio radio-outline radio-outline-2x radio-primary">
+                                                <input type="radio" name="accessEntryOfData" value="SheetUpload">
+                                                <span></span>
+                                                Sheet Upload
+                                            </label>
+
+                                            <label class="radio radio-outline radio-outline-2x radio-primary">
+                                                <input type="radio" name="accessEntryOfData" value="Both">
+                                                <span></span>Both
+                                            </label>
+                                            {% endif %}
+                                            {% if manager.entry_type == 'Both' %}
+                                            <div class="radio-inline mt-3">
+                                                <label class="radio radio-outline radio-outline-2x radio-primary">
+                                                    <input type="radio" name="accessEntryOfData" value="Manual">
+                                                    <span></span>
+                                                    Manual Entry
+                                                </label>
+                                                <label class="radio radio-outline radio-outline-2x radio-primary">
+                                                    <input type="radio" name="accessEntryOfData" value="SheetUpload">
+                                                    <span></span>
+                                                    Sheet Upload
+                                                </label>
+
+                                                <label class="radio radio-outline radio-outline-2x radio-primary">
+                                                    <input type="radio" name="accessEntryOfData" checked="checked"
+                                                        value="Both">
+                                                    <span></span>Both
+                                                </label>
+                                                {% endif %}
+                                                {% if manager.entry_type == 'SheetUpload' %}
+                                                <div class="radio-inline mt-3">
+                                                    <label class="radio radio-outline radio-outline-2x radio-primary">
+                                                        <input type="radio" name="accessEntryOfData" value="Manual">
+                                                        <span></span>
+                                                        Manual Entry
+                                                    </label>
+                                                    <label class="radio radio-outline radio-outline-2x radio-primary">
+                                                        <input type="radio" name="accessEntryOfData" checked="checked"
+                                                            value="SheetUpload">
+                                                        <span></span>
+                                                        Sheet Upload
+                                                    </label>
+
+                                                    <label class="radio radio-outline radio-outline-2x radio-primary">
+                                                        <input type="radio" name="accessEntryOfData" value="Both">
+                                                        <span></span>Both
+                                                    </label>
+                                                    {% endif %}
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <!--end::Form-->
+                                </div>
+
+                                <!-- tier definition -->
+
+
+                            </div>
+                            <!--begin::Form-->
+                            <!-- <form class="form">
+                            <div class="card-body pt-3 pb-0">
+                                <div class="row">
+                                    
+                                     <div class="col-lg-12">
+                                       <p>Define Tier to the customers on the basis of Shopping amount and the  time period. </p>
+                                          <div class="form-group row">
+                                            <div class="col-lg-4 mt-3 mb-3">
+                                                <label>Store Name</label>
+                                                <input type="text" class="form-control" placeholder="Enter   name"   />
+                                            </div>
+                                            <div class="col-lg-4 mt-3 mb-3 amount">
+                                                <label class="d-block">Shopping Amount (in Rs.)</label>
+                                                <div class="clearfix"></div>
+                                                <input type="text" class="form-control " placeholder="From"   />
+                                                 <input type="text" class="form-control " placeholder="To"   />
+                                            </div>
+                                             <div class="col-lg-2 mt-3 mb-3">
+                                                <label>Time Period(in Years)<span>*</span></label>
+                                                 <select class="form-control"><option>1</option><option>2</option><option>3</option><option>4</option></select>
+                                                
+                                               
+                                            </div>
+                                             <div class="col-lg-2 mt-3 mb-3">
+                                                <label>Assign Tier<span>*</span></label>
+                                                 <select class="form-control"><option>1</option><option>2</option><option>3</option><option>4</option></select>
+                                                
+                                               
+                                            </div>
+                                          
+                                            
+ 
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            
+                            <!--end::Form-->
+                            <div class="col-lg-12 text-right pt-2">
+                                <!-- <button  data-target="#success" data-toggle="modal" type="button" class="btn btn-primary next mt-4  ">
+                                        Update 
+                                    </button> -->
+                                <input type="submit" value="Update" class="btn btn-primary btn-lg" id="update_btn">
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end::Container-->
+
+
+        </div>
+        <!--end::Entry-->
+    </div>
+    <!--end::Content-->
+    <!--end::Content-->
+    <div class="modal fade   popup" id="success" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-modal="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close " data-dismiss="modal" aria-label="Close">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+                <div class="modal-body text-center  mb-5">
+                    <img src="{% static 'assets/images/check.png' %}">
+                    <h3 class="mb-5">Store details are updated successfully. </h3>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    {% include "admin_template/footer.html" %}
+    <script src="{% static 'AdminAbacus/EditStoreValidation.js' %}"></script>

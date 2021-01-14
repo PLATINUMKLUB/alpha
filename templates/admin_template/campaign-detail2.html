@@ -1,0 +1,535 @@
+{% load static %}
+{% include 'admin_template/header.html' %}
+
+<!--begin::Wrapper-->
+<div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
+  <!--begin::Header-->
+  {% include 'admin_template/inner-header.html' %}
+  <!--end::Header-->
+
+  <!--begin::Content-->
+    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+  <div id='campaignDetails'>
+        <!--begin::Entry-->
+        <div class="d-flex flex-column-fluid">
+      <!--begin::Container--> 
+
+            <div class="container-fluid">
+                <div class="row">
+                <div class="col-lg-6">
+                    <h4 class="title">EMAIL Campaign</h4>
+                </div>
+                <div class="col-lg-6 text-right"><a href="{% url 'email_broadcast' %}"
+                    class="btn btn-dark btn-sm  mt-2">Back</a></div>
+                <div class="col-lg-12">
+                    <div class="card card-custom gutter-b example example-compact">
+                    <div class="card-header d-block">
+                        <div class="row">
+                        <div class="col-md-3">
+                            <h3 class="card-title  mt-4 pt-1">
+                            {{masterCamp}} Campaign
+                            </h3>
+                        </div>
+                        <div class="col-md-6 text-center">
+                            <div class="camp_info">
+                            <span>Email Sent: <i>{{total}}</i></span>&nbsp;&nbsp;
+                            <span>Total Delivered: <i>-</i></span>&nbsp;&nbsp;
+                            <span>Not Delivered: <i>-</i></span>
+                            </div>
+                        </div>
+
+                        </div>
+
+                    </div>
+
+                    </div>
+
+                    {% if data %}
+                    <div class="card card-custom gutter-b example example-compact ">
+
+                    <!--begin::Form-->
+                    <div class="card-body pt-3 pb-0 pl-3  pr-3">
+                        <div class="row">
+                        <div class="col-lg-12">
+                            <div class="table-responsive">
+                            <!--begin: Datatable-->
+                            <table id="camp_det"
+                                class="  camp_tbl tbl list dark   table table-bordered  camp_det   table-striped ">
+                                <thead>
+
+                                <tr>
+                                    <th>Campaign Name</th>
+                                    <th>Date</th>
+                                    <th>Email Sent </th>
+                                    <th>Total Delivered</th>
+                                    <th>Not Delivered</th>
+                                    <th>Email List</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                {% for i in data %}
+                                <tr>
+                                    <td class="text-left"  onclick = 'send_email_campaign(this)' id='campaignName' ><a href="#" style="color:black;">{{masterCamp}} Campaign {{i.Year}}</a></td>
+                                    <td>{{i.Year}}</td>
+                                    {% comment %} <td>{{total}}</td> {% endcomment %}
+                                    <td>-</td>
+
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <form action='' method='GET'>
+                                    <td class="text-center"> <a href="{% url 'campaign-mobile-no-list2' i.Year %}"><img
+                                        src="{% static 'assets/images/list.png' %}"></a></td>
+                                        </form>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+
+                            </table>
+                            </div>
+                        </div>
+
+
+                        </div>
+                        
+
+                        <!--end::Form-->
+                    </div>
+                    {% else %}
+                    <div class="text-center"><h2>No record available!</h2></div>
+                    {% endif %}
+
+                    <!-- store manage detail -->
+
+
+                    </div>
+                </div>
+                
+                </div>
+                
+                <!--end::Container-->
+
+
+            </div>
+
+      
+      </div>
+</div>
+
+      {% comment %} #######################################################  Campaign Text ################################################## {% endcomment %}
+
+  <!--begin::Content-->
+<div id='cap_text' style='display:none;'>
+    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+    <!--begin::Entry-->
+    <div class="d-flex flex-column-fluid">
+        <!--begin::Container-->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-6"><h4 class="title">EMAIL Campaign</h4></div>
+                <div class="col-lg-12">
+                <div class="card card-custom gutter-b example example-compact">
+                    <div class="card-header d-block">
+                    <div class="row">
+                        <div class="col-md-3">
+                        <h3 class="card-title  mt-4 pt-1">
+                            Diwali Campaign
+                        </h3>
+                        </div>
+                        <div class="col-md-6 text-center">
+                            <div class="camp_info">   
+                                <span>EMAIL Sent: <i>550</i></span>
+                                <span>Total Delivered: <i>450</i></span>
+                                <span>Not Delivered: <i>150</i></span>
+                            </div>
+                        </div>
+                        <div class="col-md-3 text-center">
+                                <div class="camp_info"> 
+                                    <span>14/11/2019 15:30</span>
+                                </div>
+                        </div>
+                        </div>
+                    </div>
+                    
+                </div>
+
+                <div class="card card-custom gutter-b example example-compact ">
+                
+                    <!--begin::Form-->
+                    <div class="card-body pt-3 pb-0">
+                    <div class="row">
+                        <div class="col-lg-12">
+                        <a href="javascript:;" class="float-right btn btn-dark btn-sm mt-4 edit-cont">Edit Content</a>
+                            <div class="sms_text view">
+
+                            <p class="mb-5">  
+                            <select name="insertValue" id="openDropdownOnclick" onchange="getdynamictextCampaignEmail(this)">
+                            <option class="d-none">Insert A dynamic value</option>
+                            <option value="name">Name
+                            </option>
+                            <option value="mob_number">
+                              Mobile Number</option>
+                            <option value="email">
+                              Email</option>
+                            <option value="dob">Date
+                              Of Birth</option>
+                            <option value="gender">
+                              Gender</option>
+                          </select>
+                          </p>
+
+
+                            <textarea class="form-control" id='send_email_campaign_text'></textarea>
+                            
+                            </div>
+                            <div class="text-right mb-5">
+                                <a onclick='next()' class="ml-3 btn btn-primary btn-lg">Select Customers</a>
+
+                            </div>
+                        </div>    
+                        </div>
+                    
+                    </div>
+                        
+                    <!--end::Form-->
+                </div>
+
+                <!-- store manage detail -->
+
+            
+            </div>
+            </div>
+        </div>
+        <!--end::Container-->
+
+
+    </div>
+        <!--end::Entry-->
+    </div>
+</div
+    <!--end::Content-->
+
+      {% comment %} #######################################################  Campaign Text ################################################## {% endcomment %}
+<div id='CampaignCustomerData' style='display:none;'>
+<div class="d-flex flex-column-fluid">
+          <!--begin::Container-->
+        <div class="container-fluid">
+                              
+          
+   <!--begin::Row-->
+          <div class="row">
+            <div class="col-lg-6 "><h4 class="title mb-0">Customer List</h4> </div>
+               <div class="col-md-6 text-right">
+                  <a href="javascript:;" class="btn btn-primary filter"><i class="fa fa-filter"></i> Filter</a>
+              </div>
+             <div class="col-lg-12 ">
+                <!--begin::Advance Table Widget 4-->
+                 <div class="card card-custom card-stretch gutter-b mt-4">
+                    <!--begin::Body-->
+                    <div class="card-body pt-3 pb-3 pl-3 pr-3">
+                     <div class="col-md-12">
+                              <div class="filters">
+                                <div class="row">
+                                  <div class="col-md-4">
+                                    <label class="titles">  Store Wise</label>
+                                    <select class="form-control select2" id="kt_select2_3" name="param" multiple="multiple">
+                                       <option label="Label"></option>
+                                        <option value="AK"  >Select All</option>
+                                         
+                                          <option value="AK">Adidas, Mahanagar</option>
+                                          <option value="HI">Adidas, Chowk</option>
+                                          <option value="CA">California</option>
+                                          <option value="NV">Puma, Bhootnath</option>
+                                          <option value="OR">Lenskart, Bhootnath</option>
+                                           <option value="OR">Lenskart, Aminabad</option>
+                                    </select>
+                                  </div>
+
+                                   <div class="col-md-4 pl5  ">
+                                       <label class="titles "> Tier Method</label>
+                                      <div class="checkbox-inline pt-2">
+                                          <label class="checkbox  ">
+                                              <input type="checkbox" name="Checkboxes4">
+                                              <span></span>
+                                              Collective
+                                          </label>
+                                          <label class="checkbox  ">
+                                              <input type="checkbox" checked="checked" name="Checkboxes4">
+                                              <span></span>
+                                              Individual
+                                          </label>
+                                         
+                                      </div>
+                                   </div>
+
+                                    <div class="col-md-4">
+                                       <label class="titles"> Tier Type</label>
+                                      <div class="checkbox-inline pt-2">
+                                          <label class="checkbox  ">
+                                              <input type="checkbox" name="Checkboxes4">
+                                              <span></span>
+                                              Tier 1
+                                          </label>
+                                          <label class="checkbox ml-5">
+                                              <input type="checkbox" checked="checked" name="Checkboxes4">
+                                              <span></span>
+                                              Tier 2
+                                          </label>
+                                           <label class="checkbox ml-5">
+                                              <input type="checkbox" checked="checked" name="Checkboxes4">
+                                              <span></span>
+                                              Tier 3
+                                          </label>
+                                         
+                                      </div>
+                                   </div>
+
+                                    <div class="col-md-4 mt-5 pt-2">
+                                       <label class="titles"> Date range</label>
+                                       <input type='text' class="form-control" id="kt_daterangepicker_1" readonly placeholder="Select time" type="text" value="" />
+                                   </div>
+
+                                    <div class="col-md-4 mt-5 pt-2 pl5">
+                                       <label class="titles"> Shopping Range</label>
+                                       <p>
+                                          <input type="text" id="amount" readonly >
+                                        <div id="slider-range"></div>
+                                       
+                                      </p>
+                                       
+                                      
+
+                                   </div>
+
+                                   <div class="col-md-4 mt-5 pt-2">
+                                     <label class="titles"> Filled complete Details form</label>
+                                     <div class="radio-inline mt-2">
+                                        <label class="radio">
+                                            <input type="radio" name="radios2">
+                                            <span></span>
+                                            Option 1
+                                        </label>
+                                        <label class="radio">
+                                            <input type="radio" name="radios2">
+                                            <span></span>
+                                            Option 2
+                                        </label>
+                                        
+                                    </div>
+                                  </div>
+
+                                   <div class="col-md-12 mt-5 pt-2 text-center">
+                                      <button class="btn btn-dark btn-lg">Apply</button>
+                                   </div>
+
+
+                                   
+
+                                </div>
+
+
+                              </div>
+                       </div>
+                      <div class="cust_head">
+                        <div class="row">
+                          <div class="col-md-3">
+                            <div class="form-group mb-2">
+                               <input type="text" class="form-control" name="" placeholder="Search">
+                            </div>
+                          </div>
+                          
+
+                        </div>
+                      </div>
+                      
+                        <div class="tab-content">
+                            <!--begin::Table-->
+                         
+                            <div class="table-responsive">
+                            <!--begin: Datatable-->
+                                <table class="   tbl list dark   table table-bordered cust_tbl   table-striped "  >
+                                  <thead>
+                                    <tr>
+                                     <th ><label><input type="checkbox" name="" value="" onclick="SelectAll_CustomerCamp(this)"></label></th>
+                                      
+                                      <th >Name</th>
+                                      <th >Mobile</th>
+                                      <th >Email </th>
+                                      <th>Gender</th>
+                                      <th>DOB</th>
+                                       
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                  {% for item in Customer_data %}
+                                    <tr onclick="customer_detailed_info({{item.id}})">
+                                    <td><label id='sel_usersCamp'><input type="checkbox" name="" class="chckbx" /></label></td>
+                                    <td id="rowName">{{item.name}}</td>
+                                    <td id="rowContact">{{item.contact}}</td>
+                                    <td id="rowEmail">{{item.email}}</td>
+                                    <td id="rowGender">{{item.gender}}</td>
+                                    <td id="rowDob">{{item.DOB}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                  </tbody>
+                                </table>
+                              
+                               
+                            </div>
+                            <!--end::Table-->
+                            <div class="text-center">
+                              <a href="#" data-toggle="modal" data-target="#sms" onclick=" next1()"  class="btn btn-primary btn-lg mt-4">Send Email</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end::Body-->
+                </div>
+                <!--end::Advance Table Widget 4-->
+            </div>
+
+             
+          </div>
+          <!--end::Row-->
+          <!--end::Dashboard-->
+      </div>
+      <!--end::Container-->
+  </div>
+</div>
+
+      {% comment %} #######################################################  Campaign Text ################################################## {% endcomment %}
+
+<div id="sendcampaignEmail" style='display:none;'>
+      <div class="d-flex flex-column-fluid">
+      <!--begin::Container-->
+    <div class="container-fluid">
+         <div class="row">
+            <div class="col-lg-6 "><h4 class="title">Mail Preview</h4> </div>
+            <div class="col-lg-12">
+               
+               <div class="card card-custom gutter-b example example-compact ">
+                 <div class="card-header">
+                    <h3 class="card-title">
+                       <strong>To:</strong>anuj77@gmail.com
+                    </h3>
+                 
+                </div>
+                <!--begin::Form-->
+                     <div class="card-body pt-3 pb-0">
+                      <div class="row">
+                           <div class="col-lg-12">
+                                  <div class="sms_text">
+                                     
+
+
+                                    Hello, Anuj You have shopped for Rs. 50,000  From the lenskart, Bhootnath store sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                     
+                                  </div>
+
+                                 
+                           </div>    
+                           
+                        </div>
+                       
+                    </div>
+                     
+                 <!--end::Form-->
+              </div>
+
+              <div class="card card-custom gutter-b example example-compact ">
+                 <div class="card-header">
+                    <h3 class="card-title">
+                       <strong>To:</strong>pradeep77@gmail.com
+                    </h3>
+                 
+                </div>
+                <!--begin::Form-->
+                     <div class="card-body pt-3 pb-0">
+                      <div class="row">
+                           <div class="col-lg-12">
+                                  <div class="sms_text">
+                                      <p  > Hello, Anuj You have shopped for Rs. 50,000  From the lenskart, Bhootnath store sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                     </p>
+                                     
+                                  </div>
+
+                                  <div class="text-right mb-5">
+                                     <button onclick="{% url 'email' %}"  class="btn btn-secondary btn-lg">Cancel</button>
+                                      <button data-toggle="modal" data-target="#success" class="ml-3 btn btn-primary btn-lg">Send</button>
+
+                                  </div>
+                           </div>    
+                           
+                        </div>
+                       
+                    </div>
+                     
+                 <!--end::Form-->
+              </div>
+
+              <!-- store manage detail -->
+
+           
+        </div>
+    </div>
+      <!--end::Container-->
+
+
+  </div>
+      </div>
+</div>
+      {% comment %}  {% endcomment %}
+      
+      <!--end::Entry-->
+    </div>
+    
+    <!--end::Content-->
+    <div class="modal fade   popup" id="schedule" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-modal="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Schedule SMS </h4>
+            <button type="button" class="close " data-dismiss="modal" aria-label="Close">
+              <i aria-hidden="true" class="ki ki-close"></i>
+            </button>
+          </div>
+          <div class="modal-body pt-0  mb-5">
+            <form class="form">
+              <div class="form-group mb-2  ">
+                <label class="col-form-label  ">Select Date</label>
+                <input type="text" class="form-control" id="kt_datepicker_1_modal" readonly placeholder="Select date" />
+              </div>
+              <div class="form-group  ">
+                <label class="col-form-label  ">Select Time</label>
+                <input class="form-control" id="kt_timepicker_1_modal" readonly placeholder="Select time" type="text" />
+              </div>
+              <div class="text-right"> <button data-toggle="modal" data-target="#success" data-dismiss="modal"
+                  class="ml-3 btn btn-primary btn-lg">Schedule Now</button>
+              </div>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade   popup" id="success" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-modal="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close " data-dismiss="modal" aria-label="Close">
+              <i aria-hidden="true" class="ki ki-close"></i>
+            </button>
+          </div>
+          <div class="modal-body text-center  mb-5">
+            <img src="{% static 'assets/images/check.png' %}">
+            <h3 class="mb-5"> Messages are scheduled successfully. </h3>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    
+    {% include 'admin_template/footer.html' %}
+    

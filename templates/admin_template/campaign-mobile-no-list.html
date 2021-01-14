@@ -1,0 +1,154 @@
+{% include 'admin_template/header.html' %}
+    <!--begin::Wrapper-->
+<div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
+    <!--begin::Header-->
+    {% include 'admin_template/inner-header.html' %}
+    <!--end::Header-->
+
+    <!--begin::Content-->
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+  <!--begin::Entry-->
+  <div class="d-flex flex-column-fluid">
+      <!--begin::Container-->
+    <div class="container-fluid">
+         <div class="row">
+            <div class="col-lg-6"><h4 class="title">SMS Campaign</h4></div>
+            <div class="col-lg-6 text-right"><a href="{% url 'sms_broadcast' %}" class="btn btn-dark btn-sm  mt-2">Back</a></div>
+            <div class="col-lg-12">
+              <div class="card card-custom gutter-b example example-compact">
+                <div class="card-header d-block">
+                  <div class="row">
+                    <div class="col-md-3">
+                      <h3 class="card-title  mt-4 pt-1">
+                         Diwali Campaign
+                      </h3>
+                    </div>
+                     <div class="col-md-6 text-center">
+                         <div class="camp_info">   
+                            <span>SMS Sent: <i>550</i></span>
+                            <span>Total Delivered: <i>450</i></span>
+                            <span>Not Delivered: <i>150</i></span>
+                         </div>
+                     </div>
+                     <div class="col-md-3 text-center">
+                            <div class="camp_info "> 
+                                 <span>14/11/2019 15:30</span>
+                                 
+                            </div>
+                     </div>
+                     </div>
+
+                </div>
+                
+              </div>
+
+               <div class="card card-custom gutter-b example example-compact ">
+               
+                <!--begin::Form-->
+                <div class="card-body pt-3 pb-0 pl-3  pr-3">
+                  <div class="row">
+                     <div class="col-lg-12">
+                           <div class="table-responsive">
+                            <!--begin: Datatable-->
+                                <table class="  camp_tbl tbl list dark   table table-bordered     table-striped "  >
+                                  <thead>
+                                    <tr>
+                                      <th>SMS Sent on Mobile Numbers</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                     <tr>
+                                      <td class="text-left">8574258866</td>
+                                     </tr>
+                                      <tr>
+                                      <td class="text-left">8574258866</td>
+                                     </tr>
+                                      <tr>
+                                      <td class="text-left">8574258866</td>
+                                     </tr>
+                                      <tr>
+                                      <td class="text-left">8574258866</td>
+                                     </tr> <tr>
+                                      <td class="text-left">8574258866</td>
+                                     </tr>
+                                      <tr>
+                                      <td class="text-left">8574258866</td>
+                                     </tr>
+                                      <tr>
+                                      <td class="text-left">8574258866</td>
+                                     </tr>
+                                      <tr>
+                                      <td class="text-left">8574258866</td>
+                                     </tr>
+
+                                   </tbody>
+                                 </table>
+
+                          
+                         
+                      </div>    
+                    </div>
+                   
+                </div>
+                     
+                 <!--end::Form-->
+              </div>
+
+              <!-- store manage detail -->
+
+           
+           </div>
+        </div>
+    </div>
+      <!--end::Container-->
+
+
+  </div>
+    <!--end::Entry-->
+</div>
+    <!--end::Content-->
+ <div class="modal fade   popup" id="schedule" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-modal="true"  >
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+             <h4 class="modal-title">Schedule SMS </h4>
+              <button type="button" class="close " data-dismiss="modal" aria-label="Close">
+                  <i aria-hidden="true" class="ki ki-close"></i>
+              </button>
+          </div>
+          <div class="modal-body pt-0  mb-5">
+            <form class="form">
+              <div class="form-group mb-2  ">
+               <label class="col-form-label  ">Select Date</label>
+               <input type="text" class="form-control" id="kt_datepicker_1_modal" readonly placeholder="Select date"/>
+              </div>
+              <div class="form-group  ">
+               <label class="col-form-label  ">Select Time</label>
+               <input class="form-control" id="kt_timepicker_1_modal" readonly placeholder="Select time" type="text"/>
+              </div>
+              <div class="text-right"> <button data-toggle="modal" data-target="#success"  data-dismiss="modal" class="ml-3 btn btn-primary btn-lg">Schedule Now</button>
+              </div>
+            </form>
+          </div>
+            
+    </div>
+</div>
+</div>
+
+<div class="modal fade   popup" id="success" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-modal="true"  >
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close " data-dismiss="modal" aria-label="Close">
+                  <i aria-hidden="true" class="ki ki-close"></i>
+              </button>
+          </div>
+          <div class="modal-body text-center  mb-5">
+               <img src="assets/images/check.png">
+               <h3 class="mb-5"> Messages are scheduled successfully. </h3>
+          </div>
+            
+    </div>
+</div>
+</div>
+{% include 'admin_template/footer.html' %}

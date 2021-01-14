@@ -1,0 +1,154 @@
+{% if user.is_authenticated %}
+{% include 'store-manager/header.html' %}
+{% load static %}
+
+<!--begin::Wrapper-->
+
+<style>
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+    }
+
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+</style>
+<div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
+    <!--begin::Header-->
+    {% include 'store-manager/inner-header.html' %}
+    <!--end::Header-->
+
+    <!--begin::Content-->
+    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+
+        <!--begin::Entry-->
+        <div class="d-flex flex-column-fluid">
+            <!--begin::Container-->
+            {% comment %} <form method="" action="">
+                {% csrf_token %} {% endcomment %}
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card card-custom gutter-b example example-compact form-card">
+                                <div class="card-header">
+                                    <h3 class="card-title">
+                                        Customer Manual Entry
+                                    </h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-group row">
+                                        <div class="col-lg-4">
+                                            <label>Contact Number<span style="color:red;">*</span></label>
+                                            <input id="search_contact" type="text" pattern="\d*" maxlength="10"
+                                                name='mannual_contact' onkeyup="searchContact(this)" class="form-control"
+                                                placeholder="Enter contact no." onkeypress="return onlyNumberKey(event)" maxlength="10" required />
+                                                <p id="invalidContact" class="text-center" style="color: red;"></p>
+
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <label id="CheckInvoice">Invoice Number<span style="color:red;">*</span></label>
+                                            <input id="InvoiceNumber" type="text" onkeyup="searchInvoice()"
+                                                name='InvoiceNumber' class="form-control"
+                                                placeholder="Enter invoice number" required />
+                                        </div>
+
+                                        <!-- <div class="col-lg-4">
+                                            <label>Invoice Number<span>*</span></label>
+                                            <input id="invoice" type="text" name='mannual_invoice' class="form-control"
+                                                placeholder="Enter invoice number" required />
+                                        </div> -->
+
+                                    </div>
+                                    {% if manual_error %}
+                                    <p id='para_alert' style="color:red;">{{manual_error}}</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card card-custom gutter-b example example-compact form-card-1" id="SetOpacity">
+                                <div class="card-header">
+                                    <h3 class="card-title" id="TitleCustomer">
+
+                                    </h3>
+                                </div>
+                                <div class="card-body pt-3">
+                                    <div class="form-group row">
+                                        <div class="col-lg-4 mt-3 mb-3">
+                                            <label>Name<span></span></label>
+                                            <input id="customerName" type="text" name='customerName'
+                                                class="form-control" placeholder="Enter customer name" value='' onkeyup="validateName(this)"
+                                             pattern=".*\S+.*" title="This field not accept white space"/>
+                                                <p id="invalidName" class="text-center" style="color: red;"></p>
+                                        </div>
+                                        <div class="col-lg-4 mt-3 mb-3">
+                                            <label>Gender<span></span></label>
+                                            <div class="radio-inline mt-3">
+                                                <label class="radio radio-outline radio-outline-2x radio-primary">
+                                                    <input id="Customer_male" type="radio" name="CustomerGender"
+                                                        value="Male" >
+                                                    <span></span>
+                                                    Male
+                                                </label>
+                                                <label class="radio radio-outline radio-outline-2x radio-primary">
+                                                    <input id="Customer_female" type="radio" name="CustomerGender"
+                                                        value="Female">
+                                                    <span></span>
+                                                    Female
+                                                </label>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 mt-3 mb-3">
+                                            <label>Date of Birth<span></span></label>
+                                            <input type="text" name='customerDOB' class="form-control"
+                                                placeholder="dd/MM/yyyy" id="kt_datepicker_1" value="" readonly/>
+                                        </div>
+                                        <div class="col-lg-4 mt-3 mb-3">
+                                            <label>Date of Marriage<span></span></label>
+                                            <input type="text" name='customerDOM' class="form-control"
+                                                placeholder="dd/MM" id="kt_datepicker_2" value="" readonly/>
+                                        </div>
+                                        <div class="col-lg-4 mt-3 mb-3">
+                                            <label>Email<span></span></label>
+                                            <input id="customerEmail" type="email" name='customerEmail'
+                                                class="form-control" placeholder="Enter customer email" 
+                                                value='' onkeyup="validateEmail(this)"/>
+                                                <p id="invalidEmail" class="text-center" style="color: red;"></p>
+                                        </div>
+                                        <div class="col-lg-4 mt-3 mb-3">
+                                            <label>Purchase Amount<span style="color:red;">*</span></label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend"><span
+                                                        class="input-group-text">Rs.</span>
+                                                </div>
+                                                <input id="amount" type="number" name='mannual_amount'
+                                                    class="form-control" placeholder="Enter purchase amount" onkeydown="validateAmt(this)" required />
+                                                    <p id="invalidAmt" class="text-center" style="color: red;"></p>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 text-right pt-2">
+                                            <button id="save_btn" onclick="manualentryAjax()" class="btn btn-success search mt-4" disabled>Save
+                                                <img src="{% static 'store_manager/images/path.svg' %}">
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% comment %} </form> {% endcomment %}
+        </div>
+    </div>
+    <script src="{% static 'store_manager/js/jquery.js' %}"></script>
+    <script src="{% static 'store_manager/js/manual.js' %}"></script>
+
+    {% include 'store-manager/footer.html' %}
+    {% endif %}

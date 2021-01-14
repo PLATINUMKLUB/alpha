@@ -1,0 +1,93 @@
+{% include "admin_template/header.html" %}
+    <!--begin::Wrapper-->
+<div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
+    <!--begin::Header-->
+    {% include "admin_template/inner-header.html" %}
+    <!--end::Header-->
+
+    <!--begin::Content-->
+    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+        
+        <!--begin::Entry-->
+        <div class="d-flex flex-column-fluid">
+            <!--begin::Container-->
+            <div class="container-fluid">
+                 <div class="row">
+                    <div class="col-lg-12 "><h4 class="title">  Tier Management</h4> </div>
+                   
+                    <div class="col-lg-12">
+                      <div class="card card-custom gutter-b example example-compact ">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                               Tier Definition
+                            </h3>
+                         
+                        </div>
+                        <!--begin::Form-->
+                          <form class="form">
+                            <div class="card-body pt-3 pb-0">
+                                <div class="row">
+                                     <div class="col-lg-12">
+                                       <p>Define Tier to the customers on the basis of Shopping amount and the  time period. </p>
+                                          <div class="form-group row  ">
+                                            <div class="col-lg-3 mt-3 ">
+                                                <label>Store Name</label>
+                                                <input type="text" class="form-control " placeholder="Enter Store Name"   />
+                                            </div>
+                                            <div class="col-lg-4 mt-3   amount">
+                                                <label class="d-block">Shopping Amount (in Rs.)</label>
+                                                <div class="clearfix"></div>
+                                                <input type="text" class="form-control " placeholder="From"   />
+                                                 <input type="text" class="form-control " placeholder="To"   />
+                                            </div>
+                                             <div class="col-lg-2 mt-3  ">
+                                                <label>Time Period(in Yr.s)<span>*</span></label>
+                                                 <select class="form-control"><option>1</option><option>2</option><option>3</option><option>4</option></select>
+                                                
+                                            </div>
+                                             <div class="col-lg-2 mt-3  ">
+                                                <label>Assign Tier<span>*</span></label>
+                                                 <select class="form-control"><option>1</option><option>2</option><option>3</option> </select>
+                                            </div>
+                                             <div class="col-lg-1 mt-3  ">
+                                               <a href="#" class="add-more"><i class="fa fa-plus-circle"></i></a>
+                                             </div>
+                                          
+                                            
+ 
+                                           
+                                        </div>
+                                        <div id="add-tier"></div>
+
+                                         <div class="col-lg-12 text-right mt-5 pt-5 mb-5 pb-5">
+                                                <button onclick="window.open('preview-store-detail.php','_self')" type="button" class="btn btn-primary next mt-4  ">Submit 
+                                                   
+                                                </button>
+                                            </div>
+
+                                        
+
+                                    </div>
+                                </div>
+                               
+                            </div>
+                             
+                         </form>
+                        <!--end::Form-->
+                      </div>
+
+                      <!-- store manage detail -->
+
+                   
+                   </div>
+                </div>
+            </div>
+            <!--end::Container-->
+
+
+        </div>
+        <!--end::Entry-->
+    </div>
+    <!--end::Content-->
+
+ {% include "admin_template/footer.html" %}

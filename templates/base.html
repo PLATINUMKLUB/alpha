@@ -1,0 +1,523 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+
+	<!-- Basic -->
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+	<title>ABACUS - Home</title>
+
+	<meta name="keywords" content="" />
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<!-- Mobile Metas -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, shrink-to-fit=no">
+
+	<!-- Web Fonts  -->
+	<link
+		href="https://fonts.googleapis.com/css?family=Montserrat:100,300,400,500,600,700,900%7COpen+Sans:300,400,600,700,800"
+		rel="stylesheet" type="text/css">
+		<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"> -->
+	<!-- Vendor CSS -->
+	<link rel="stylesheet" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+	<link rel="stylesheet" href="{% static 'vendor/font-awesome/css/fontawesome-all.min.css' %}">
+	<link rel="stylesheet" href="{% static 'vendor/animate/animate.min.css' %}">
+	<link rel="stylesheet" href="{% static 'vendor/owl.carousel/assets/owl.carousel.min.css' %}">
+	<link rel="stylesheet" href="{% static 'vendor/owl.carousel/assets/owl.theme.default.min.css' %}">
+	<link rel="stylesheet" href="{% static 'vendor/magnific-popup/magnific-popup.min.css' %}">
+    <link rel="shortcut icon" href="{% static 'store_manager/media/logos/favicon.ico' %}" />
+
+	<!-- Theme CSS -->
+	<link rel="stylesheet" href="{% static 'css/theme.css' %}">
+	<link rel="stylesheet" href="{% static 'css/theme-elements.css' %}">
+
+	<!-- Current Page CSS -->
+	<link rel="stylesheet" href="{% static 'vendor/rs-plugin/css/settings.css' %}">
+	<link rel="stylesheet" href="{% static 'vendor/rs-plugin/css/layers.css' %}">
+	<link rel="stylesheet" href="{% static 'vendor/rs-plugin/css/navigation.css' %}">
+
+	<!-- Skin CSS -->
+	<link rel="stylesheet" href="{% static 'css/skins/default.css' %}">
+
+	<!-- Theme Custom CSS -->
+	<link rel="stylesheet" href="{% static 'css/custom.css' %}">
+
+	<!-- Head Libs -->
+	<script src="{% static 'vendor/modernizr/modernizr.min.js' %}"></script>
+	<script src="{% static 'js/custom.js' %}"></script>
+
+
+</head>
+
+<body>
+	<div class="body">
+
+		<header id="header" class="header-effect-shrink"
+			data-plugin-options="{'stickyEnabled': true, 'stickyEnableOnBoxed': true, 'stickyEnableOnMobile': true, 'stickyStartAt': 120}">
+			<div class="header-body">
+				<div class="header-container container">
+					<div class="header-row">
+						<div class="header-column justify-content-start">
+							<div class="header-logo">
+								<a href="{% url 'home' %}">
+									<img alt="EZ" src="{% static 'img/logo.png' %}">
+								</a>
+							</div>
+						</div>
+						<div class="header-column justify-content-end">
+							<div class="header-nav">
+								<div class="header-nav-main header-nav-main-effect-1 header-nav-main-sub-effect-1">
+									<nav class="collapse">
+										<ul class="nav flex-column flex-lg-row" id="mainNav">
+											<li>
+												<a href="{% url 'home' %}">
+													Home
+												</a>
+											</li>
+
+											<li class="dropdown">
+												<a class="dropdown-item dropdown-toggle" href="#">
+													About us
+												</a>
+												<ul class="dropdown-menu">
+													{% for item in aboutList %}
+													<li><a href='#'>{{item.title}}</a></li>
+													{% endfor %}
+												</ul>
+											</li>
+											<li><a href="#">Online Services</a></li>
+											<li class="dropdown">
+												<a class="dropdown-item dropdown-toggle" href="#">
+													Contact Details
+												</a>
+												<ul class="dropdown-menu">
+													<li><a class="dropdown-item" href="#" data-toggle="modal"
+															data-target="#contact">Contact Form</a></li>
+													<li><a class="dropdown-item" href="#" data-toggle="modal"
+															data-target="#subscribe">Subscription</a></li>
+                                                    {% comment %} <li><a class="dropdown-item" href="#">Contact Form</a></li>
+													<li><a class="dropdown-item" href="#">Subscription</a></li> {% endcomment %}
+
+												</ul>
+											</li>
+
+											{% if user.is_authenticated %}
+											<li class="dropdown">
+												<a class="dropdown-item dropdown-toggle" href="{% url 'store' %}">
+													Manage Store
+												</a>
+                                                {% if entry == 'Manual' %}
+												<ul class="dropdown-menu">
+													<li><a class="dropdown-item"
+															href="{% url 'manualEntryData' %}">Manual Entry</a></li>
+												</ul>
+                                                {% elif entry == 'SheetUpload' %}
+                                                <ul class="dropdown-menu">
+													<li><a class="dropdown-item" href="{% url 'sheet' %}">Sheet
+															Entry</a></li>
+												</ul>
+                                                {% else %}
+                                                <ul class="dropdown-menu">
+													<li><a class="dropdown-item"
+															href="{% url 'manualEntryData' %}">Manual Entry</a></li>
+													<li><a class="dropdown-item" href="{% url 'sheet' %}">Sheet
+															Entry</a></li>
+												</ul>
+                                                {% endif %}
+											</li>
+
+											<li class="dropdown">
+												{% comment %} <a class="dropdown-item dropdown-toggle" href="#">
+													Logout
+												</a> {% endcomment %}
+												<a class="dropdown-item dropdown-toggle" href='#'><img
+														src='{% static 'img/mentor.png' %}'
+														style='height:40px;width:40px;border-radius:15px;'></a>
+												<ul class="dropdown-menu">
+                                                {% comment %} <li><a class="dropdown-item" href="{%url 'ab_admin' %}">Admin Panel</a>
+													</li> {% endcomment %}
+													<li><a class="dropdown-item" href="{% url 'profile' %}">Manage Profile</a>
+													</li>
+													{% comment %} <li><a class="dropdown-item" href="#">Change
+															Password</a></li> {% endcomment %}
+													<li><a class="dropdown-item" href="{%url 'signout' %}">Logout</a>
+													</li>
+												</ul>
+											</li>
+											{% else %}
+											<li><a href="{% url 'signup' %}">Login</a></li>
+											{% endif %}
+
+										</ul>
+									</nav>
+								</div>
+
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</header>
+
+		<!-- HEADER -->
+
+
+
+		{% block content %}
+
+
+		{% endblock content %}
+
+
+		<!-- FOOTER -->
+
+
+		<footer id="footer" class="bg-light mb-5 mt-0">
+			<div class="container">
+
+				<div class="row">
+					<div class="col-lg-3 col-md-3 mb-4 mb-lg-0">
+						<img src="{% static 'img/logo.png' %}">
+						<p class="mt-3  font-weight-bold">Follow Us</p>
+						<ul class="social-icons social-icons-transparent social-icons-icon-light social-icons-lg">
+							<li class="social-icons-facebook"><a href="http://www.facebook.com/" target="_blank"
+									title="Facebook"><i class="fab fa-facebook-f"></i></a>
+							</li>
+							<li class="social-icons-twitter"><a href="http://www.twitter.com/" target="_blank"
+									title="Twitter"><i class="fab fa-twitter"></i></a></li>
+							<li class="social-icons-instagram"><a href="http://www.instagram.com/" target="_blank"
+									title="Instagram"><i class="fab fa-instagram"></i></a></li>
+						</ul>
+					</div>
+					<div class="col-lg-9 col-md-9 mb-4 mb-lg-0">
+						<div class="row">
+							<div class="col-lg-3 col-md-3">
+								{% comment %} <h2 class="text-color-dark font-weight-bold text-1 mb-3">Contact Details</h2>
+								<ul class="list list-unstyled">
+									<li class="mb-2"> <a href="">Contact Form</a></li>
+									<li class="mb-2"> <a href="">Subscribe</a></li>
+
+								</ul> {% endcomment %}
+							</div>
+							<div class="col-lg-3 col-md-3">
+								<h2 class="text-color-dark font-weight-bold text-1 mb-3">Customer Support</h2>
+								<ul class="list list-unstyled">
+									<li class="mb-2"> <a href="">Terms & Conditions</a></li>
+									<li class="mb-2"> <a href="">Privacy Policy</a></li>
+									<li class="mb-2"> <a href="">Hyperlink Policy</a></li>
+									<li class="mb-2"> <a href="">Copyright Policy</a></li>
+									<li class="mb-2"> <a href="">Disclaimer</a></li>
+
+								</ul>
+							</div>
+							<div class="col-lg-3 col-md-3">
+								<h2 class="text-color-dark font-weight-bold text-1 mb-3">Help Line</h2>
+								<ul class="list list-unstyled">
+									<li class="mb-2"> <a href="">Contact Details</a></li>
+									<li class="mb-2"> <a href="">Store Details</a></li>
+									<li class="mb-2"> <a href="">Email Support</a></li>
+									{% comment %} <li class="mb-2"> <a href="">Send Queries</a></li> {% endcomment %}
+                                    <li class="mb-2"><a href="#" data-toggle="modal"
+															data-target="#query">Send Queries</a></li>
+									<li class="mb-2"> <a href="">FAQ</a></li>
+
+								</ul>
+							</div>
+							<div class="col-lg-3 col-md-3">
+								<h2 class="text-color-dark font-weight-bold text-1 mb-3">Information</h2>
+								<ul class="list list-unstyled">
+									<li class="mb-2"> <a href="">About</a></li>
+									<li class="mb-2"> <a href="">Shopping Info</a></li>
+
+								</ul>
+							</div>
+
+
+						</div>
+
+					</div>
+					<div class="col-lg-12 mt-4">
+						<p class="text-center mb-0">&copy; 2020 ABACUS.</p>
+					</div>
+				</div>
+			</div>
+		</footer>
+
+	</div>
+
+	<!-- subscribe form -->
+	<div class="modal fade popup form" id="subscribe" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog text-left" role="document">
+			<div class="modal-content">
+				<div class="modal-header pb-0">
+
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body  ">
+					<h5 class="modal-title text-5 font-weight-bold mt-0" id="exampleModal2Label">Subscribe </h5>
+					<span class=" text-2 mt-1   text-dark">Please fill out the form below.</span>&nbsp;&nbsp;&nbsp;&nbsp;<span id="subsError" style="color: red;font-size: 10px;"></span>
+
+					
+						<div class="form-row">
+							<div class="form-group col-lg-6 col-md-6 col-sm-6">
+								<input type="text" name="customer_fname" id='customer_fname' value"" class="form-control" placeholder="First Name" required onkeyup="subscriptionfnameValidation()">
+							</div>
+							<div class="form-group col-lg-6 col-md-6 col-sm-6">
+								<input type="text" name="customer_lname" id='customer_lname' value"" class="form-control" placeholder="Last Name" required onkeyup="subscriptionlnameValidation()">
+							</div>
+							<div class="form-group col-lg-6 col-md-6 col-sm-6">
+								<input type="text" name="customer_email" id='customer_email' value"" class="form-control" placeholder="Email Address" required onkeyup="subscriptionemailValidation()">
+							</div>
+							<div class="form-group col-lg-6 col-md-6 col-sm-6">
+								<input type="text" name="customer_contact" id='customer_contact' maxlength="10" value"" class="form-control" placeholder="Mobile Number" required onkeyup="subscriptioncontactValidation()">
+							</div>
+
+							<div class="form-group col-lg-6 col-md-6 col-sm-6 ml-auto text-right pt-3">
+							<input type="submit" value='SUBMIT' id="subbutton" data-dismiss="modal"
+									class="btn btn-primary" data-toggle="modal" data-target="#success2" onclick='subscription_query_form()' disabled>
+							</div>
+
+						</div>
+
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+    <!-- query form -->
+	<div class="modal fade popup form" id="query" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog text-left" role="document">
+			<div class="modal-content">
+				<div class="modal-header pb-0">
+
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body  ">
+					<h5 class="modal-title text-5 font-weight-bold mt-0" id="exampleModal2Label">Customer Query</h5>
+					<span class=" text-2 mt-1   text-dark">Please fill out the form below.</span>&nbsp;&nbsp;&nbsp;&nbsp;<span id="queryError" style="color: red;font-size: 10px;"></span>
+
+						<div class="form-row">
+							<div class="form-group col-lg-6 col-md-6 col-sm-6">
+								<input type="text" name="customer_fname" id='customer_fname1' value"" class="form-control" placeholder="First Name" required onkeyup="queryfnameValidation()">
+							</div>
+							<div class="form-group col-lg-6 col-md-6 col-sm-6">
+								<input type="text" name="customer_lname" id='customer_lname1' value"" class="form-control" placeholder="Last Name" required onkeyup="querylnameValidation()">
+							</div>
+							<div class="form-group col-lg-6 col-md-6 col-sm-6">
+								<input type="text" name="customer_email" id='customer_email1' value"" class="form-control" placeholder="Email Address" required onkeyup="queryemailValidation()">
+							</div>
+							<div class="form-group col-lg-6 col-md-6 col-sm-6">
+								<input type="text" name="customer_contact" id='customer_contact1' maxlength="10" value"" class="form-control" placeholder="Mobile Number" required onkeyup="querycontactValidation()">
+							</div>
+
+							<div class="form-group col-lg-6 col-md-6 col-sm-6 ml-auto text-right pt-3">
+							<input type="submit" value='SUBMIT' data-dismiss="modal"
+									class="btn btn-primary" data-toggle="modal" id="querybutton" data-target="#success3" onclick='subscription_query_form1()' disabled>
+							</div>
+
+						</div>
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<!-- contact form -->
+	<div class="modal fade popup form" id="contact" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog text-left" role="document">
+			<div class="modal-content">
+				<div class="modal-header pb-0">
+
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body  ">
+					<h5 class="modal-title text-5 font-weight-bold mt-0" id="exampleModal2Label">Let's get in touch with
+						us </h5>
+						<span class=" text-2 mt-1   text-dark">Please fill out the form below.</span>&nbsp;&nbsp;&nbsp;&nbsp;<span id="contactError" style="color: red;font-size: 10px;"></span>
+
+						<div class="form-row">
+							<div class="form-group col-lg-6 col-md-6 col-sm-6">
+								<input id='Custname' value="" type="text" name="name" class="form-control" placeholder="Name" required onkeyup="contactnameValidation()">
+							</div>
+							<div class="form-group col-lg-6 col-md-6 col-sm-6">
+								<input id='Custdob' value="" type="date" endDate="+0d" name="dob" class="form-control" placeholder="DOB" required >
+							</div>
+							<div class="form-group col-lg-6 col-md-6 col-sm-6">
+								<input id='Custemail' value="" type="text" name="email" class="form-control" placeholder="Email Address" required onkeyup="contactemailValidation()">
+							</div>
+							<div class="form-group col-lg-6 col-md-6 col-sm-6">
+								<input id='Custcontact' value="" type="text" name="phone" maxlength="10" class="form-control" placeholder="Mobile Number " onkeyup="contactcontactValidation()" required>
+							</div>
+							<div class="form-group col-lg-12">
+								<textarea id='Custmessage' value="" name='message' class="form-control" placeholder="Message" required></textarea>
+							</div>
+
+							<div class="form-group col-lg-6 col-md-6 col-sm-6 ml-auto text-right pt-3">
+							<input type="submit" value='SUBMIT' data-dismiss="modal"
+									class="btn btn-primary" data-toggle="modal" id="contactbutton" data-target="#success1" onclick='subscription_query_form2()' disabled>
+								
+
+							</div>
+
+						</div>
+					
+
+
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<!-- success modal -->
+
+
+
+
+	<div class="modal fade popup" id="success1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog text-left" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body text-center">
+					<img src="{% static 'img/home/submitted.svg' %}">
+					<p class=" text-3 mt-3 font-weight-semibold text-dark">Thank you for contacting us. We will contact
+						you soon.</p>
+
+					<div class="sep"></div>
+				</div>
+				<div class="modal-footer">
+
+					<button type="button" class="btn  " data-dismiss="modal">OK</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+    
+	<div class="modal fade popup" id="success2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog text-left" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body text-center">
+					<img src="{% static 'img/home/submitted.svg' %}">
+					<p class=" text-3 mt-3 font-weight-semibold text-dark">Thank you for Quering us. We will contact
+						you soon.</p>
+
+					<div class="sep"></div>
+				</div>
+				<div class="modal-footer">
+
+					<button type="button" class="btn  " data-dismiss="modal">OK</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="modal fade popup" id="success3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog text-left" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body text-center">
+					<img src="{% static 'img/home/submitted.svg' %}">
+					<p class=" text-3 mt-3 font-weight-semibold text-dark">Thank you for Subscribing us. We will contact
+						you soon.</p>
+
+					<div class="sep"></div>
+				</div>
+				<div class="modal-footer">
+
+					<button type="button" class="btn  " data-dismiss="modal">OK</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- Vendor -->
+	<script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+	<script src="{% static 'vendor/jquery.appear/jquery.appear.min.js' %}"></script>
+	<script src="{% static 'vendor/jquery.easing/jquery.easing.min.js' %}"></script>
+	<script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+	<script src="{% static 'vendor/common/common.min.js' %}"></script>
+	<script src="{% static 'vendor/jquery.lazyload/jquery.lazyload.min.js' %}"></script>
+	<script src="{% static 'vendor/isotope/jquery.isotope.min.js' %}"></script>
+	<script src="{% static 'vendor/owl.carousel/owl.carousel.min.js' %}"></script>
+	<script src="{% static 'vendor/magnific-popup/jquery.magnific-popup.min.js' %}"></script>
+
+	<!-- Theme Base, Components and Settings -->
+	<script src="{% static 'js/theme.js' %}"></script>
+	<script src="{% static 'js/custom.js' %}"></script>
+	<script src="{% static 'home_page/index.js' %}"></script>
+
+
+
+	<!-- Current Page Vendor and Views -->
+	<script src="{% static 'vendor/rs-plugin/js/jquery.themepunch.tools.min.js' %}"></script>
+	<script src="{% static 'vendor/rs-plugin/js/jquery.themepunch.revolution.min.js' %}"></script>
+
+	<!-- Theme Custom -->
+	<!-- <script src="{% static 'js/custom.js' %}"></script> -->
+
+	<!-- Theme Initialization Files -->
+	<script src="{% static 'js/theme.init.js' %}"></script>
+
+	<script type="text/javascript">
+		$('#dig-1').focus();
+		$(".otp-text").keyup(function () {
+			if (this.value.length == this.maxLength) {
+				$(this).next('.otp-text').focus();
+			}
+		});
+		$('.otp').click(function () {
+			$('.login-pass').hide();
+			$('.login-otp').fadeIn();
+			$('#dig-1').focus();
+		});
+		$('.pass').click(function () {
+			$('.login-pass').fadeIn();
+			$('.login-otp').hide();
+		});
+	</script>
+
+    
+
+
+</body>
+
+
+</html>

@@ -1,0 +1,201 @@
+{% if user.is_authenticated %}
+{% include 'store-manager/header.html' %}
+{% load static %}
+
+<!--begin::Wrapper-->
+<div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
+  <!--begin::Header-->
+  {% comment %} <?php include('inner-header.php')?> {% endcomment %}
+  {% include 'store-manager/inner-header.html' %}
+  <!--end::Header-->
+
+  <!--begin::Content-->
+  <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+
+    <!--begin::Entry-->
+    <div class="d-flex flex-column-fluid">
+      <!--begin::Container-->
+      <div class="container-fluid">
+
+
+        <!--begin::Row-->
+        <div class="row">
+
+          <div class="col-lg-12  ">
+            <div class="card card-custom card-stretch mt-4 mb-5">
+              <!--begin::Header-->
+              <div class="card-header py-3">
+                <div class="card-title align-items-start flex-column">
+                  <h3 class="card-label font-weight-bolder text-dark">Profile</h3>
+                  <span class="text-muted font-weight-bold font-size-sm mt-1">Update your personal information</span>
+                </div>
+                <div class="card-toolbar">
+                  <h3>Store ID: ABACUSxx{{request.user.id}}</h3>
+
+                </div>
+              </div>
+              <!--end::Header-->
+
+              <!--begin::Form-->
+              <form action='edit_store_profile' method='POST' class="form" enctype='multipart/form-data'>
+              {% csrf_token %}
+                <!--begin::Body-->
+                <div class="card-body">
+                  <div class="row">
+                    <label class="col-xl-3"></label>
+                    <div class="col-lg-9 col-xl-6">
+                      <h5 class="font-weight-bold mb-6">Customer Details</h5>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-xl-3 col-lg-3 col-form-label">Avatar</label>
+                    <div class="col-lg-9 col-xl-6">
+                      <div class="image-input image-input-outline" id="kt_profile_avatar"
+                        style="background-image: url('{{image}}')">
+                        <div class="image-input-wrapper" style="background-image: url('../../static/Upload_Images/{{image}}')">
+                        </div>
+
+                        <label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow"
+                          data-action="change" data-toggle="tooltip" title="" data-original-title="Change avatar">
+                          <i class="fa fa-pen icon-sm text-muted"></i>
+                          <input type="file" name="manager_image" accept=".png, .jpg, .jpeg" />
+                          <input type="hidden" name="profile_avatar_remove" />
+                        </label>
+
+                        <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow"
+                          data-action="cancel" data-toggle="tooltip" title="Cancel avatar">
+                          <i class="ki ki-bold-close icon-xs text-muted"></i>
+                        </span>
+
+                        <!-- <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow"
+                          data-action="remove" data-toggle="tooltip" title="Remove avatar">
+                          <i class="ki ki-bold-close icon-xs text-muted"></i>
+                        </span> -->
+                      </div>
+                      <span class="form-text text-muted">Allowed file types: png, jpg, jpeg.</span>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-xl-3 col-lg-3 col-form-label">Name</label>
+                    <div class="col-lg-9 col-xl-6">
+                      <input class="form-control form-control-lg form-control-solid" name='manager_name' type="text" value="{{user.first_name}} {{user.last_name}}" />
+                    </div>
+                  </div>
+                  <!-- <div class="form-group row">
+                    <label class="col-xl-3 col-lg-3 col-form-label">DOB</label>
+                    <div class="col-lg-9 col-xl-6">
+                      <input class="form-control form-control-lg form-control-solid" name='manager_DOB' type="text" id="kt_datepicker_1"
+                        value="{{dob_data.DOB}}"/>
+                    </div> -->
+                  <!-- </div>  -->
+                  <div class="form-group row">
+                    <label class="col-xl-3 col-lg-3 col-form-label">Contact Phone</label>
+                    <div class="col-lg-9 col-xl-6">
+                      <div class="input-group input-group-lg input-group-solid">
+                        <div class="input-group-prepend"><span class="input-group-text"><i
+                              class="la la-phone"></i></span></div>
+                        <input type="text" class="form-control form-control-lg form-control-solid" value="+91-{{manager}}"
+                          placeholder="Phone" readonly />
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label class="col-xl-3 col-lg-3 col-form-label">Email Address</label>
+                    <div class="col-lg-9 col-xl-6">
+                      <div class="input-group input-group-lg input-group-solid">
+                        <div class="input-group-prepend"><span class="input-group-text"><i class="la la-at"></i></span>
+                        </div>
+                        <input type="text" name="manager_email" class="form-control form-control-lg form-control-solid"
+                          value="{{user.email}}" placeholder="Email" readonly />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-xl-3 col-lg-3 col-form-label">Password</label>
+                    <div class="col-lg-9 col-xl-6">
+                      <input class="form-control form-control-lg form-control-solid" type="password" value="" placeholder="******" readonly/>
+                      <a href="{% url 'change_pwd' %}" class="pass float-right mt-2 font-weight-bold">Change Password</a>
+                    </div>
+                  </div>
+
+
+                  <div class="row">
+                    <label class="col-xl-3"></label>
+                    <div class="col-lg-9 col-xl-6">
+                      <h5 class="font-weight-bold mt-10 mb-6">Store Details</h5>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-xl-3 col-lg-3 col-form-label">Store Name</label>
+                    <div class="col-lg-9 col-xl-6">
+                      <input class="form-control form-control-lg form-control-solid" type="text"
+                        value="{{store_data.store_name}}" readonly/>
+
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-xl-3 col-lg-3 col-form-label">About Store</label>
+                    <div class="col-lg-9 col-xl-6">
+                      <div class="input-group input-group-lg input-group-solid">
+                        <textarea class="form-control form-control-lg form-control-solid"
+                          placeholder="" readonly/>{{store_data.store_name}},&nbsp;&nbsp;{{store_data.store_location}},{{store_data.store_city}} - {{store_data.store_state}}</textarea>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-xl-3 col-lg-3 col-form-label">Categories</label>
+                    <div class="col-lg-9 col-xl-6">
+                      <div class="input-group input-group-lg input-group-solid tagss">
+                        {% if category %}
+                        <input id="kt_tagify_1" class="form-control tagify" name='tags'
+                          value='{{category}}' readonly/>
+                        {% else %}
+                        <input id="kt_tagify_1" class="form-control tagify" name='tags'
+                          value='No Category Selected!' readonly/>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+
+                  {% comment %} <button type="reset" class="btn btn-success float-right mr-2 mt-5 mb-5" data-toggle="modal"
+                    data-target="#success">Save Changes</button> {% endcomment %}
+                    <input type="submit" value="Update" class="btn btn-success float-right mr-2 mt-5 mb-5">
+                </div>
+                <!--end::Body-->
+
+              </form>
+              <!--end::Form-->
+            </div>
+          </div>
+
+
+        </div>
+        <!--end::Row-->
+        <!--end::Dashboard-->
+      </div>
+      <!--end::Container-->
+    </div>
+    <!--end::Entry-->
+  </div>
+  <!--end::Content-->
+  <div class="modal fade   popup" id="success" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-modal="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close " data-dismiss="modal" aria-label="Close">
+            <i aria-hidden="true" class="ki ki-close"></i>
+          </button>
+        </div>
+        <div class="modal-body text-center  mb-5">
+          <img src="{% static 'store_manager/images/check.png' %}">
+          <h3 class="mb-5">Profile details are updated successfully. </h3>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  {% include 'store-manager/footer.html' %}
+   {% endif %}

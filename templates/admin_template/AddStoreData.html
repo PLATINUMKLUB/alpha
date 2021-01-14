@@ -1,0 +1,944 @@
+{% load static %}
+{% include "admin_template/header.html" %}
+<!--begin::Wrapper-->
+<div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
+    <!--begin::Header-->
+    {% include "admin_template/inner-header.html" %}
+    <!--end::Header-->
+    <!-- ==========================================================----STEP 01-----==============================================  -->
+    <!--begin::Content-->
+    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+
+        <!--begin::Entry-->
+        <div class="d-flex flex-column-fluid">
+            <!--begin::Container-->
+            <div class="container-fluid" style="display:''" id="Step_1">
+                <div class="row">
+                    <div class="col-lg-12 ">
+                        <h4 class="title"> Store Management</h4>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <div class="card card-custom gutter-b example example-compact form-card-1">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    Store Details : step1
+                                </h3>
+
+                            </div>
+                            <!-------------------------------------------STORE DETAILS begin::Form 01---------------------------------------------------------------------------------------->
+                            {% comment %} <form class="form"> {% endcomment %}
+                                <div class="card-body pt-3 pb-0">
+                                    <div class="form-group row">
+                                        <div class="col-lg-4 mt-3 mb-3">
+                                            <label>Store Name</label>
+                                            <input type="text" class="form-control" name="store_name"
+                                                onkeyup="store_NAME()" placeholder="Enter store name" id="store_name"
+                                                required />
+                                        </div>
+                                        <div class="col-lg-8 mt-3 mb-3">
+                                            <label>Store Location</label>
+                                            <input type="text" class="form-control" placeholder="Enter store location"
+                                                name="store_location" id="store_location" required />
+                                        </div>
+
+                                        <div class="col-lg-4 mt-3 mb-3">
+                                            <label>Town<span>*</span></label>
+                                            <input type="text" class="form-control" name='store_town'
+                                                placeholder="Enter town" id="store_town" required />
+                                        </div>
+                                        <div class="col-lg-4 mt-3 mb-3">
+                                            <label>City<span>*</span></label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" name='store_city'
+                                                    placeholder="Enter city" id="store_city" required />
+                                            </div>
+
+
+                                        </div>
+                                        <div class="col-lg-4 mt-3 mb-3">
+                                            <label>State<span>*</span></label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" name='store_state'
+                                                    placeholder="Enter State" id="store_state" required />
+                                            </div>
+
+                                            <!-- ------------------------------------------STORE CATEGORY begin::Form---------------------------------------------------------------------------------------->
+                                        </div>
+                                        <div class="col-lg-4 mt-3 mb-3 multi-sel">
+                                            <label>Category<span>*t</span></label>
+                                            <div class="input-group ">
+                                                <select class="form-control select2" id="kt_select2_1"
+                                                    onclick="fetchCategory()" name="store_category" multiple="multiple">
+                                                    <option value="">A</option>
+                                                    <option value="">B</option>
+                                                    <option value="">C</option>
+                                                    <!-- {% comment %} <option label="Label"></option> {% endcomment %}
+
+                                                    {% for item in cat_data %}
+                                                    <option value="{{item.category}}">{{item.category}}</option>
+                                                    {% endfor %} -->
+                                                </select>
+                                            </div>
+
+
+                                        </div>
+                                        <div class="col-lg-4 mt-3 mb-3 multi-sel">
+                                            <label>Sub Category<span>*</span></label>
+                                            <div class="input-group  ">
+                                                <select class="form-control select2" id="kt_select2_2"
+                                                    name="store_sub_category" multiple="multiple">
+                                                    {% comment %} <option label="Label"></option> {% endcomment %}
+
+                                                    {% comment %} {% for item in cat_data %}
+                                                    <option value="{{item.sub_category}}">{{item.sub_category}}</option>
+                                                    {% endfor %} {% endcomment %}
+                                                </select>
+                                            </div>
+
+
+                                        </div>
+                                        <!----------------------------------STORE MANAGER DETAIL NEXT PAGE BUTTON---------------------------------------------------------------------------------------->
+
+                                        {% comment %} <div class="col-lg-12 text-right pt-2">
+                                            <button type="button" class="btn btn-primary mt-4"
+                                                id="AddStore_Next">Next</button>
+                                        </div> {% endcomment %}
+                                    </div>
+                                </div>
+
+                                {% comment %} </form> {% endcomment %}
+                            <!--end::Form-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end::Container-->
+
+
+        </div>
+        <!--end::Entry-->
+
+
+        <!-- ==========================================================----STEP 02-----==============================================  -->
+        <!--begin::Content-->
+        <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+
+            <!--begin::Entry-->
+            <div class="d-flex flex-column-fluid">
+                <!--begin::Container-->
+                <div class="container-fluid" style="display:none;" id="Step_2">
+
+                    <div class="row">
+                        <div class="col-lg-12 ">
+                            <h4 class="title"> Store Management</h4>
+                        </div>
+
+                        <div class="col-lg-12">
+                            <div class="card card-custom gutter-b example example-compact form-card-1">
+                                <div class="card-header">
+                                    <h3 class="card-title">
+                                        Store Manager Details : step2
+                                    </h3>
+
+                                </div>
+                                <!--begin::Form 02-->
+                                {% comment %} <form class="form"> {% endcomment %}
+                                    <div class="card-body pt-3 pb-0">
+                                        <div class="row">
+                                            <div class="col-lg-3 text-center pt-5">
+                                                <div class="image-input image-input-outline mt-5" id="kt_profile_avatar"
+                                                    style="background-image: url(assets/media/users/blank.png)">
+                                                    <div class="image-input-wrapper"></div>
+
+                                                    <label
+                                                        class="btn btn-sm btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow"
+                                                        data-action="change" data-toggle="tooltip" title=""
+                                                        data-original-title="Change avatar">
+                                                        <i class="fa fa-camera icon-md text-muted"></i>
+                                                        <input type="file" name="profile_avatar"
+                                                            accept=".png, .jpg, .jpeg" id="profile_pic" />
+                                                        <input type="hidden" name="profile_avatar_add" />
+                                                    </label>
+
+
+
+
+                                                </div>
+
+                                            </div>
+                                            <div class="col-lg-9">
+                                                <div class="form-group row">
+                                                    <div class="col-lg-4 mt-3 mb-3">
+                                                        <label>Name</label>
+                                                        <input type="text" class="form-control" placeholder="Enter name"
+                                                            name='manager_name' id="manager_name" required />
+                                                    </div>
+                                                    <div class="col-lg-4 mt-3 mb-3">
+                                                        <label>Contact No.</label>
+                                                        <input type="text" class="form-control"
+                                                            placeholder="Enter contact no" required />
+                                                    </div>
+
+                                                    <div class="col-lg-4 mt-3 mb-3">
+                                                        <label>User Unique ID<span>*</span></label>
+                                                        <input type="text" class="form-control"
+                                                            placeholder="Ex. DSDD888" name="UniqueID" id="uID"
+                                                            required />
+                                                    </div>
+                                                    <div class="col-lg-4 mt-3 mb-3">
+                                                        <label>Gender</label>
+                                                        <div class="radio-inline mt-3">
+                                                            <label
+                                                                class="radio radio-outline radio-outline-2x radio-primary">
+                                                                <input type="radio" name="radios16" checked="checked"
+                                                                    name="manager_male_gender" id="manager_gender"
+                                                                    value="M">
+                                                                <span></span>
+                                                                Male
+                                                            </label>
+                                                            <label
+                                                                class="radio radio-outline radio-outline-2x radio-primary">
+                                                                <input type="radio" name="radios16"
+                                                                    name="manager_gender" id="manager_female_gender"
+                                                                    value="F">
+                                                                <span></span>
+                                                                Female
+                                                            </label>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-4 mt-3 mb-3">
+                                                        <label>Email<span>*</span></label>
+                                                        <div class="input-group">
+
+                                                            <input type="text" class="form-control"
+                                                                placeholder="Enter Email" name="manager_email"
+                                                                id="manager_email" required />
+                                                        </div>
+
+
+                                                    </div>
+                                                    <div class="col-lg-4 mt-3 mb-3  ">
+                                                        <label>Password<span>*</span></label>
+                                                        <div class="input-group">
+
+                                                            <input type="password" class="form-control"
+                                                                placeholder="***********" name="manager_pass"
+                                                                id="manager_pass1" required />
+                                                        </div>
+
+
+                                                    </div>
+                                                    <div class="col-lg-4 mt-3 mb-3">
+                                                        <label>Confirm Password<span>*</span></label>
+                                                        <div class="input-group">
+
+                                                            <input type="password" class="form-control"
+                                                                placeholder="***********" name="manager_confirm_pass"
+                                                                id="manager_pass2" required />
+                                                        </div>
+
+
+                                                    </div>
+
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    {% comment %} </form> {% endcomment %}
+                                <!--end::Form-->
+                            </div>
+
+                            <!----------------------STORE MANAGER SUPERVISOR DETAIL NEXT PAGE BUTTON---------------------------------------------------------------------------------------->
+                            <div class="card card-custom gutter-b example example-compact form-card-1">
+                                <div class="card-header">
+                                    <h3 class="card-title">
+                                        Store Manager Supervisor
+                                    </h3>
+
+                                </div>
+                                <!--begin::Form 03-->
+                                <form class="form">
+                                    <div class="card-body pt-3 pb-0">
+                                        <div class="row">
+
+                                            <div class="col-lg-12">
+                                                <div class="form-group row">
+                                                    <div class="col-lg-3 mt-3 mb-3">
+                                                        <label>Name</label>
+                                                        <input type="text" class="form-control" placeholder="Enter name"
+                                                            id="supervisor_name" name="supervisor_name" required />
+                                                    </div>
+                                                    <div class="col-lg-3 mt-3 mb-3">
+                                                        <label>Contact No.</label>
+                                                        <input type="text" class="form-control"
+                                                            placeholder="Enter contact no" id="supervisor_contact"
+                                                            name="supervisor_contact" required />
+                                                    </div>
+                                                    <div class="col-lg-3 mt-3 mb-3">
+                                                        <label>Email<span>*</span></label>
+                                                        <div class="input-group">
+
+                                                            <input type="text" class="form-control"
+                                                                placeholder="Enter Email" id="supervisor_email"
+                                                                name="supervisor_email" required />
+                                                        </div>
+
+
+                                                    </div>
+
+                                                    <div class="col-lg-3 mt-3 mb-3">
+                                                        <label>Gender</label>
+                                                        <div class="radio-inline mt-3">
+                                                            <label
+                                                                class="radio radio-outline radio-outline-2x radio-primary">
+                                                                <input type="radio" name="radios16" checked="checked"
+                                                                    name="supervisor_male_gender" value="M"
+                                                                    id="supervisor_gender">
+                                                                <span></span>
+                                                                Male
+                                                            </label>
+                                                            <label
+                                                                class="radio radio-outline radio-outline-2x radio-primary">
+                                                                <input type="radio" name="radios16" value="F"
+                                                                    name="supervisor_female_gender"
+                                                                    id="supervisor_gender">
+                                                                <span></span>
+                                                                Female
+                                                            </label>
+
+                                                        </div>
+                                                    </div>
+                                                    <!-------------------------------------DATA ENTRY TYPE : NEXT PAGE BUTTON---------------------------------------------------------------------------------------->
+
+                                                    {% comment %} <div class="col-lg-12 text-right pt-2">
+                                                        <button type="button" class="btn btn-primary mt-4"
+                                                            id="AddStore_Next">Next</button>
+                                                    </div> {% endcomment %}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </form>
+                                <!--end::Form-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end::Container-->
+
+
+            </div>
+            <!--end::Entry-->
+        </div>
+        <!--end::Content-->
+
+        <!-- ==========================================================----STEP 03-----==============================================  -->
+        <!--begin::Content-->
+        <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+
+            <!--begin::Entry-->
+            <div class="d-flex flex-column-fluid">
+                <!--begin::Container-->
+                <div class="container-fluid" style='display:none;' id="Step_3">
+                    <div class="row">
+                        <div class="col-lg-12 ">
+                            <h4 class="title"> Store Management</h4>
+                        </div>
+
+                        <div class="col-lg-6 mx-auto">
+                            <div class="card card-custom gutter-b example example-compact ">
+                                <div class="card-header">
+                                    <h3 class="card-title">
+                                        Customer Data Entry Type : step3
+                                    </h3>
+
+                                </div>
+                                <!--begin::Form-->
+                                {% comment %} <form class="form"> {% endcomment %}
+                                    <div class="card-body pt-3 pb-0">
+                                        <div class="form-group row">
+                                            <div class="col-lg-12  mt-3 mb-3">
+                                                <label>Allow store manager to enter data via</label>
+                                                <div class="radio-inline mt-3">
+                                                    <label class="radio radio-outline radio-outline-2x radio-primary">
+                                                        <input type="radio" name="radios16" checked="checked"
+                                                            value="Manual">
+                                                        <span></span>
+                                                        Manual Entry
+                                                    </label>
+                                                    <label class="radio radio-outline radio-outline-2x radio-primary">
+                                                        <input type="radio" name="radios16" value="Sheet">
+                                                        <span></span>
+                                                        Sheet Upload
+                                                    </label>
+
+                                                    <label class="radio radio-outline radio-outline-2x radio-primary">
+                                                        <input type="radio" name="radios16" value="Both">
+                                                        <span></span>Both
+                                                    </label>
+
+                                                </div>
+                                            </div>
+
+                                            {% comment %} <div class="col-lg-12 text-right pt-2">
+                                                <button type="button" class="btn btn-primary mt-4"
+                                                    id="step3_btn">Next</button>
+                                            </div> {% endcomment %}
+                                        </div>
+                                    </div>
+
+                                    {% comment %} </form> {% endcomment %}
+                                <!--end::Form-->
+                            </div>
+
+                            <!-- store manage detail -->
+
+
+                        </div>
+                    </div>
+                </div>
+                <!--end::Container-->
+
+
+            </div>
+            <!--end::Entry-->
+        </div>
+        <!--end::Content-->
+
+        <!-- ==========================================================----STEP 04-----==============================================  -->
+        <!--begin::Content-->
+        <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+
+            <!--begin::Entry-->
+            <div class="d-flex flex-column-fluid">
+                <!--begin::Container-->
+                <div class="container-fluid" style='display:none;' id="Step_4">
+                    <div class="row">
+                        <div class="col-lg-12 ">
+                            <h4 class="title"> Store Management</h4>
+                        </div>
+
+                        <div class="col-lg-12">
+                            <div class="card card-custom gutter-b example example-compact ">
+                                <div class="card-header">
+                                    <h3 class="card-title">
+                                        Tier Definition : step4
+                                    </h3>
+
+                                </div>
+                                <!--begin::Form-->
+                                {% comment %} <form class="form"> {% endcomment %}
+                                    <div class="card-body pt-3 pb-0">
+                                        <div class="row">
+
+                                            <div class="col-lg-12">
+                                                <p>Define Tier to the customers on the basis of Shopping amount and the
+                                                    time period. </p>
+                                                <div class="form-group row">
+                                                    <div class="col-lg-3 mt-3 mb-3">
+                                                        <label>Store Name</label>
+                                                        <input type="text" class="form-control"
+                                                            placeholder="Enter   name" value="Adidas, Mahanagar" />
+                                                    </div>
+                                                    <div class="col-lg-4 mt-3 mb-3 amount">
+                                                        <label class="d-block">Shopping Amount (in Rs.)</label>
+                                                        <div class="clearfix"></div>
+                                                        <input type="text" class="form-control " placeholder="From" />
+                                                        <input type="text" class="form-control " placeholder="To" />
+                                                    </div>
+                                                    <div class="col-lg-2 mt-3 mb-3">
+                                                        <label>Time Period(in Years)<span>*</span></label>
+                                                        <select class="form-control">
+                                                            <option>1</option>
+                                                            <option>2</option>
+                                                            <option>3</option>
+                                                            <option>4</option>
+                                                        </select>
+
+
+                                                    </div>
+                                                    <div class="col-lg-2 mt-3 mb-3">
+                                                        <label>Assign Tier<span>*</span></label>
+                                                        <select class="form-control">
+                                                            <option>1</option>
+                                                            <option>2</option>
+                                                            <option>3</option>
+                                                        </select>
+
+
+                                                    </div>
+
+                                                    <div class="col-lg-1 mt-3  ">
+                                                        <a href="#" class="add-more"><i
+                                                                class="fa fa-plus-circle"></i></a>
+                                                    </div>
+
+
+
+                                                </div>
+
+                                                <div id="add-tier"></div>
+
+                                                {% comment %} <div class="col-lg-12 text-right pt-2">
+                                                    <button type="button" class="btn btn-primary mt-4"
+                                                        id="step4_btn">Next</button>
+                                                </div> {% endcomment %}
+
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    {% comment %} </form> {% endcomment %}
+                                <!--end::Form-->
+                            </div>
+
+                            <!-- store manage detail -->
+
+
+                        </div>
+                    </div>
+                </div>
+                <!--end::Container-->
+
+
+            </div>
+            <!--end::Entry-->
+        </div>
+        <!--end::Content-->
+        <div class="modal fade   popup" id="delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-modal="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close " data-dismiss="modal" aria-label="Close">
+                            <i aria-hidden="true" class="ki ki-close"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center  mb-5">
+                        <h3 class="mb-5"> Are you sure want to delete this rule? </h3>
+                        <button class="btn btn-dark" data-dismiss="modal">Confirm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- ==========================================================----STEP 05-----==============================================  -->
+        <!--begin::Content-->
+        <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+
+            <!--begin::Entry-->
+            <div class="d-flex flex-column-fluid">
+                <!--begin::Container-->
+                <div class="container-fluid" style='display:none;' id="Step_5">
+                    <div class="row">
+                        <div class="col-lg-12 ">
+                            <h4 class="title"> Store Management - Preview Detail</h4>
+                        </div>
+
+                        <div class="col-lg-12">
+                            <div class="card card-custom gutter-b example example-compact form-card-1 ">
+                                <div class="card-header">
+                                    <h3 class="card-title">
+                                        Store Details : step5
+                                    </h3>
+
+                                </div>
+                                <!--begin::Form-->
+                                <form class="form">
+                                    <div class="card-body pt-3 pb-0">
+                                        <div class="form-group row">
+                                            <div class="col-lg-4 mt-3 mb-3">
+                                                <label>Store Name</label>
+                                                <input type="text" class="form-control" placeholder="Enter store name"
+                                                    value="Adidas" />
+                                            </div>
+                                            <div class="col-lg-8 mt-3 mb-3">
+                                                <label>Store Location</label>
+                                                <input type="text" class="form-control"
+                                                    placeholder="Enter store location" value="Mahanagar" />
+                                            </div>
+
+                                            <div class="col-lg-4 mt-3 mb-3">
+                                                <label>Town<span>*</span></label>
+                                                <input type="text" class="form-control" placeholder="Enter town"
+                                                    value="Lucknow" />
+                                            </div>
+                                            <div class="col-lg-4 mt-3 mb-3">
+                                                <label>City<span>*</span></label>
+                                                <div class="input-group">
+
+                                                    <input type="text" class="form-control" placeholder="Enter city"
+                                                        value="Lucknow" />
+                                                </div>
+
+
+                                            </div>
+                                            <div class="col-lg-4 mt-3 mb-3">
+                                                <label>State<span>*</span></label>
+                                                <div class="input-group">
+
+                                                    <input type="text" class="form-control" placeholder="Enter State"
+                                                        value="UP" />
+                                                </div>
+
+
+                                            </div>
+                                            <div class="col-lg-4 mt-3 mb-3">
+                                                <label>Category<span>*</span></label>
+                                                <div class="input-group">
+                                                    <select class="form-control">
+                                                        <option>Shoes</option>
+                                                    </select>
+                                                </div>
+
+
+                                            </div>
+                                            <div class="col-lg-4 mt-3 mb-3">
+                                                <label>Sub Category<span>*</span></label>
+                                                <div class="input-group">
+                                                    <select class="form-control">
+                                                        <option>Boot</option>
+                                                    </select>
+                                                </div>
+
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </form>
+                                <!--end::Form-->
+                            </div>
+
+                            <!-- store manage detail -->
+                            <div class="card card-custom gutter-b example example-compact form-card-2 d-block">
+                                <div class="card-header">
+                                    <h3 class="card-title">
+                                        Store Manager Details
+                                    </h3>
+                                </div>
+                                <!--begin::Form-->
+                                <form class="form">
+                                    <div class="card-body pt-3 pb-0">
+                                        <div class="row">
+                                            <div class="col-lg-3 text-center pt-5">
+                                                <div class="image-input image-input-outline mt-5" id="kt_profile_avatar"
+                                                    style="background-image: url(assets/media/users/blank.png)">
+                                                    <div class="image-input-wrapper"
+                                                        style="background-image: url(assets/media/users/100_2.jpg)">
+                                                    </div>
+                                                    <label
+                                                        class="btn btn-sm btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow"
+                                                        data-action="change" data-toggle="tooltip" title=""
+                                                        data-original-title="Change avatar">
+                                                        <i class="fa fa-camera icon-md text-muted"></i>
+                                                        <input type="file" name="profile_avatar"
+                                                            accept=".png, .jpg, .jpeg" />
+                                                        <input type="hidden" name="profile_avatar_add" />
+                                                    </label>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-lg-9">
+                                                <div class="form-group row">
+                                                    <div class="col-lg-4 mt-3 mb-3">
+                                                        <label>Name</label>
+                                                        <input type="text" class="form-control"
+                                                            placeholder="Enter   name" value="Arti Singh" />
+                                                    </div>
+                                                    <div class="col-lg-4 mt-3 mb-3">
+                                                        <label>Contact No.</label>
+                                                        <input type="text" class="form-control"
+                                                            placeholder="Enter contact no" value="8547558866" />
+                                                    </div>
+
+                                                    <div class="col-lg-4 mt-3 mb-3">
+                                                        <label>User Unique ID<span>*</span></label>
+                                                        <input type="text" class="form-control"
+                                                            placeholder="Ex. DSDD888" value="DSDD888" />
+                                                    </div>
+                                                    <div class="col-lg-4 mt-3 mb-3">
+                                                        <label>Gender</label>
+                                                        <div class="radio-inline mt-3">
+                                                            <label
+                                                                class="radio radio-outline radio-outline-2x radio-primary">
+                                                                <input type="radio" name="radios16">
+                                                                <span></span>
+                                                                Male
+                                                            </label>
+                                                            <label
+                                                                class="radio radio-outline radio-outline-2x radio-primary">
+                                                                <input type="radio" checked="checked" name="radios16">
+                                                                <span></span>
+                                                                Female
+                                                            </label>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-4 mt-3 mb-3">
+                                                        <label>Email<span>*</span></label>
+                                                        <div class="input-group">
+
+                                                            <input type="text" class="form-control"
+                                                                placeholder="Enter Email" value="arti0001@gmail.com" />
+                                                        </div>
+
+
+                                                    </div>
+                                                    <div class="col-lg-4 mt-3 mb-3  ">
+                                                        <label>Password<span>*</span></label>
+                                                        <div class="input-group">
+
+                                                            <input type="password" class="form-control"
+                                                                placeholder="***********" value="123466588" />
+                                                        </div>
+
+
+                                                    </div>
+                                                    <div class="col-lg-4 mt-3 mb-3">
+                                                        <label>Confirm Password<span>*</span></label>
+                                                        <div class="input-group">
+
+                                                            <input type="password" class="form-control"
+                                                                value="123466588" placeholder="***********" />
+                                                        </div>
+
+
+                                                    </div>
+
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </form>
+                                <!--end::Form-->
+                            </div>
+
+                            <!-- store manager superwiser -->
+                            <div class="card card-custom gutter-b example example-compact form-card-2 d-block">
+                                <div class="card-header">
+                                    <h3 class="card-title">
+                                        Store Manager Supervisor
+                                    </h3>
+
+                                </div>
+                                <!--begin::Form-->
+                                <form class="form">
+                                    <div class="card-body pt-3 pb-0">
+                                        <div class="row">
+
+                                            <div class="col-lg-12">
+                                                <div class="form-group row">
+                                                    <div class="col-lg-3 mt-3 mb-3">
+                                                        <label>Name</label>
+                                                        <input type="text" class="form-control"
+                                                            placeholder="Enter   name" value="Manish" />
+                                                    </div>
+                                                    <div class="col-lg-3 mt-3 mb-3">
+                                                        <label>Contact No.</label>
+                                                        <input type="text" class="form-control"
+                                                            placeholder="Enter contact no" value="8574558866" />
+                                                    </div>
+                                                    <div class="col-lg-3 mt-3 mb-3">
+                                                        <label>Email<span>*</span></label>
+                                                        <div class="input-group">
+
+                                                            <input type="text" class="form-control"
+                                                                placeholder="Enter Email" value="man23@gmail.com" />
+                                                        </div>
+
+
+                                                    </div>
+
+                                                    <div class="col-lg-3 mt-3 mb-3">
+                                                        <label>Gender</label>
+                                                        <div class="radio-inline mt-3">
+                                                            <label
+                                                                class="radio radio-outline radio-outline-2x radio-primary">
+                                                                <input type="radio" name="radios16" checked="checked">
+                                                                <span></span>
+                                                                Male
+                                                            </label>
+                                                            <label
+                                                                class="radio radio-outline radio-outline-2x radio-primary">
+                                                                <input type="radio" name="radios16">
+                                                                <span></span>
+                                                                Female
+                                                            </label>
+
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </form>
+                                <!--end::Form-->
+                            </div>
+
+                            <!-- data entry type -->
+                            <div class="card card-custom gutter-b example example-compact form-card-1">
+                                <div class="card-header">
+                                    <h3 class="card-title">
+                                        Customer Data Entry Type
+                                    </h3>
+
+                                </div>
+                                <!--begin::Form-->
+                                <form class="form">
+                                    <div class="card-body pt-3 pb-0">
+                                        <div class="form-group row">
+                                            <div class="col-lg-12  mt-3 mb-3">
+                                                <label>Allow store manager to enter data via</label>
+                                                <div class="radio-inline mt-3">
+                                                    <label class="radio radio-outline radio-outline-2x radio-primary">
+                                                        <input type="radio" name="radios16" checked="checked">
+                                                        <span></span>
+                                                        Manual Entry
+                                                    </label>
+                                                    <label class="radio radio-outline radio-outline-2x radio-primary">
+                                                        <input type="radio" name="radios16">
+                                                        <span></span>
+                                                        Sheet Upload
+                                                    </label>
+
+                                                    <label class="radio radio-outline radio-outline-2x radio-primary">
+                                                        <input type="radio" name="radios16">
+                                                        <span></span>Both
+                                                    </label>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </form>
+                                <!--end::Form-->
+                            </div>
+
+                            <!-- tier definition -->
+                            <div class="card card-custom gutter-b example example-compact form-card-1">
+                                <div class="card-header">
+                                    <h3 class="card-title">
+                                        Tier Definition
+                                    </h3>
+
+                                </div>
+                                <!--begin::Form-->
+                                <form class="form">
+                                    <div class="card-body pt-3 pb-0">
+                                        <div class="row">
+
+                                            <div class="col-lg-12">
+                                                <p>Define Tier to the customers on the basis of Shopping amount and the
+                                                    time period. </p>
+                                                <div class="form-group row">
+                                                    <div class="col-lg-4 mt-3 mb-3">
+                                                        <label>Store Name</label>
+                                                        <input type="text" class="form-control"
+                                                            placeholder="Enter   name" />
+                                                    </div>
+                                                    <div class="col-lg-4 mt-3 mb-3 amount">
+                                                        <label class="d-block">Shopping Amount (in Rs.)</label>
+                                                        <div class="clearfix"></div>
+                                                        <input type="text" class="form-control " placeholder="From" />
+                                                        <input type="text" class="form-control " placeholder="To" />
+                                                    </div>
+                                                    <div class="col-lg-2 mt-3 mb-3">
+                                                        <label>Time Period(in Years)<span>*</span></label>
+                                                        <select class="form-control">
+                                                            <option>1</option>
+                                                            <option>2</option>
+                                                            <option>3</option>
+                                                            <option>4</option>
+                                                        </select>
+
+
+                                                    </div>
+                                                    <div class="col-lg-2 mt-3 mb-3">
+                                                        <label>Assign Tier<span>*</span></label>
+                                                        <select class="form-control">
+                                                            <option>1</option>
+                                                            <option>2</option>
+                                                            <option>3</option>
+                                                            <option>4</option>
+                                                        </select>
+
+
+                                                    </div>
+
+
+
+                                                    <div class="col-lg-12 text-right pt-2">
+                                                        <button data-target="#success" data-toggle="modal" type="button"
+                                                            class="btn btn-primary next mt-4">
+                                                            Submit
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </form>
+                                <!--end::Form-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end::Container-->
+
+
+            </div>
+            <!--end::Entry-->
+        </div>
+        <!--end::Content-->
+        <!--end::Content-->
+        <div class="modal fade   popup" id="success" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-modal="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close " data-dismiss="modal" aria-label="Close">
+                            <i aria-hidden="true" class="ki ki-close"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center  mb-5">
+                        <img src="{% static 'assets/images/check.png' %}">
+                        <h3 class="mb-5">Store details are submitted successfully. </h3>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="col-lg-12 text-right pt-2">
+            <button type="button" class="btn btn-primary" id="AddStore_Next">Next</button>
+        </div>
+
+        <script src="{% static 'assets/js/jquery.js' %}"></script>
+        <script src="{% static 'assets/js/addStore.js' %}"></script>
+        {% include "admin_template/footer.html" %}

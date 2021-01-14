@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="37" height="37" viewBox="0 0 37 37">
+  <g id="Group_206" data-name="Group 206" transform="translate(-1553 -365)">
+    <g id="Icon_Cancel" transform="translate(1565.043 378.582)">
+      <path id="Shape" d="M12.579,0,0,12.579" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="3"/>
+      <path id="Shape-2" data-name="Shape" d="M0,0,12.579,12.579" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="3"/>
+    </g>
+    <g id="Ellipse_5" data-name="Ellipse 5" transform="translate(1553 365)" fill="none" stroke="#000" stroke-width="2">
+      <circle cx="18.5" cy="18.5" r="18.5" stroke="none"/>
+      <circle cx="18.5" cy="18.5" r="17.5" fill="none"/>
+    </g>
+  </g>
+</svg>
